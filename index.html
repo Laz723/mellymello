@@ -228,9 +228,10 @@
   
 <!-- NAV -->
 <nav :class="isScrolled ? 'py-3 glass-dark' : 'py-6 bg-transparent'"
-     class="fixed w-full z-50 transition-all duration-500 text-white border-b border-white/10">
+     class="fixed top-[31px] w-full z-50 transition-all duration-500 text-white border-b border-white/10">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
     <div class="flex items-center gap-3 cursor-pointer group" @click="goToHome">
+
       <div class="w-12 h-12 rounded-full bg-brand-gold/20 ring-2 ring-brand-gold/30 group-hover:ring-brand-gold transition-all flex-shrink-0 flex items-center justify-center overflow-hidden">
         <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <i class="fa-solid fa-utensils text-brand-gold text-lg" style="display:none"></i>
