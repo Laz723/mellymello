@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/api/config",                    "destination": "/api/index" },
+    { "source": "/api/menu",                      "destination": "/api/index" },
+    { "source": "/api/promo",                     "destination": "/api/index" },
+    { "source": "/api/status",                    "destination": "/api/index" },
+    { "source": "/api/index",                     "destination": "/api/index" },
+    { "source": "/api/auth/forgot-password",      "destination": "/api/index" },
+    { "source": "/api/auth/verify-reset-token",   "destination": "/api/index" },
+    { "source": "/api/auth/reset-password",       "destination": "/api/index" },
+    { "source": "/api/cron/inactive",             "destination": "/api/index" },
+    { "source": "/(.*)",                          "destination": "/index.html" }
+  ]
+}
