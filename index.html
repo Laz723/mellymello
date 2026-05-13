@@ -1,1 +1,1488 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melly Mello | Restaurant Africain · Lomé</title>
+  <meta name="description" content="Restaurant africain à Dabarakondji, Lomé, Togo. Savourez nos plats authentiques et menus du jour.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta property="og:title" content="Melly Mello | Restaurant Africain">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1200">
+  <script>tailwind.config={theme:{extend:{colors:{brand:{dark:"#0d0d0d",charcoal:"#1a1a1a",mauve:"#e07c45",mauveDark:"#c06a35",mauveLight:"#fef0e8",mauveDeep:"#a04820",gold:"#c9a84c",goldLight:"#dfc06a",goldDark:"#a8893a",cream:"#faf8f4",ivory:"#f5f2ec"}},fontFamily:{serif:['"Cormorant Garamond"',"serif"],display:['"Italiana"',"serif"],sans:['"DM Sans"',"sans-serif"]},borderRadius:{"4xl":"2rem","5xl":"2.5rem","6xl":"3rem"},animation:{"fade-up":"fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards","scale-in":"scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1)","slide-right":"slideRight 0.5s cubic-bezier(0.16,1,0.3,1)","pulse-gold":"pulseGold 3s ease-in-out infinite","float":"float 8s ease-in-out infinite"},keyframes:{fadeUp:{"0%":{opacity:"0",transform:"translateY(30px)"},"100%":{opacity:"1",transform:"translateY(0)"}},scaleIn:{"0%":{opacity:"0",transform:"scale(0.85)"},"100%":{opacity:"1",transform:"scale(1)"}},slideRight:{"0%":{opacity:"0",transform:"translateX(25px)"},"100%":{opacity:"1",transform:"translateX(0)"}},pulseGold:{"0%,100%":{boxShadow:"0 0 0 0 rgba(201,168,76,0)"},"50%":{boxShadow:"0 0 0 10px rgba(201,168,76,0.18)"}},float:{"0%,100%":{transform:"translateY(0)"},"50%":{transform:"translateY(-10px)"}}}}}}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{background:#faf8f4;overflow-x:hidden;font-family:"DM Sans",sans-serif;color:#0d0d0d;-webkit-font-smoothing:antialiased}
+    @media(max-width:640px){html{font-size:14px}}
+    ::-webkit-scrollbar{width:7px}::-webkit-scrollbar-track{background:#f1ece4}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#c9a84c,#e07c45);border-radius:4px}
+    .glass-dark{background:rgba(13,13,13,0.9);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .glass-hero{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border:1px solid rgba(255,255,255,0.2);box-shadow:0 8px 48px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.18)}
+    .glass-stat{background:rgba(255,255,255,0.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.15)}
+    .hero-grain{position:absolute;inset:0;opacity:0.1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;pointer-events:none;z-index:11}
+    .luxury-card{background:rgba(255,255,255,0.97);backdrop-filter:blur(24px);border:1px solid rgba(201,168,76,0.1);box-shadow:0 24px 80px rgba(0,0,0,0.06)}
+    .card-hover{transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s ease}
+    .card-hover:hover{transform:translateY(-6px);box-shadow:0 32px 80px rgba(0,0,0,0.12)}
+    .admin-card{background:white;border:1px solid rgba(0,0,0,0.06);border-radius:1.25rem;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.3s ease}
+    .admin-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.09)}
+    .btn-gold{background:linear-gradient(135deg,#c9a84c 0%,#a8893a 100%);color:#fff;font-weight:700;letter-spacing:0.04em;transition:all 0.3s ease;box-shadow:0 6px 20px rgba(201,168,76,0.3)}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,0.4);filter:brightness(1.08)}
+    .btn-mauve{background:linear-gradient(135deg,#e07c45 0%,#c06a35 100%);color:#fff;font-weight:700;letter-spacing:0.04em;transition:all 0.3s ease;box-shadow:0 6px 20px rgba(224,124,69,0.3)}
+    .btn-mauve:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(224,124,69,0.4);filter:brightness(1.08)}
+    .btn-outline{border:2px solid rgba(255,255,255,0.4);color:white;backdrop-filter:blur(8px);transition:all 0.3s ease}
+    .btn-outline:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.7)}
+    .heading-display{font-family:"Italiana",serif;letter-spacing:0.02em}
+    .heading-serif{font-family:"Cormorant Garamond",serif}
+    .gradient-gold{background:linear-gradient(135deg,#c9a84c 0%,#e8c96c 50%,#c9a84c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gradient-mixed{background:linear-gradient(135deg,#c9a84c 0%,#e8895a 50%,#e07c45 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .loyalty-bg{background:linear-gradient(135deg,#0d0d0d 0%,#1e1a14 40%,#2a1f0a 100%);position:relative;overflow:hidden}
+    .loyalty-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(224,124,69,0.08) 0%,transparent 50%);pointer-events:none}
+    .spinner{border:3px solid #f0ece4;border-top:3px solid #c9a84c;border-radius:50%;width:44px;height:44px;animation:spin 0.9s linear infinite}
+    .spinner-sm{border:2px solid rgba(255,255,255,0.3);border-top:2px solid white;border-radius:50%;width:18px;height:18px;animation:spin 0.9s linear infinite;display:inline-block}
+    .spinner-gold{border:2px solid rgba(201,168,76,0.2);border-top:2px solid #c9a84c;border-radius:50%;width:18px;height:18px;animation:spin 0.9s linear infinite;display:inline-block}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .page-enter-active{transition:opacity 0.4s ease,transform 0.45s cubic-bezier(0.16,1,0.3,1)}
+    .page-leave-active{transition:opacity 0.25s ease,transform 0.25s ease}
+    .page-enter-from{opacity:0;transform:translateY(16px)}.page-leave-to{opacity:0;transform:translateY(-8px)}
+    .fade-enter-active,.fade-leave-active{transition:opacity 0.3s ease}
+    .fade-enter-from,.fade-leave-to{opacity:0}
+    .slide-up-enter-active{transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+    .slide-up-leave-active{transition:all 0.25s ease}
+    .slide-up-enter-from,.slide-up-leave-to{opacity:0;transform:translateY(20px)}
+    .animate-slide-right{animation:slideRight 0.5s cubic-bezier(0.16,1,0.3,1)}
+    .no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .line-clamp-3{display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .hero-overlay{background:linear-gradient(180deg,rgba(13,13,13,0.55) 0%,rgba(13,13,13,0.15) 38%,rgba(13,13,13,0.75) 100%)}
+    .step-bar{height:3px;background:linear-gradient(90deg,#c9a84c,#e07c45);border-radius:3px;transition:width 0.6s cubic-bezier(0.16,1,0.3,1)}
+    .tag-gold{background:rgba(201,168,76,0.12);color:#7a6220;border:1px solid rgba(201,168,76,0.3);font-weight:600}
+    .tag-mauve{background:rgba(224,124,69,0.12);color:#8b3a15;border:1px solid rgba(224,124,69,0.3);font-weight:600}
+    .inp{background:#f2ede8;border:2px solid transparent;border-radius:0.875rem;padding:0.85rem 1rem 0.85rem 3rem;width:100%;outline:none;transition:all 0.25s ease;font-family:"DM Sans",sans-serif;font-size:0.9rem;color:#0d0d0d}
+    .inp::placeholder{color:#8a7d72}.inp:focus{background:white;border-color:#c9a84c;box-shadow:0 0 0 4px rgba(201,168,76,0.1)}
+    .inp.m:focus{border-color:#e07c45;box-shadow:0 0 0 4px rgba(224,124,69,0.1)}
+    .inp-plain{background:#f2ede8;border:2px solid transparent;border-radius:0.875rem;padding:0.85rem 1rem;width:100%;outline:none;transition:all 0.25s ease;font-family:"DM Sans",sans-serif;font-size:0.9rem;color:#0d0d0d}
+    .inp-plain::placeholder{color:#8a7d72}.inp-plain:focus{background:white;border-color:#c9a84c;box-shadow:0 0 0 4px rgba(201,168,76,0.1)}
+    .pill-pending{background:#fef3c7;color:#78350f;border:1px solid #fcd34d;font-weight:700}
+    .pill-confirmed{background:#d1fae5;color:#064e3b;border:1px solid #6ee7b7;font-weight:700}
+    .pill-completed{background:#ede9fe;color:#3730a3;border:1px solid #a5b4fc;font-weight:700}
+    .pill-cancelled{background:#fee2e2;color:#7f1d1d;border:1px solid #fca5a5;font-weight:700}
+    .rev-bar{background:linear-gradient(180deg,#c9a84c,#e8c96c);border-radius:4px 4px 0 0;min-height:3px;transition:height 0.4s ease}
+    .notif-dot{position:absolute;top:-3px;right:-3px;background:#ef4444;color:white;font-size:0.6rem;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;border:2px solid white}
+    .toggle{width:44px;height:24px;border-radius:12px;transition:background 0.2s;display:flex;align-items:center;padding:2px;cursor:pointer}
+    .toggle-knob{width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,0.25);transition:transform 0.2s}
+    .testimonial-card{background:white;border-radius:2rem;padding:1.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.05);border:1px solid rgba(201,168,76,0.09);position:relative;overflow:hidden}
+    .testimonial-card::before{content:'"';position:absolute;top:0.25rem;left:1.25rem;font-family:"Cormorant Garamond",serif;font-size:5rem;line-height:1;color:rgba(201,168,76,0.1);pointer-events:none}
+    .slot-btn{border:2px solid #e5ddd4;border-radius:0.875rem;padding:0.625rem;text-align:center;cursor:pointer;transition:all 0.2s;font-size:0.85rem;font-weight:700;color:#2d2418;background:white}
+    .slot-btn:hover:not(:disabled){border-color:#e07c45;background:rgba(224,124,69,0.08);color:#8b3a15}
+    .slot-btn.sel{border-color:#e07c45;background:rgba(224,124,69,0.15);color:#8b3a15;box-shadow:0 4px 14px rgba(224,124,69,0.25)}
+    .slot-btn:disabled{opacity:0.4;cursor:not-allowed;background:#f5f0ea;color:#9a8f85}
+    .cal-day{border-radius:0.75rem;height:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.85rem;transition:all 0.2s;cursor:pointer;color:#0d0d0d;font-weight:500}
+    .cal-day:hover:not(.cal-past):not(.cal-other-month){background:rgba(201,168,76,0.1)}
+    .cal-day.cal-today:not(.cal-sel){outline:2px solid rgba(201,168,76,0.5)}
+    .cal-day.cal-sel{background:linear-gradient(135deg,#c9a84c,#a8893a)!important;color:white!important;font-weight:800;box-shadow:0 4px 14px rgba(201,168,76,0.4)}
+    .cal-day.cal-past{opacity:0.3;cursor:not-allowed;pointer-events:none}
+    .cal-day.cal-other-month{color:#c4b8a8}
+    .cal-dot{width:4px;height:4px;background:#10b981;border-radius:50%;margin-top:1px}
+    .extra-label{border:2px solid #e5ddd4;border-radius:1.25rem;padding:1rem;cursor:pointer;transition:all 0.2s;background:white}
+    .extra-label:hover{border-color:rgba(224,124,69,0.5);background:rgba(224,124,69,0.05)}
+    .extra-label.checked{border-color:#e07c45;background:rgba(224,124,69,0.08)}
+    .consent-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;display:flex;align-items:flex-end;justify-content:center;padding:1.25rem;backdrop-filter:blur(8px)}
+    .menu-jour-card{background:linear-gradient(135deg,#0d0d0d 0%,#1e1a14 100%);border:1px solid rgba(201,168,76,0.2);border-radius:2rem;overflow:hidden;position:relative}
+    .menu-jour-card::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(201,168,76,0.1) 0%,transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(224,124,69,0.07) 0%,transparent 50%);pointer-events:none}
+    @media(hover:none)and(pointer:coarse){button,a{min-height:44px}input,select,textarea{font-size:16px!important}}
+
+    /* ── Keyframes définis directement en CSS (Tailwind CDN ne les génère pas pour les inline styles) ── */
+    @keyframes fadeUp{
+      0%  {opacity:0;transform:translateY(30px)}
+      100%{opacity:1;transform:translateY(0)}
+    }
+    @keyframes scaleIn{
+      0%  {opacity:0;transform:scale(0.85)}
+      100%{opacity:1;transform:scale(1)}
+    }
+    @keyframes slideRight{
+      0%  {opacity:0;transform:translateX(25px)}
+      100%{opacity:1;transform:translateX(0)}
+    }
+    @keyframes pulseGold{
+      0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}
+      50%    {box-shadow:0 0 0 10px rgba(201,168,76,0.18)}
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%    {transform:translateY(-10px)}
+    }
+    @keyframes shimmer{
+      0%  {background-position:-200% 0}
+      100%{background-position:200% 0}
+    }
+    /* Classes utilitaires d'animation */
+    .animate-fade-up   {animation:fadeUp    0.9s cubic-bezier(0.16,1,0.3,1) forwards}
+    .animate-scale-in  {animation:scaleIn   0.4s cubic-bezier(0.34,1.56,0.64,1)}
+    .animate-slide-right{animation:slideRight 0.5s cubic-bezier(0.16,1,0.3,1)}
+    .animate-pulse-gold{animation:pulseGold 3s ease-in-out infinite}
+    .animate-float     {animation:float     8s ease-in-out infinite}
+    .shimmer-text{
+      background:linear-gradient(90deg,#c9a84c 0%,#f0d870 45%,#c9a84c 100%);
+      background-size:200% auto;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      animation:shimmer 2.5s linear infinite
+    }
+  </style>
+</head>
+<body>
+<div id="app" class="flex flex-col min-h-screen">
+<!-- CONSENT -->
+<transition name="fade">
+<div v-if="showConsent" class="consent-overlay">
+  <div class="bg-white rounded-[2rem] max-w-xl w-full p-8 shadow-2xl border border-brand-gold/20 mb-2">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-11 h-11 rounded-full bg-brand-gold/10 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-shield-halved text-brand-goldDark text-lg"></i></div>
+      <h3 class="heading-display text-2xl text-brand-dark">Bienvenue chez Melly Mello</h3>
+    </div>
+    <p class="text-gray-700 text-sm leading-relaxed mb-5 font-medium">En continuant, vous acceptez nos <button @click="consentTerms=!consentTerms" class="text-brand-goldDark font-bold hover:underline">Conditions</button> et notre <button @click="consentPrivacy=!consentPrivacy" class="text-brand-mauveDark font-bold hover:underline">Politique de Confidentialité</button>.</p>
+    <div v-if="consentTerms" class="mb-4 bg-amber-50 rounded-2xl p-4 text-xs text-gray-800 max-h-32 overflow-y-auto border border-amber-200 font-medium leading-relaxed">
+      <p class="font-bold text-gray-900 mb-2">Conditions Générales</p>
+      <ul class="list-disc pl-4 space-y-1">
+        <li>Commandes annulables dans les 30 minutes suivant la validation.</li>
+        <li>Menu du jour disponible jusqu'à épuisement des stocks.</li>
+        <li>150 points fidélité = 500 FCFA de réduction sur prochaine commande.</li>
+        <li>Paiement sur place : Espèces, Flooz, T-Money.</li>
+      </ul>
+    </div>
+    <div v-if="consentPrivacy" class="mb-4 bg-blue-50 rounded-2xl p-4 text-xs text-gray-800 max-h-32 overflow-y-auto border border-blue-200 font-medium">
+      <p class="font-bold text-gray-900 mb-2">Confidentialité</p>
+      <ul class="list-disc pl-4 space-y-1"><li>Nom, email, téléphone : gestion des commandes uniquement.</li><li>Aucune revente de données.</li><li>Contact : contact@mellymello.tg</li></ul>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+      <button @click="acceptConsent" class="flex-1 btn-gold py-4 rounded-2xl font-bold text-sm text-center"><i class="fa-solid fa-check mr-2"></i>J'ai compris et j'accepte</button>
+      <button @click="consentTerms=true;consentPrivacy=true" class="flex-1 py-4 border-2 border-gray-200 text-gray-700 rounded-2xl text-sm font-bold hover:border-gray-400 transition text-center">En savoir plus</button>
+    </div>
+  </div>
+</div>
+</transition>
+
+<!-- NAV -->
+<nav :class="isScrolled ? 'py-3 glass-dark' : 'py-6 bg-transparent'"
+     class="fixed w-full z-50 transition-all duration-500 text-white border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+    <div class="flex items-center gap-3 cursor-pointer group" @click="goToHome">
+      <div class="w-12 h-12 rounded-full bg-brand-gold/20 ring-2 ring-brand-gold/30 group-hover:ring-brand-gold transition-all flex-shrink-0 flex items-center justify-center overflow-hidden">
+        <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <i class="fa-solid fa-utensils text-brand-gold text-lg" style="display:none"></i>
+      </div>
+      <div class="leading-none"><h1 class="heading-display text-2xl tracking-widest uppercase">Melly</h1><span class="text-xs text-brand-mauve tracking-[1.25em] uppercase font-light">Mello · Restaurant</span></div>
+    </div>
+    <div class="hidden lg:flex items-center gap-8 text-sm font-medium uppercase tracking-widest">
+      <a @click.prevent="goToHome" href="#" class="hover:text-brand-gold transition-colors">Accueil</a>
+      <a @click.prevent="scrollTo('menu-section')" href="#" class="hover:text-brand-gold transition-colors">Menu</a>
+      <a @click.prevent="scrollTo('galerie')" href="#" class="hover:text-brand-gold transition-colors">Galerie</a>
+      <a @click.prevent="scrollTo('avis')" href="#" class="hover:text-brand-gold transition-colors">Avis</a>
+      <div v-if="currentUser" class="flex items-center gap-3 border-l border-white/20 pl-6">
+        <div class="relative"><button @click="notifOpen=!notifOpen" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition"><i class="fa-regular fa-bell text-sm"></i><span v-if="notifCount>0" class="notif-dot">{{notifCount}}</span></button></div>
+        <span class="text-brand-gold/90 heading-serif italic text-base hidden xl:inline">{{currentUser.name.split(' ')[0]}}</span>
+        <button v-if="currentUser.role==='admin'" @click="page='admin'" class="btn-mauve px-4 py-2 rounded-full text-xs tracking-widest"><i class="fa-solid fa-crown mr-1.5"></i>ADMIN</button>
+        <button v-else @click="page='dash'" class="btn-gold px-4 py-2 rounded-full text-xs tracking-widest animate-pulse-gold"><i class="fa-solid fa-user mr-1.5"></i>MON ESPACE</button>
+        <button @click="logout" class="text-white/40 hover:text-red-400 transition-colors text-sm"><i class="fa-solid fa-power-off"></i></button>
+      </div>
+      <div v-else class="flex items-center gap-3 border-l border-white/20 pl-6">
+        <button @click="page='login'" class="text-white/80 hover:text-white transition-colors text-sm font-semibold">Connexion</button>
+        <button @click="startBooking" class="btn-gold px-5 py-2.5 rounded-full text-sm"><i class="fa-solid fa-basket-shopping mr-1.5"></i>Commander</button>
+      </div>
+    </div>
+    <button @click="menuOpen=!menuOpen" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"><i class="fa-solid transition-all" :class="menuOpen?'fa-times':'fa-bars'"></i></button>
+  </div>
+  <transition name="fade">
+    <div v-if="menuOpen" class="lg:hidden absolute top-full left-0 w-full glass-dark border-t border-white/10 py-6 px-6">
+      <div class="flex flex-col space-y-5 text-white">
+        <a @click="menuOpen=false;goToHome()" class="flex items-center gap-3 hover:text-brand-gold transition-colors font-semibold py-1"><i class="fa-solid fa-home w-5 text-brand-gold/60"></i>Accueil</a>
+        <a @click="menuOpen=false;scrollTo('menu-section')" class="flex items-center gap-3 hover:text-brand-gold transition-colors font-semibold py-1"><i class="fa-solid fa-utensils w-5 text-brand-gold/60"></i>Menu</a>
+        <a @click="menuOpen=false;scrollTo('galerie')" class="flex items-center gap-3 hover:text-brand-gold transition-colors font-semibold py-1"><i class="fa-solid fa-images w-5 text-brand-gold/60"></i>Galerie</a>
+        <div v-if="currentUser" class="pt-4 border-t border-white/20 space-y-3">
+          <div class="text-brand-gold heading-serif italic text-lg">Bonjour, {{currentUser.name.split(' ')[0]}} 🍽️</div>
+          <button @click="menuOpen=false;page=currentUser.role==='admin'?'admin':'dash'" class="w-full btn-gold py-3.5 rounded-2xl text-center font-bold">Mon Espace</button>
+          <button @click="menuOpen=false;logout()" class="w-full text-white/50 hover:text-white py-2 text-center text-sm font-medium">Déconnexion</button>
+        </div>
+        <div v-else class="pt-4 border-t border-white/20 space-y-3">
+          <button @click="menuOpen=false;startBooking()" class="w-full btn-gold py-3.5 rounded-2xl font-bold text-center"><i class="fa-solid fa-basket-shopping mr-2"></i>Commander</button>
+          <button @click="menuOpen=false;page='login'" class="w-full text-white/70 hover:text-white py-2 text-center font-medium">Se connecter</button>
+        </div>
+      </div>
+    </div>
+  </transition>
+</nav>
+
+<!-- NOTIFICATIONS -->
+<transition name="slide-up">
+  <div v-if="notifOpen" class="fixed top-20 right-4 w-80 md:w-96 bg-white rounded-[1.75rem] shadow-2xl z-[60] border border-gray-100 overflow-hidden">
+    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-brand-cream to-white">
+      <h3 class="font-bold text-lg heading-serif text-brand-dark">Notifications</h3>
+      <div class="flex items-center gap-2">
+        <button v-if="notifs.length>0" @click="markAllRead" class="text-xs text-brand-goldDark hover:underline font-bold">Tout lire</button>
+        <button @click="notifOpen=false" class="text-gray-500 hover:text-gray-800 w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-xs"></i></button>
+      </div>
+    </div>
+    <div class="max-h-80 overflow-y-auto">
+      <div v-if="notifs.length===0" class="p-8 text-center text-gray-500"><i class="fa-regular fa-bell text-3xl mb-3 block opacity-30"></i><p class="text-sm font-medium">Aucune notification</p></div>
+      <div v-for="n in notifs" :key="n.id" class="p-4 border-b border-gray-50 hover:bg-brand-cream/50 transition cursor-pointer" :class="n.read?'opacity-60':''" @click="clickNotif(n)">
+        <div class="flex items-start gap-3">
+          <div :class="nIcon2(n.type)" class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm"><i :class="nIcon(n.type)"></i></div>
+          <div class="flex-1 min-w-0"><p class="text-sm font-bold text-gray-800 truncate">{{n.title}}</p><p class="text-xs text-gray-600 mt-0.5 line-clamp-2 font-medium">{{n.message}}</p><span class="text-xs text-gray-400 mt-1.5 block">{{relTime(n.created_at)}}</span></div>
+          <div v-if="!n.read" class="w-2 h-2 rounded-full bg-brand-gold flex-shrink-0 mt-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</transition>
+<div v-if="notifOpen" @click="notifOpen=false" class="fixed inset-0 z-[55]"></div>
+
+<!-- MAIN -->
+<main class="flex-grow relative">
+  <transition name="fade">
+    <div v-if="loading" class="fixed inset-0 bg-white/70 backdrop-blur-sm z-[100] flex items-center justify-center">
+      <div class="text-center"><div class="spinner mx-auto mb-4"></div><p class="text-sm text-gray-700 font-semibold heading-serif">Chargement...</p></div>
+    </div>
+  </transition>
+  <transition name="page" mode="out-in">
+
+    <!-- HOME -->
+    <div v-if="page==='home'" key="home">
+      <!-- HERO -->
+      <header class="relative min-h-screen rounded-b-[8rem] overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+          <div class="hero-overlay absolute inset-0 z-10"></div>
+          <div class="hero-grain"></div>
+          <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1600&q=80" alt="Cuisine Africaine Melly Mello" class="w-full h-full object-cover" loading="eager">
+        </div>
+        <div class="absolute top-1/4 left-8 w-px h-32 bg-gradient-to-b from-transparent via-brand-gold/40 to-transparent hidden lg:block animate-float"></div>
+        <div class="absolute top-1/4 right-12 w-px h-24 bg-gradient-to-b from-transparent via-brand-mauve/40 to-transparent hidden lg:block animate-float" style="animation-delay:2s"></div>
+        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto mt-16">
+          <div class="inline-flex items-center gap-2 mb-8 glass-hero px-8 py-2.5 rounded-full text-brand-gold text-xs uppercase tracking-[0.2em]" style="opacity:0;animation:fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0s forwards">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-gold inline-block animate-pulse"></span>Restaurant Africain · Dabarakondji, Lomé
+          </div>
+          <h1 class="heading-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 leading-tight" style="opacity:0;animation:fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s forwards">
+            Savourez l'Authenticité<br><span class="italic text-brand-mauve">de l'Afrique</span>
+          </h1>
+          <p class="text-gray-200 text-lg md:text-xl font-light mb-10 max-w-4xl mx-auto" style="opacity:0;animation:fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards">
+            Des saveurs genuines, des recettes traditionnelles. Chaque plat raconte l'histoire de notre terroir.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center" style="opacity:0;animation:fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s forwards">
+            <button @click="startBooking" class="btn-gold px-10 py-4 rounded-full font-bold text-base shadow-2xl"><i class="fa-solid fa-basket-shopping mr-2"></i>Commander maintenant</button>
+            <button @click="scrollTo('menu-du-jour')" class="btn-outline flex items-center justify-center gap-3 px-8 py-4 rounded-full font-semibold text-base">
+              <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-star text-xs text-brand-gold"></i></div>Menu du jour
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-0 mt-7 max-w-sm mx-auto" style="opacity:0;animation:fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.55s forwards">
+            <div class="glass-stat rounded-l-4xl px-4 py-7 text-center border-r border-white/10"><div class="text-3xl font-bold text-white mb-0 heading-serif">{{aSt.clients}}+</div><div class="text-xs text-white/60 tracking-widest uppercase">Clients</div></div>
+            <div class="glass-stat px-4 py-5 text-center"><div class="text-3xl font-bold text-white mb-0 heading-serif">{{aSt.appts}}+</div><div class="text-xs text-white/60 tracking-widest uppercase">Commandes</div></div>
+            <div class="glass-stat rounded-r-4xl px-4 py-5 text-center border-l border-white/10"><div class="text-3xl font-bold text-white mb-0 heading-serif">{{aSt.svcs}}+</div><div class="text-xs text-white/60 tracking-widest uppercase">Recettes</div></div>
+          </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 text-white/40" style="opacity:0;animation:fadeUp 0.9s 0.7s forwards">
+          <span class="text-xs tracking-[0.2em] uppercase">Découvrir</span><i class="fa-solid fa-chevron-down text-sm animate-bounce"></i>
+        </div>
+      </header>
+
+      <!-- MENU DU JOUR -->
+      <section id="menu-du-jour" class="py-16 md:py-20 px-4 sm:px-6 bg-brand-cream relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-mauve/10 rounded-full blur-3xl"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+          <div class="text-center mb-10">
+            <h3 class="font-sans font-bold text-brand-mauveDark text-sm tracking-widest uppercase mb-3">✦ Spécialité du Jour ✦</h3>
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-dark mb-4">Menu du Jour</h2>
+            <p class="text-gray-600 max-w-xl mx-auto text-sm">Chaque jour un nouveau plat préparé avec amour et des ingrédients frais du marché.</p>
+          </div>
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="menu-jour-card p-8 md:p-10 relative">
+              <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-4"><span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span><span class="text-brand-gold text-xs tracking-[0.22em] uppercase font-bold">Aujourd'hui · {{todayDayLabel}}</span></div>
+                <h3 class="heading-serif text-4xl sm:text-5xl text-white font-light leading-tight mb-4">{{menuDuJour||"Menu en cours de préparation..."}}</h3>
+                <div class="flex items-center gap-4 mb-8"><span class="text-brand-gold text-2xl font-bold heading-serif">{{dailyMenuPrice}} FCFA</span><span class="text-gray-400 text-sm font-medium">par personne</span></div>
+                <button @click="startBooking" class="btn-gold px-8 py-3.5 rounded-full font-bold"><i class="fa-solid fa-basket-shopping mr-2"></i>Commander ce menu</button>
+              </div>
+            </div>
+            <div class="bg-white rounded-[2rem] p-6 shadow-lg border border-brand-gold/10">
+              <h4 class="font-bold text-lg text-brand-dark mb-5 flex items-center gap-2"><i class="fa-solid fa-calendar-week text-brand-mauveDark"></i>Menu de la semaine</h4>
+              <div class="space-y-3">
+                <div v-for="(label, key) in joursSemaine" :key="key" class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0" :class="key===todayDay?'bg-brand-gold/5 rounded-xl px-3':''">
+                  <div class="flex items-center gap-3">
+                    <span v-if="key===todayDay" class="w-2 h-2 rounded-full bg-brand-gold animate-pulse flex-shrink-0"></span>
+                    <span v-else class="w-2 h-2 rounded-full bg-gray-200 flex-shrink-0"></span>
+                    <span :class="key===todayDay?'font-bold text-brand-dark':'text-gray-600 font-medium'" class="text-sm capitalize">{{label}}</span>
+                  </div>
+                  <span :class="key===todayDay?'text-brand-goldDark font-bold':'text-gray-500 font-medium'" class="text-sm text-right max-w-[160px] truncate">{{dailyMenu[key]||"—"}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENU / SERVICES -->
+      <section id="menu-section" class="py-16 md:py-24 px-4 sm:px-6 bg-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+          <div class="text-center mb-12 md:mb-16 px-4">
+            <h3 class="font-sans font-bold text-brand-gold text-sm tracking-widest uppercase mb-3">Notre Carte</h3>
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-dark mb-6">Nos Plats Signature</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Découvrez notre sélection de plats africains authentiques, préparés avec des ingrédients frais et des épices sélectionnées.</p>
+          </div>
+          <div class="flex overflow-x-auto gap-2 mb-8 no-scrollbar pb-2 justify-center flex-wrap">
+            <button @click="catF=''" :class="catF===''?'bg-brand-dark text-white':'bg-gray-100 text-gray-700 font-semibold'" class="px-5 py-2.5 rounded-full text-sm whitespace-nowrap transition-all font-medium">Tous les plats</button>
+            <button v-for="cat in cats" :key="cat.id" @click="catF=cat.id" :class="catF===cat.id?'bg-brand-dark text-white':'bg-gray-100 text-gray-700'" class="px-5 py-2.5 rounded-full text-sm whitespace-nowrap transition-all font-medium">{{cat.name}}</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div v-for="service in fSvcs" :key="service.id" @click="selectServiceAndBook(service)" class="group bg-white rounded-3xl md:rounded-[2.5rem] p-4 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer relative overflow-hidden border border-gray-100">
+              <div class="h-64 md:h-72 rounded-2xl md:rounded-[2rem] overflow-hidden relative mb-4 md:mb-6 bg-gray-100">
+                <img :src="service.image_url||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400'" :alt="service.name" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy">
+                <div class="absolute top-4 right-4 bg-brand-dark/90 backdrop-blur-md text-brand-gold font-bold px-4 py-2 rounded-full shadow-lg text-sm z-10">{{service.price}} FCFA</div>
+                <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full z-10"><i class="fa-regular fa-clock mr-1"></i>{{service.duration}} min</div>
+              </div>
+              <div class="px-2 md:px-4 pb-4 md:pb-6">
+                <h4 class="font-serif text-xl md:text-2xl mb-2 text-brand-dark">{{service.name}}</h4>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-3">{{service.description}}</p>
+                <div class="flex flex-wrap gap-2 mb-4"><span v-for="tag in (service.tags||[])" :key="tag" class="px-2 py-1 bg-brand-mauve/10 text-brand-mauveDark rounded-full text-xs font-semibold">{{tag}}</span></div>
+                <button class="w-full border-2 border-brand-dark text-brand-dark py-3 rounded-full font-bold uppercase text-xs tracking-widest hover:bg-brand-dark hover:text-white transition-all duration-300">Commander ce plat</button>
+              </div>
+            </div>
+            <div v-if="services.length===0" v-for="(plat,i) in platsDemo" :key="'p'+i" @click="startBooking" class="group bg-white rounded-3xl md:rounded-[2.5rem] p-4 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer relative overflow-hidden border border-gray-100">
+              <div class="h-64 md:h-72 rounded-2xl md:rounded-[2rem] overflow-hidden relative mb-4 md:mb-6 bg-gray-100">
+                <img :src="plat.img" :alt="plat.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy">
+                <div class="absolute top-4 right-4 bg-brand-dark/90 backdrop-blur-md text-brand-gold font-bold px-4 py-2 rounded-full text-sm z-10">{{plat.price}} FCFA</div>
+                <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full z-10"><i class="fa-solid fa-fire mr-1"></i>Populaire</div>
+              </div>
+              <div class="px-2 md:px-4 pb-4 md:pb-6">
+                <h4 class="font-serif text-xl md:text-2xl mb-2 text-brand-dark">{{plat.name}}</h4>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-3">{{plat.desc}}</p>
+                <div class="flex flex-wrap gap-2 mb-4"><span v-for="t in plat.tags" :key="t" class="px-2 py-1 bg-brand-mauve/10 text-brand-mauveDark rounded-full text-xs font-semibold">{{t}}</span></div>
+                <button class="w-full border-2 border-brand-dark text-brand-dark py-3 rounded-full font-bold uppercase text-xs tracking-widest hover:bg-brand-dark hover:text-white transition-all duration-300">Commander ce plat</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROMO -->
+      <div v-if="activePromos.length>0" class="px-4 md:px-10 py-4">
+        <div class="bg-gradient-to-r from-brand-dark via-brand-charcoal to-brand-dark rounded-[2rem] p-6 md:p-8 relative overflow-hidden border border-brand-gold/20">
+          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(201,168,76,0.12)_0%,transparent_60%)]"></div>
+          <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div><div class="flex items-center gap-2 mb-2"><span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span><span class="text-brand-gold text-xs tracking-[0.22em] uppercase font-bold">Offre Spéciale</span></div>
+            <h3 class="heading-serif text-3xl text-white mb-1">{{activePromos[0].description}}</h3><p class="text-gray-400 text-sm font-medium">Profitez de cette offre avant qu'elle expire.</p></div>
+            <div class="flex items-center gap-6 flex-shrink-0">
+              <div class="text-center"><div class="text-5xl font-bold text-brand-gold heading-serif">{{activePromos[0].discount}}<span class="text-2xl">{{activePromos[0].discount_type==='percentage'?'%':'F'}}</span></div><div class="text-gray-400 text-xs tracking-widest uppercase mt-1">de réduction</div></div>
+              <button @click="startBooking" class="btn-gold px-7 py-3.5 rounded-full font-bold whitespace-nowrap">Profiter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AMBIANCE -->
+      <section id="video-section" class="py-20 md:py-28 mx-4 md:mx-10 my-6 rounded-[3rem] bg-brand-dark relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(201,168,76,0.08)_0%,transparent_60%),radial-gradient(ellipse_at_80%_30%,rgba(224,124,69,0.06)_0%,transparent_50%)]"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <button @click="playvideo" class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center mx-auto mb-10 hover:bg-brand-gold/25 hover:scale-110 transition-all duration-300 animate-pulse-gold group">
+            <i class="fa-solid fa-play text-brand-gold text-xl ml-1 group-hover:scale-110 transition-transform"></i>
+          </button>
+          <blockquote class="heading-serif text-4xl sm:text-5xl md:text-6xl text-white font-light leading-tight mb-6">"Plus qu'un repas,<br><em class="text-brand-gold not-italic">une expérience."</em></blockquote>
+          <p class="text-gray-400 text-lg max-w-lg mx-auto mb-12 leading-relaxed font-medium">Découvrez l'atmosphère chaleureuse et conviviale de notre restaurant familial à Dabarakondji.</p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center"><div class="text-3xl font-bold text-brand-gold heading-serif mb-1">98%</div><div class="text-xs text-gray-500 tracking-widest uppercase font-medium">Satisfaction</div></div>
+            <div class="text-center"><div class="text-3xl font-bold text-brand-gold heading-serif mb-1">5 ★</div><div class="text-xs text-gray-500 tracking-widest uppercase font-medium">Note moyenne</div></div>
+            <div class="text-center"><div class="text-3xl font-bold text-brand-gold heading-serif mb-1">100%</div><div class="text-xs text-gray-500 tracking-widest uppercase font-medium">Frais & Local</div></div>
+            <div class="text-center"><div class="text-3xl font-bold text-brand-gold heading-serif mb-1">7j/7</div><div class="text-xs text-gray-500 tracking-widest uppercase font-medium">Ouvert</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALERIE -->
+      <section id="galerie" class="py-20 md:py-28 bg-brand-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div><p class="text-brand-goldDark text-xs tracking-[0.35em] uppercase font-bold mb-3">Nos Créations</p><h2 class="heading-display text-4xl sm:text-5xl text-brand-dark">Notre Galerie</h2><p class="text-gray-600 mt-2 text-sm font-medium">Des plats préparés avec passion et authenticité.</p></div>
+            <a href="https://wa.me/22893999667" target="_blank" class="flex items-center gap-2 text-sm text-gray-500 hover:text-green-600 transition-colors mt-4 md:mt-0 font-semibold"><i class="fa-brands fa-whatsapp text-2xl text-green-600"></i><span>+228 93 99 96 67</span></a>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3 md:gap-4">
+            <div class="col-span-2 row-span-2 rounded-[2rem] overflow-hidden group cursor-pointer relative">
+              <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80" alt="Plat signature Melly Mello" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="absolute bottom-6 left-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500"><span class="bg-brand-mauveDark/90 backdrop-blur-sm text-white text-sm font-bold px-4 py-2 rounded-full">Plat du Chef</span></div>
+            </div>
+            <div v-for="item in gallery.slice(0,10)" :key="item.id" class="rounded-[1.5rem] overflow-hidden group cursor-pointer relative bg-gray-100">
+              <img :src="item.image_url" :alt="item.title||'Melly Mello'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="absolute bottom-3 left-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300"><span class="bg-white/92 text-brand-dark text-[10px] tracking-widest uppercase font-bold px-2.5 py-1 rounded-full">{{item.style||'Melly Mello'}}</span></div>
+            </div>
+            <div v-if="gallery.length===0" v-for="img in fallGal" :key="img.u" class="rounded-[1.5rem] overflow-hidden group cursor-pointer relative bg-gray-100">
+              <img :src="img.u" :alt="img.l" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="absolute bottom-3 left-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300"><span class="bg-white/92 text-brand-dark text-[10px] tracking-widest uppercase font-bold px-2.5 py-1 rounded-full">{{img.l}}</span></div>
+            </div>
+            <div @click="shareModal=true" class="rounded-[1.5rem] cursor-pointer bg-gradient-to-br from-brand-mauveLight to-brand-mauve/30 flex items-center justify-center text-center p-5 group border border-brand-mauve/20 hover:border-brand-mauve/50 transition-all">
+              <div><div class="w-12 h-12 rounded-full bg-brand-mauve/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform"><i class="fa-solid fa-camera text-brand-mauveDark text-lg"></i></div><h3 class="heading-serif text-xl text-brand-mauveDark mb-1">Votre visite ?</h3><p class="text-brand-mauveDark/70 text-xs font-medium">Partagez vos photos</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVIS -->
+      <section id="avis" class="py-20 md:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="text-center mb-14">
+            <p class="text-brand-goldDark text-xs tracking-[0.35em] uppercase font-bold mb-4">Témoignages</p>
+            <h2 class="heading-display text-4xl sm:text-5xl md:text-6xl text-brand-dark">Ils parlent de nous</h2>
+            <p class="text-gray-600 mt-4 max-w-md mx-auto font-medium text-sm">Des avis authentiques de nos clients satisfaits.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div v-for="t in allTestimonials" :key="t.id||t.name" class="testimonial-card card-hover">
+              <div class="flex items-center gap-3 mb-5 relative z-10">
+                <img :src="t.avatar||uAvatar(t.name)" :alt="t.name" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-gold/20 flex-shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=A&background=c9a84c&color=fff&bold=true'">
+                <div><h4 class="font-bold text-base text-brand-dark">{{t.name}}</h4><div class="flex gap-0.5 mt-0.5"><i v-for="i in 5" :key="i" :class="i<=(t.rating||5)?'fa-solid':'fa-regular'" class="fa-star text-brand-gold text-xs"></i></div></div>
+              </div>
+              <p class="text-gray-700 text-sm leading-relaxed italic heading-serif text-base relative z-10">"{{t.comment}}"</p>
+              <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center text-xs relative z-10">
+                <span class="text-gray-500 font-medium">{{fmtD(t.created_at||t.date)}}</span>
+                <span class="tag-mauve px-2.5 py-0.5 rounded-full text-xs">{{t.service||t.service_name||''}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div><!-- END HOME -->
+
+    <!-- ===== LOGIN ===== -->
+    <div v-else-if="page==='login'" key="login" class="min-h-screen bg-gradient-to-br from-brand-dark via-brand-charcoal to-[#1a0d1a] flex items-center justify-center p-4 relative overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-mauve/6 rounded-full blur-[80px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-gold/5 rounded-full blur-[80px]"></div>
+      <div class="w-full max-w-md relative z-10">
+        <div class="luxury-card p-8 md:p-10 rounded-[2.5rem] text-center animate-scale-in">
+          <div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-brand-gold/20"><img src="logo.png" alt="Mel's Touch" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=MT&background=c9a84c&color=fff&bold=true'"></div>
+          <h2 class="heading-display text-3xl mb-1 text-brand-dark">Connexion</h2>
+          <p class="text-gray-600 text-sm mb-8 font-medium">Accès à votre espace personnel</p>
+          <form @submit.prevent="doLogin" class="space-y-4 text-left">
+            <div class="relative"><i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="lf.email" type="email" placeholder="Email" required class="inp"></div>
+            <div class="relative"><i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="lf.password" type="password" placeholder="Mot de passe" required class="inp"></div>
+            <div class="flex justify-between items-center pt-1">
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" v-model="lf.remember" class="rounded text-brand-gold w-4 h-4"><span class="text-sm text-gray-700 font-medium">Se souvenir</span></label>
+              <button type="button" @click="forgotPwd=true" class="text-sm text-brand-goldDark hover:underline font-bold">Mot de passe oublié ?</button>
+            </div>
+            <div v-if="loginErr" class="bg-red-50 border border-red-200 text-red-700 p-3.5 rounded-2xl text-sm flex items-center gap-2 font-semibold"><i class="fa-solid fa-triangle-exclamation flex-shrink-0"></i>{{loginErr}}</div>
+            <button type="submit" :disabled="loading" class="w-full btn-gold py-4 rounded-2xl font-bold text-base mt-2 disabled:opacity-50">
+              <span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-gold"></div>Connexion...</span>
+              <span v-else>Se connecter</span>
+            </button>
+          </form>
+          <p class="mt-7 text-gray-600 text-sm font-medium">Pas encore de compte ? <button @click="page='signup'" class="text-brand-goldDark font-bold hover:underline">Créer un compte</button></p>
+          <button @click="page='home'" class="mt-4 text-gray-500 text-xs hover:text-gray-700 transition-colors flex items-center gap-1.5 mx-auto font-medium"><i class="fa-solid fa-arrow-left"></i>Retour à l'accueil</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RESET PASSWORD (NEW) ===== -->
+    <div v-else-if="page==='reset'" key="reset" class="min-h-screen bg-gradient-to-br from-brand-dark via-brand-charcoal to-[#1a0d1a] flex items-center justify-center p-4 relative overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-mauve/6 rounded-full blur-[80px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-gold/5 rounded-full blur-[80px]"></div>
+      <div class="w-full max-w-md relative z-10">
+        <div class="luxury-card p-8 md:p-10 rounded-[2.5rem] text-center animate-scale-in">
+          <div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-brand-gold/20">
+            <img src="logo.png" alt="Mel's Touch" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=MT&background=c9a84c&color=fff&bold=true'">
+          </div>
+          <!-- Token invalide -->
+          <div v-if="resetErr && !resetEmail">
+            <h2 class="heading-display text-3xl mb-3 text-brand-dark">Lien expiré</h2>
+            <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl text-sm mb-6 font-semibold">
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i>{{resetErr}}
+            </div>
+            <button @click="page='login';forgotPwd=true" class="w-full btn-gold py-4 rounded-2xl font-bold text-base">
+              <i class="fa-solid fa-rotate-right mr-2"></i>Demander un nouveau lien
+            </button>
+          </div>
+          <!-- Réinitialisation réussie -->
+          <div v-else-if="resetOk">
+            <div class="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-5">
+              <i class="fa-solid fa-check-circle text-emerald-500 text-3xl"></i>
+            </div>
+            <h2 class="heading-display text-3xl mb-3 text-brand-dark">Mot de passe mis à jour !</h2>
+            <p class="text-gray-600 text-sm mb-6 font-medium">Votre mot de passe a été réinitialisé avec succès.</p>
+            <button @click="page='login'" class="w-full btn-gold py-4 rounded-2xl font-bold text-base">
+              <i class="fa-solid fa-sign-in-alt mr-2"></i>Se connecter
+            </button>
+          </div>
+          <!-- Formulaire de réinitialisation -->
+          <div v-else-if="resetEmail">
+            <h2 class="heading-display text-3xl mb-1 text-brand-dark">Nouveau mot de passe</h2>
+            <p class="text-gray-600 text-sm mb-6 font-medium">Pour le compte : <strong class="text-brand-goldDark">{{resetEmail}}</strong></p>
+            <form @submit.prevent="doResetPassword" class="space-y-4 text-left">
+              <div class="relative">
+                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                <input v-model="resetNewPwd" type="password" placeholder="Nouveau mot de passe (min. 6 car.)" required minlength="6" class="inp">
+              </div>
+              <div class="relative">
+                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                <input v-model="resetNewPwd2" type="password" placeholder="Confirmer le mot de passe" required class="inp">
+              </div>
+              <div v-if="resetErr" class="bg-red-50 border border-red-200 text-red-700 p-3.5 rounded-2xl text-sm flex items-center gap-2 font-semibold">
+                <i class="fa-solid fa-triangle-exclamation flex-shrink-0"></i>{{resetErr}}
+              </div>
+              <button type="submit" :disabled="loading" class="w-full btn-gold py-4 rounded-2xl font-bold text-base mt-2 disabled:opacity-50">
+                <span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-gold"></div>Mise à jour...</span>
+                <span v-else><i class="fa-solid fa-key mr-2"></i>Réinitialiser le mot de passe</span>
+              </button>
+            </form>
+          </div>
+          <!-- Chargement en cours -->
+          <div v-else class="py-8">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-gray-600 text-sm font-medium">Vérification du lien...</p>
+          </div>
+          <button @click="page='home'" class="mt-6 text-gray-500 text-xs hover:text-gray-700 transition-colors flex items-center gap-1.5 mx-auto font-medium">
+            <i class="fa-solid fa-arrow-left"></i>Retour à l'accueil
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SIGNUP ===== -->
+<div v-else-if="page==='signup'" key="signup" class="min-h-screen bg-gradient-to-br from-brand-dark via-brand-charcoal to-[#1a0d1a] flex items-center justify-center p-4 relative overflow-hidden">
+  <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-mauve/6 rounded-full blur-[80px]"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-gold/5 rounded-full blur-[80px]"></div>
+  <div class="w-full max-w-md relative z-10">
+    <div class="luxury-card p-8 md:p-10 rounded-[2.5rem] animate-scale-in">
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-5 ring-4 ring-brand-mauve/20">
+          <img src="logo.png" alt="Mel's Touch" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=MT&background=c9a84c&color=fff&bold=true'">
+        </div>
+        <h2 class="heading-display text-3xl mb-1 text-brand-dark">Créer un compte</h2>
+        <p class="text-gray-600 text-sm font-medium">Rejoignez notre communauté</p>
+        <div class="mt-4 flex items-center justify-center gap-2 bg-gradient-to-r from-brand-gold/10 to-brand-mauve/10 border border-brand-gold/30 rounded-2xl px-4 py-3">
+          <span class="text-xl">🎁</span>
+          <p class="text-sm text-brand-goldDark font-semibold">Inscription offerte : <strong>20 points de fidélité</strong> à la clé !</p>
+        </div>
+      </div>
+      <form @submit.prevent="doSignup" class="space-y-4">
+        <div class="relative"><i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="sf.name" type="text" placeholder="Nom complet" required class="inp m"></div>
+        <div class="relative"><i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="sf.email" type="email" placeholder="Email" required class="inp m"></div>
+        <div class="relative"><i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="sf.phone" type="tel" placeholder="Téléphone" required class="inp m"></div>
+        <div class="relative"><i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="sf.pwd" type="password" placeholder="Mot de passe (min. 6 car.)" required minlength="6" class="inp m"></div>
+        <div class="relative"><i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input v-model="sf.pwd2" type="password" placeholder="Confirmer le mot de passe" required class="inp m"></div>
+        <label class="flex items-start gap-3 cursor-pointer"><input type="checkbox" v-model="sf.agree" required class="mt-0.5 rounded w-4 h-4 flex-shrink-0"><span class="text-sm text-gray-700 font-medium">J'accepte les <button type="button" @click="showTerms=true" class="text-brand-mauveDark font-bold hover:underline">conditions</button> et la <button type="button" @click="showPrivacy=true" class="text-brand-mauveDark font-bold hover:underline">confidentialité</button></span></label>
+        <button type="submit" :disabled="loading" class="w-full btn-mauve py-4 rounded-2xl font-bold text-base disabled:opacity-50 mt-2">
+          <span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-sm"></div>Création en cours...</span>
+          <span v-else class="flex items-center justify-center gap-2"><i class="fa-solid fa-sparkles"></i>S'inscrire &amp; obtenir 20 pts</span>
+        </button>
+      </form>
+      <div class="flex items-center gap-3 my-5"><div class="flex-1 h-px bg-gray-200"></div><span class="text-xs text-gray-400 font-medium">déjà membre ?</span><div class="flex-1 h-px bg-gray-200"></div></div>
+      <button @click="page='login'" class="w-full py-3 rounded-2xl border-2 border-brand-gold/30 text-brand-goldDark font-bold text-sm hover:bg-brand-gold/5 transition-colors">Se connecter</button>
+      <button @click="page='home'" class="mt-4 text-gray-500 text-xs hover:text-gray-700 transition-colors flex items-center gap-1.5 mx-auto font-medium"><i class="fa-solid fa-arrow-left"></i>Retour à l'accueil</button>
+    </div>
+  </div>
+</div>
+
+    <!-- DASHBOARD CLIENT -->
+    <div v-else-if="page==='dash'&&currentUser" key="dash" class="min-h-screen bg-gray-50 pt-24 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
+          <div><p class="text-gray-600 text-sm mb-1 font-medium">Tableau de bord personnel</p><h2 class="heading-display text-3xl sm:text-4xl text-brand-dark">Bonjour, {{currentUser.name.split(' ')[0]}} 👋</h2></div>
+          <div class="flex gap-2.5 flex-wrap">
+            <button @click="startBooking" class="btn-gold px-5 py-2.5 rounded-full text-sm font-bold"><i class="fa-solid fa-basket-shopping mr-1.5"></i>Nouvelle commande</button>
+            <button @click="refreshDash" class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-full text-sm font-bold hover:bg-gray-50 transition"><i class="fa-solid fa-rotate mr-1.5"></i>Actualiser</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="loyalty-bg rounded-2xl p-5 col-span-2 sm:col-span-1">
+            <div class="relative z-10">
+              <div class="flex justify-between items-start mb-4"><i class="fa-solid fa-crown text-brand-gold text-xl"></i><span class="text-xs font-bold px-2.5 py-1 rounded-full border border-brand-gold/40 text-brand-gold tracking-wider">{{loyTier}}</span></div>
+              <div class="text-4xl font-bold text-white heading-serif mb-1">{{currentUser.points||0}}</div>
+              <p class="text-gray-300 text-xs mb-3 font-medium">Points de fidélité</p>
+              <div class="w-full bg-white/10 rounded-full h-1.5 mb-1"><div class="bg-gradient-to-r from-brand-gold to-brand-goldLight h-1.5 rounded-full transition-all duration-700" :style="{width:loyPct+'%'}"></div></div>
+              <p class="text-gray-400 text-xs font-medium">{{nxtTierPts}} pts vers {{nxtTier}}</p>
+            </div>
+          </div>
+          <div class="admin-card"><div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3"><i class="fa-solid fa-basket-shopping"></i></div><div class="text-3xl font-bold text-gray-800 heading-serif mb-0.5">{{upCount}}</div><p class="text-gray-600 text-xs font-semibold">Commandes actives</p></div>
+          <div class="admin-card"><div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center mb-3"><i class="fa-solid fa-coins"></i></div><div class="text-2xl font-bold text-gray-800 heading-serif mb-0.5">{{totSpent}} F</div><p class="text-gray-600 text-xs font-semibold">Total dépensé</p></div>
+          <div class="admin-card"><div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3"><i class="fa-solid fa-clock-rotate-left"></i></div><div class="text-lg font-bold text-gray-800 mb-0.5" v-if="lastApt">{{relTime(lastApt.date)}}</div><div v-else class="text-gray-500 text-sm mb-0.5 font-medium">Aucune visite</div><p class="text-gray-600 text-xs font-semibold">Dernière visite</p></div>
+        </div>
+        <div class="grid lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <div class="flex justify-between items-center mb-6"><h3 class="font-bold text-xl flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-receipt text-brand-mauveDark"></i>Mes Commandes</h3><button @click="startBooking" class="text-xs text-brand-goldDark hover:underline font-bold">+ Nouvelle</button></div>
+              <div v-if="aptLoading" class="text-center py-12"><div class="spinner mx-auto mb-3"></div><p class="text-sm text-gray-600 font-medium">Chargement...</p></div>
+              <div v-else-if="myApts.length===0" class="text-center py-12">
+                <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fa-regular fa-receipt text-3xl text-gray-400"></i></div>
+                <p class="text-gray-600 text-sm mb-3 font-medium">Aucune commande pour le moment</p>
+                <button @click="startBooking" class="btn-gold px-5 py-2.5 rounded-full text-sm font-bold">Commander maintenant</button>
+              </div>
+              <div v-else class="space-y-3">
+                <div v-for="apt in myApts" :key="apt.id" class="border border-gray-100 rounded-2xl p-4 hover:border-brand-gold/30 transition-all" :class="aptCls(apt.status)">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center gap-2 mb-2"><span class="px-2.5 py-1 rounded-full text-xs font-bold" :class="aptBadge(apt.status)">{{xlSt(apt.status)}}</span></div>
+                      <h4 class="font-bold text-base mb-1.5 text-brand-dark">{{apt.service_name}}</h4>
+                      <div class="flex flex-wrap gap-3 text-sm text-gray-600 font-medium">
+                        <span><i class="fa-regular fa-calendar mr-1.5 text-brand-goldDark"></i>{{fmtD(apt.date)}}</span>
+                        <span><i class="fa-regular fa-clock mr-1.5 text-brand-goldDark"></i>{{apt.time}}</span>
+                        <span class="font-bold text-brand-goldDark"><i class="fa-solid fa-coins mr-0.5 text-xs"></i>{{apt.total_price||apt.price}} FCFA</span>
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      <button v-if="canCancel(apt)" @click="cancelApt(apt.id)" class="px-3.5 py-1.5 border-2 border-red-200 text-red-600 rounded-full text-xs hover:bg-red-50 transition font-bold">Annuler</button>
+                      <button v-if="['confirmed','pending'].includes(apt.status)" @click="viewApt(apt)" class="px-3.5 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs hover:bg-gray-200 transition font-bold">Détails</button>
+                      <button v-if="apt.status==='completed'" @click="doReview(apt)" class="px-3.5 py-1.5 border-2 border-brand-gold text-brand-goldDark rounded-full text-xs hover:bg-brand-gold/10 transition font-bold">⭐ Noter</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-5">
+            <div class="bg-white rounded-[1.5rem] p-5 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-user-circle text-brand-mauveDark"></i>Mon Profil</h3>
+              <div class="flex items-center gap-3 mb-4"><img :src="currentUser.avatar||uAvatar(currentUser.name)" :alt="currentUser.name" class="w-14 h-14 rounded-full object-cover ring-2 ring-brand-gold/20 flex-shrink-0"><div><h4 class="font-bold text-brand-dark">{{currentUser.name}}</h4><p class="text-gray-600 text-xs font-medium">{{currentUser.email}}</p><p class="text-gray-600 text-xs font-medium">{{currentUser.phone}}</p></div></div>
+              <button @click="editProf" class="w-full border-2 border-brand-dark text-brand-dark py-2.5 rounded-2xl text-sm font-bold hover:bg-brand-dark hover:text-white transition-all">Modifier le profil</button>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-5 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-lg mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-trophy text-brand-goldDark"></i>Fidélité</h3>
+              <div class="space-y-3 mb-4">
+                <div v-for="tier in loyTiers" :key="tier.name" class="flex items-center gap-3">
+                  <div :class="loyIdx>=tier.idx?'bg-brand-gold':'bg-gray-200'" class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-500"><i :class="tier.icon" class="text-white text-xs"></i></div>
+                  <div class="flex-1"><div class="flex justify-between text-xs mb-1"><span :class="loyIdx>=tier.idx?'font-bold text-brand-dark':'text-gray-500 font-medium'">{{tier.name}}</span><span class="text-gray-500 font-medium">{{tier.pts}} pts</span></div><div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div :style="{width:loyIdx>tier.idx?'100%':loyIdx===tier.idx?loyPct+'%':'0%'}" class="h-full bg-gradient-to-r from-brand-gold to-brand-goldLight rounded-full transition-all duration-700"></div></div></div>
+                </div>
+              </div>
+              <div class="bg-brand-cream rounded-2xl p-3 text-xs text-gray-700 font-medium"><span class="font-bold text-brand-dark">Prochain avantage :</span> {{nxtReward}}</div>
+            </div>
+            <a href="https://wa.me/22893999667" target="_blank" class="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl p-4 hover:bg-green-100 transition-all group">
+              <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0"><i class="fa-brands fa-whatsapp text-white text-lg"></i></div>
+              <div><div class="font-bold text-sm text-green-800">Contacter sur WhatsApp</div><div class="text-xs text-green-600">+228 93 99 96 67</div></div>
+              <i class="fa-solid fa-arrow-right ml-auto text-green-600 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKING / COMMANDE -->
+    <div v-else-if="page==='booking'" key="booking" class="min-h-screen bg-gradient-to-b from-brand-cream to-white pt-20 pb-16">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-3">
+            <div class="flex gap-2">
+              <span v-for="i in 4" :key="i" class="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold transition-all duration-300" :class="bStep>=i?'bg-brand-gold text-white shadow-md':bStep===i-1?'bg-brand-gold/20 text-brand-goldDark border-2 border-brand-gold/40':'bg-gray-100 text-gray-500'">
+                <i v-if="bStep>i" class="fa-solid fa-check text-xs"></i><span v-else>{{i}}</span>
+              </span>
+            </div>
+            <span class="text-sm text-gray-600 font-medium">Étape <span class="font-bold text-brand-dark">{{bStep}}</span>/4</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2"><div class="step-bar h-1.5" :style="{width:bPct+'%'}"></div></div>
+          <p class="text-xs text-gray-600 font-medium">{{bLabels[bStep-1]}}</p>
+        </div>
+        <div class="luxury-card rounded-[2.5rem] overflow-hidden">
+          <div class="bg-gradient-to-r from-brand-dark to-[#1a1204] p-6 md:p-8 flex justify-between items-center">
+            <div><h2 class="heading-display text-2xl md:text-3xl text-white">Commander</h2><p class="text-brand-gold/80 text-sm mt-1 font-medium">{{bLabels[bStep-1]}}</p></div>
+            <button @click="closeBook" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition"><i class="fa-solid fa-times text-sm"></i></button>
+          </div>
+          <div class="p-5 md:p-8 min-h-[480px]">
+
+            <!-- STEP 1: Choisir un plat -->
+            <div v-if="bStep===1">
+              <h3 class="heading-serif text-2xl md:text-3xl font-semibold mb-6 gradient-mixed">Choisissez votre plat</h3>
+              <div v-if="menuDuJour" class="mb-6 p-5 bg-gradient-to-r from-brand-dark to-[#1a1204] rounded-2xl border border-brand-gold/20 cursor-pointer hover:border-brand-gold/50 transition-all">
+                <div class="flex items-center justify-between"><div><span class="text-brand-gold text-xs tracking-widest uppercase font-bold">✦ Menu du Jour</span><div class="text-white font-bold text-lg mt-1">{{menuDuJour}}</div><div class="text-gray-400 text-sm mt-0.5">{{dailyMenuPrice}} FCFA</div></div><div class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-star text-brand-gold"></i></div></div>
+              </div>
+              <div class="flex overflow-x-auto gap-2 mb-6 no-scrollbar pb-2">
+                <button @click="catF=''" :class="catF===''?'bg-brand-dark text-white':'bg-gray-100 text-gray-700 font-semibold'" class="px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all font-medium">Tous</button>
+                <button v-for="cat in cats" :key="cat.id" @click="catF=cat.id" :class="catF===cat.id?'bg-brand-dark text-white':'bg-gray-100 text-gray-700'" class="px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all font-medium">{{cat.name}}</button>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div v-for="svc in fSvcs" :key="svc.id" @click="pickSvc(svc)" class="bg-white border-2 rounded-2xl overflow-hidden cursor-pointer transition-all hover:shadow-lg group" :class="bData.service?.id===svc.id?'border-brand-mauve shadow-lg ring-2 ring-brand-mauve/20':'border-gray-100 hover:border-brand-mauve/50'">
+                  <div class="h-36 relative overflow-hidden bg-gray-100"><img :src="svc.image_url||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300'" :alt="svc.name" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy"><div class="absolute top-2.5 right-2.5 bg-white/95 text-brand-dark font-bold px-2.5 py-1 rounded-full text-xs shadow z-10">{{svc.price}} F</div></div>
+                  <div class="p-4"><h4 class="font-bold text-base mb-1 text-brand-dark">{{svc.name}}</h4><p class="text-gray-600 text-xs line-clamp-2 leading-relaxed font-medium">{{svc.description}}</p><div v-if="bData.service?.id===svc.id" class="mt-3 flex items-center gap-1.5 text-brand-mauveDark text-xs font-bold"><i class="fa-solid fa-check-circle"></i> Sélectionné</div></div>
+                </div>
+                <div v-if="services.length===0" v-for="(plat,i) in platsDemo" :key="'bd'+i" @click="Swal.fire({title:'Connectez-vous',text:'Connexion requise pour commander.',icon:'info',confirmButtonColor:'#c9a84c'}).then(r=>{if(r.isConfirmed)page='login'})" class="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:border-brand-mauve/50 transition-all group">
+                  <div class="h-36 relative overflow-hidden bg-gray-100"><img :src="plat.img" :alt="plat.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 absolute inset-0" loading="lazy"><div class="absolute top-2.5 right-2.5 bg-white/95 font-bold px-2.5 py-1 rounded-full text-xs shadow z-10">{{plat.price}} F</div></div>
+                  <div class="p-4"><h4 class="font-bold text-base mb-1 text-brand-dark">{{plat.name}}</h4><p class="text-gray-600 text-xs line-clamp-2 font-medium">{{plat.desc}}</p></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Date & Heure -->
+            <div v-else-if="bStep===2" class="animate-slide-right">
+              <button @click="bStep=1" class="mb-5 text-brand-mauveDark hover:text-brand-mauve flex items-center gap-1.5 text-sm font-bold"><i class="fa-solid fa-arrow-left text-xs"></i>Retour</button>
+              <h3 class="heading-serif text-2xl md:text-3xl font-semibold mb-6 gradient-mixed">Choisissez la date et l'heure</h3>
+              <div v-if="bData.service" class="mb-6 p-4 bg-brand-cream rounded-2xl flex items-center justify-between border border-brand-gold/15">
+                <div class="flex items-center gap-3"><div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100"><img :src="bData.service.image_url||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=100'" class="w-full h-full object-cover" onerror="this.style.display='none'"></div><div><div class="font-bold text-sm text-brand-dark">{{bData.service.name}}</div><div class="text-gray-600 text-xs font-medium">{{bData.service.price}} FCFA</div></div></div>
+                <button @click="bStep=1" class="text-brand-goldDark text-xs hover:underline font-bold">Modifier</button>
+              </div>
+              <div class="mb-7">
+                <div class="flex justify-between items-center mb-4">
+                  <button @click="prevMo" class="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition text-gray-700 font-bold"><i class="fa-solid fa-chevron-left text-sm"></i></button>
+                  <h4 class="font-bold text-base capitalize text-brand-dark">{{calMo}}</h4>
+                  <button @click="nextMo" class="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition text-gray-700 font-bold"><i class="fa-solid fa-chevron-right text-sm"></i></button>
+                </div>
+                <div class="grid grid-cols-7 gap-1 mb-2"><div v-for="d in ['L','M','M','J','V','S','D']" :key="d+'h'" class="text-center text-xs text-gray-500 font-bold py-1">{{d}}</div></div>
+                <div class="grid grid-cols-7 gap-1">
+                  <button v-for="(day,idx) in calDays" :key="idx" @click="!day.isPast&&pickDate(day.date)" class="cal-day" :class="[day.date===bData.date?'cal-sel':day.isToday?'cal-today':'',,day.isPast?'cal-past':'',,!day.isCurrentMonth?'cal-other-month':'']">
+                    {{day.day}}<span v-if="day.hasSlots&&!day.isPast&&day.isCurrentMonth&&day.date!==bData.date" class="cal-dot"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="flex gap-2 overflow-x-auto no-scrollbar mb-7 pb-1">
+                <button v-for="qd in qDates" :key="qd.date" @click="pickDate(qd.date)" :class="bData.date===qd.date?'bg-brand-dark text-white':'bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold'" class="px-3.5 py-2 rounded-full text-xs whitespace-nowrap transition font-medium">{{qd.label}}</button>
+              </div>
+              <div v-if="bData.date">
+                <div class="flex flex-wrap justify-between items-center gap-2 mb-4">
+                  <h4 class="font-bold text-base text-brand-dark">Créneaux disponibles</h4>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <button v-for="p in ['Matin','Après-midi','Soir','Tous']" :key="p" @click="tF=p==='Tous'?'all':p==='Après-midi'?'Apres-midi':p" :class="(tF===p||(tF==='all'&&p==='Tous')||(tF==='Apres-midi'&&p==='Après-midi'))?'bg-brand-dark text-white font-bold':'bg-gray-100 text-gray-700 font-medium'" class="px-3 py-1.5 rounded-full text-xs transition">{{p}}</button>
+                  </div>
+                </div>
+                <div v-if="slotLoad" class="text-center py-8"><div class="spinner mx-auto mb-2"></div><p class="text-sm text-gray-600 font-medium">Chargement...</p></div>
+                <div v-else-if="fSlots.length>0" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+                  <button v-for="sl in fSlots" :key="sl.time" @click="sl.available&&pickTime(sl.time)" :disabled="!sl.available" class="slot-btn" :class="[bData.time===sl.time?'sel':'',!sl.available?'opacity-40 cursor-not-allowed':'']">
+                    {{sl.time}}<div v-if="!sl.available" class="text-xs mt-0.5 font-medium opacity-80">Complet</div>
+                  </button>
+                </div>
+                <div v-else class="text-center py-8 bg-gray-50 rounded-2xl"><i class="fa-regular fa-calendar-xmark text-3xl text-gray-400 mb-3 block"></i><p class="text-gray-600 text-sm font-medium">Aucun créneau disponible. Essayez une autre date.</p></div>
+                <div class="mt-7 flex justify-end"><button @click="nextStep" :disabled="!bData.time" class="btn-gold px-8 py-3.5 rounded-full font-bold disabled:opacity-40">Continuer <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Options -->
+            <div v-else-if="bStep===3" class="animate-slide-right">
+              <button @click="bStep=2" class="mb-5 text-brand-mauveDark hover:text-brand-mauve flex items-center gap-1.5 text-sm font-bold"><i class="fa-solid fa-arrow-left text-xs"></i>Retour</button>
+              <h3 class="heading-serif text-2xl md:text-3xl font-semibold mb-6 gradient-mixed">Options de commande</h3>
+              <div class="mb-6 p-5 bg-gradient-to-r from-brand-cream to-white rounded-2xl border border-brand-gold/15">
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                  <div><div class="text-gray-500 text-xs mb-1 font-bold uppercase tracking-wider">Plat</div><div class="font-bold text-brand-dark">{{bData.service.name}}</div></div>
+                  <div><div class="text-gray-500 text-xs mb-1 font-bold uppercase tracking-wider">Date</div><div class="font-bold text-brand-dark">{{fmtD(bData.date)}}</div></div>
+                  <div><div class="text-gray-500 text-xs mb-1 font-bold uppercase tracking-wider">Heure</div><div class="font-bold text-brand-goldDark">{{bData.time}}</div></div>
+                </div>
+              </div>
+              <div class="mb-7">
+                <h4 class="font-bold text-base mb-4 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-plus-circle text-brand-mauveDark"></i>Accompagnements</h4>
+                <div v-if="extras.length>0" class="grid md:grid-cols-2 gap-3">
+                  <label v-for="ex in extras" :key="ex.id" class="extra-label flex items-center justify-between" :class="bData.extras.some(e=>e.id===ex.id)?'checked':''">
+                    <div class="flex items-center gap-3"><input type="checkbox" :value="ex" v-model="bData.extras" class="w-5 h-5 rounded text-brand-mauve"><div><div class="font-bold text-sm text-brand-dark">{{ex.name}}</div><div class="text-gray-600 text-xs font-medium">{{ex.description}}</div></div></div>
+                    <div class="text-right flex-shrink-0 ml-3"><div class="font-bold text-brand-goldDark text-sm">+{{ex.price}} F</div></div>
+                  </label>
+                </div>
+                <p v-else class="text-gray-600 text-sm font-medium bg-gray-50 rounded-2xl p-4">Aucun accompagnement disponible</p>
+              </div>
+              <div class="mb-7">
+                <h4 class="font-bold text-base mb-4 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-house text-brand-mauveDark"></i>Mode de réception</h4>
+                <div class="grid grid-cols-3 gap-3">
+                  <button v-for="mode in modesReception" :key="mode.val" type="button" @click="bData.prefs.movie=mode.val" :class="bData.prefs.movie===mode.val?'border-brand-mauve bg-brand-mauve/10 text-brand-mauveDark':'border-gray-200 text-gray-700 hover:border-brand-mauve/50'" class="border-2 rounded-2xl p-4 text-center transition-all cursor-pointer">
+                    <i :class="mode.icon" class="text-2xl mb-2 block"></i><span class="text-xs font-bold">{{mode.label}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="mb-7">
+                <h4 class="font-bold text-base mb-4 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-note-sticky text-brand-mauveDark"></i>Instructions spéciales</h4>
+                <textarea v-model="bData.prefs.instructions" placeholder="Allergies, épices, cuisson, demandes particulières..." rows="3" class="w-full p-4 bg-gray-50 rounded-2xl border-2 border-transparent focus:border-brand-mauve outline-none transition text-sm resize-none text-gray-700 font-medium placeholder-gray-400"></textarea>
+              </div>
+              <div class="mb-6 p-5 bg-amber-50 border-l-4 border-brand-gold rounded-r-2xl">
+                <div class="flex gap-3"><i class="fa-solid fa-circle-info text-brand-goldDark text-lg mt-0.5 flex-shrink-0"></i><div><h4 class="font-bold text-sm text-gray-800 mb-2">À noter</h4><ul class="text-xs text-gray-700 space-y-1.5 list-disc pl-4 font-medium"><li>Menu du jour disponible <strong>jusqu'à épuisement</strong></li><li>Veuillez arriver à l'heure pour votre réservation</li><li>Annulation possible <strong>30 min après la commande</strong></li><li>Paiement : <strong>Espèces, Flooz ou T-Money</strong></li></ul></div></div>
+              </div>
+              <div class="flex justify-between"><button @click="bStep=2" class="px-5 py-3 text-gray-600 hover:text-gray-800 font-bold text-sm flex items-center gap-1.5"><i class="fa-solid fa-arrow-left text-xs"></i>Retour</button><button @click="nextStep" class="btn-gold px-8 py-3.5 rounded-full font-bold">Continuer <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
+            </div>
+
+            <!-- STEP 4: Confirmation -->
+            <div v-else-if="bStep===4" class="animate-slide-right">
+              <h3 class="heading-serif text-2xl md:text-3xl font-semibold mb-8 text-center gradient-mixed">Confirmez votre commande</h3>
+              <div class="max-w-2xl mx-auto">
+                <div class="luxury-card p-6 rounded-2xl mb-6 border border-brand-gold/15">
+                  <div class="space-y-4">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-100"><div><div class="font-bold text-brand-dark">Plat principal</div></div><div class="text-right"><div class="font-bold text-brand-dark">{{bData.service.name}}</div><div class="text-brand-goldDark font-bold text-xl">{{bData.service.price}} FCFA</div></div></div>
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-100"><div class="font-bold text-brand-dark">Date &amp; Heure</div><div class="text-right"><div class="font-bold text-sm text-brand-dark">{{fmtD(bData.date)}}</div><div class="text-brand-goldDark font-bold">{{bData.time}}</div></div></div>
+                    <div v-if="bData.prefs.movie" class="flex justify-between items-center pb-4 border-b border-gray-100"><div class="font-bold text-brand-dark">Mode</div><div class="font-bold text-sm text-brand-dark">{{bData.prefs.movie}}</div></div>
+                    <div v-if="bData.extras.length>0" class="pb-4 border-b border-gray-100"><div class="font-bold text-brand-dark mb-3">Accompagnements</div><div v-for="ex in bData.extras" :key="ex.id" class="flex justify-between items-center text-sm mb-2"><span class="text-gray-700 font-medium">{{ex.name}}</span><span class="font-bold text-brand-goldDark">+{{ex.price}} F</span></div></div>
+                    <div v-if="appliedPromo" class="pb-4 border-b border-gray-100 flex justify-between items-center"><div><div class="font-bold text-emerald-700">Code promo</div><div class="text-xs text-gray-600 font-medium">{{appliedPromo.code}}</div></div><div class="text-emerald-700 font-bold text-lg">-{{appliedPromo.discount}}{{appliedPromo.discount_type==='percentage'?'%':'F'}}</div></div>
+                    <div class="flex justify-between items-center text-xl pt-2"><span class="font-bold text-brand-dark">Total</span><span class="font-bold text-brand-goldDark text-2xl">{{finalPrice}} FCFA</span></div>
+                    <div class="bg-gray-50 rounded-2xl p-3 text-xs text-gray-600 text-center font-medium"><i class="fa-solid fa-money-bill-wave mr-1.5 text-brand-gold"></i>Paiement sur place · Espèces, Flooz ou T-Money</div>
+                  </div>
+                </div>
+                <div class="mb-6"><div class="flex gap-2"><div class="flex-1 relative"><i class="fa-solid fa-ticket absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input type="text" v-model="promoCode" placeholder="Code promotionnel" class="inp" style="padding-left:3rem"></div><button @click="applyPromo" class="btn-gold px-5 py-3 rounded-2xl font-bold text-sm">Appliquer</button></div><p v-if="promoMsg" :class="promoOk?'text-emerald-700':'text-red-600'" class="text-xs mt-2 flex items-center gap-1.5 font-bold"><i :class="promoOk?'fa-solid fa-check-circle':'fa-solid fa-times-circle'"></i>{{promoMsg}}</p></div>
+                <div class="mb-5 p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center gap-3">
+                  <i class="fa-brands fa-whatsapp text-green-600 text-2xl flex-shrink-0"></i>
+                  <div class="text-xs text-green-800 font-medium">Après confirmation, vous serez redirigé(e) vers WhatsApp pour valider votre commande directement avec le restaurant.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button @click="bStep=3" class="px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-full font-bold text-sm hover:border-gray-400 transition"><i class="fa-solid fa-pen-to-square mr-1.5"></i>Modifier</button>
+                  <button @click="confirmBook" :disabled="loading" class="btn-gold px-10 py-4 rounded-full font-bold text-base disabled:opacity-50">
+                    <span v-if="loading" class="flex items-center gap-2"><div class="spinner-sm"></div>En cours...</span>
+                    <span v-else><i class="fa-solid fa-check-circle mr-2"></i>Confirmer &amp; WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ADMIN ===== -->
+    <div v-else-if="page==='admin'" key="admin" class="min-h-screen bg-gray-50 pt-20">
+      <div class="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between py-4 gap-3">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold to-brand-goldDark flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-crown text-white text-sm"></i></div><div><h1 class="text-lg font-bold text-brand-dark">Admin · Melly Mello</h1><p class="text-xs text-gray-600 font-medium">Tableau de bord</p></div></div>
+            <div class="flex items-center gap-5">
+              <div class="text-center"><div class="text-xl font-bold text-brand-goldDark heading-serif">{{stats.todayAppts||0}}</div><div class="text-xs text-gray-600 font-semibold">Aujourd'hui</div></div>
+              <div class="text-center"><div class="text-xl font-bold text-orange-600 heading-serif">{{stats.pendingAppts||0}}</div><div class="text-xs text-gray-600 font-semibold">En attente</div></div>
+              <div class="text-center"><div class="text-lg font-bold text-emerald-700 heading-serif">{{stats.monthRev||0}} F</div><div class="text-xs text-gray-600 font-semibold">Ce mois</div></div>
+              <button @click="logout" class="text-gray-500 hover:text-red-600 transition-colors p-2"><i class="fa-solid fa-sign-out-alt text-lg"></i></button>
+            </div>
+          </div>
+          <div class="flex overflow-x-auto no-scrollbar border-t border-gray-100">
+            <button v-for="tab in aTabs" :key="tab.id" @click="aTab=tab.id" :class="aTab===tab.id?'border-b-2 border-brand-gold text-brand-goldDark font-bold':'text-gray-600 hover:text-gray-800 font-medium'" class="px-4 py-3.5 text-sm whitespace-nowrap flex items-center gap-1.5 transition-colors"><i :class="tab.icon"></i>{{tab.label}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div v-if="aTab==='dashboard'">
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="admin-card"><div class="flex items-start justify-between mb-3"><div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center"><i class="fa-solid fa-users text-blue-700"></i></div><span class="text-xs text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">+{{stats.newClients||0}}</span></div><div class="text-3xl font-bold heading-serif mb-0.5 text-brand-dark">{{stats.totalClients||0}}</div><div class="text-xs text-gray-600 font-semibold">Clients</div></div>
+            <div class="admin-card"><div class="flex items-start justify-between mb-3"><div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center"><i class="fa-solid fa-receipt text-emerald-700"></i></div><span class="text-xs text-gray-700 font-bold">{{stats.compRate||0}}%</span></div><div class="text-3xl font-bold heading-serif mb-0.5 text-brand-dark">{{stats.totalAppts||0}}</div><div class="text-xs text-gray-600 font-semibold">Commandes</div></div>
+            <div class="admin-card"><div class="flex items-start justify-between mb-3"><div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center"><i class="fa-solid fa-coins text-amber-700"></i></div><span class="text-xs text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">+{{stats.revGrowth||0}}%</span></div><div class="text-2xl font-bold heading-serif mb-0.5 text-brand-dark">{{stats.totalRev||0}} F</div><div class="text-xs text-gray-600 font-semibold">CA total</div></div>
+            <div class="admin-card"><div class="flex items-start justify-between mb-3"><div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center"><i class="fa-solid fa-star text-purple-700"></i></div><span class="text-xs text-gray-600 font-bold">{{stats.totalRevs||0}} avis</span></div><div class="text-3xl font-bold heading-serif mb-0.5 text-brand-dark">{{stats.avgRating||4.9}}<span class="text-lg">/5</span></div><div class="text-xs text-gray-600 font-semibold">Note moyenne</div></div>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-base mb-1 text-brand-dark">Revenus — 30 derniers jours</h3>
+              <p class="text-xs text-gray-600 mb-6 font-medium">Total: <span class="font-bold text-brand-goldDark">{{stats.monthRev||0}} FCFA</span></p>
+              <div class="flex items-end gap-0.5 h-40"><div v-for="d in revData" :key="d.date" class="flex-1 flex flex-col items-center group cursor-pointer" :title="d.revenue+' FCFA'"><div class="rev-bar w-full group-hover:opacity-75 transition-opacity" :style="{height:maxRev>0?(d.revenue/maxRev)*100+'%':'3px'}"></div></div></div>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <div class="flex justify-between items-center mb-5"><h3 class="font-bold text-base text-brand-dark">Commandes récentes</h3><button @click="aTab='appointments'" class="text-xs text-brand-goldDark hover:underline font-bold">Voir tout</button></div>
+              <div class="space-y-3">
+                <div v-if="recAppts.length===0" class="text-center py-6 text-gray-500 text-sm font-medium">Aucune commande</div>
+                <div v-for="apt in recAppts" :key="apt.id" class="flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 transition">
+                  <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-brand-mauveLight text-brand-mauveDark flex items-center justify-center text-sm font-bold flex-shrink-0">{{(apt.client_name||'C')[0]}}</div><div><div class="font-bold text-sm text-brand-dark">{{apt.client_name||'Client'}}</div><div class="text-xs text-gray-600 font-medium">{{apt.service_name}}</div></div></div>
+                  <div class="text-right"><div class="font-bold text-brand-goldDark text-sm">{{apt.total_price||apt.price}} F</div><div class="text-xs text-gray-500 font-medium">{{fmtD(apt.date)}}</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm lg:col-span-2">
+              <h3 class="font-bold text-base mb-5 text-brand-dark">Actions rapides</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <button @click="showAddSvc=true" class="bg-gradient-to-br from-brand-mauve to-brand-mauveDark text-white p-4 rounded-2xl flex flex-col items-center gap-2 hover:shadow-lg transition hover:scale-105"><i class="fa-solid fa-plus text-xl"></i><span class="text-xs font-bold">Nouveau plat</span></button>
+                <button @click="showAddPromo=true" class="bg-gradient-to-br from-brand-gold to-brand-goldDark text-white p-4 rounded-2xl flex flex-col items-center gap-2 hover:shadow-lg transition hover:scale-105"><i class="fa-solid fa-tag text-xl"></i><span class="text-xs font-bold">Code promo</span></button>
+                <button @click="exportD('appointments')" class="bg-gradient-to-br from-blue-500 to-blue-700 text-white p-4 rounded-2xl flex flex-col items-center gap-2 hover:shadow-lg transition hover:scale-105"><i class="fa-solid fa-file-export text-xl"></i><span class="text-xs font-bold">Exporter</span></button>
+                <button @click="aTab='settings'" class="bg-gradient-to-br from-brand-dark to-gray-800 text-white p-4 rounded-2xl flex flex-col items-center gap-2 hover:shadow-lg transition hover:scale-105"><i class="fa-solid fa-star text-xl text-brand-gold"></i><span class="text-xs font-bold">Menu du jour</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- APPOINTMENTS TAB -->
+        <div v-else-if="aTab==='appointments'">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
+            <div><h2 class="text-xl font-bold text-brand-dark">Gestion des Commandes</h2><p class="text-sm text-gray-600 font-medium">{{totAdminApts}} résultat(s)</p></div>
+            <div class="flex flex-wrap gap-2">
+              <select v-model="aFil.status" class="bg-white border border-gray-200 rounded-2xl px-3 py-2 text-sm focus:border-brand-gold outline-none text-gray-700 font-medium"><option value="">Tous</option><option value="pending">En attente</option><option value="confirmed">Confirmé</option><option value="completed">Terminé</option><option value="cancelled">Annulé</option></select>
+              <input type="date" v-model="aFil.date" class="bg-white border border-gray-200 rounded-2xl px-3 py-2 text-sm focus:border-brand-gold outline-none text-gray-700">
+              <div class="relative"><i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i><input type="text" v-model="aFil.search" placeholder="Rechercher..." class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-2xl focus:border-brand-gold outline-none bg-white text-gray-700 font-medium"></div>
+              <button @click="refreshA" class="bg-brand-dark text-white px-4 py-2 rounded-2xl text-sm font-bold hover:bg-gray-800 transition"><i class="fa-solid fa-rotate mr-1.5"></i>Actualiser</button>
+            </div>
+          </div>
+          <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-100"><tr><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Client</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Plat</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Date/Heure</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Mode</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Statut</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Montant</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Actions</th></tr></thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr v-for="apt in filAdminApts" :key="apt.id" class="hover:bg-gray-50/70 transition-colors">
+                    <td class="px-5 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-brand-mauveLight text-brand-mauveDark flex items-center justify-center text-xs font-bold flex-shrink-0">{{(apt.client_name||'C')[0]}}</div><div><div class="font-bold text-sm text-brand-dark">{{apt.client_name||'Client'}}</div><div class="text-xs text-gray-500 font-medium">{{apt.client_phone||''}}</div></div></div></td>
+                    <td class="px-5 py-4"><div class="font-bold text-sm text-brand-dark">{{apt.service_name}}</div><div v-if="apt.extras&&apt.extras.length" class="text-xs text-gray-500">+{{apt.extras.join(', ')}}</div></td>
+                    <td class="px-5 py-4"><div class="text-sm font-bold text-brand-dark">{{fmtD(apt.date)}}</div><div class="text-xs text-gray-500 font-medium">{{apt.time}}</div></td>
+                    <td class="px-5 py-4"><span class="text-xs font-bold text-gray-600">{{apt.preferences?.movie||'—'}}</span></td>
+                    <td class="px-5 py-4"><span class="px-2.5 py-1 rounded-full text-xs" :class="aptBadge(apt.status)">{{xlSt(apt.status)}}</span></td>
+                    <td class="px-5 py-4"><span class="font-bold text-brand-goldDark text-sm">{{apt.total_price||apt.price}} F</span></td>
+                    <td class="px-5 py-4"><div class="flex gap-2">
+                      <button @click="viewApt(apt)" class="w-7 h-7 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center hover:bg-blue-100 transition"><i class="fa-solid fa-eye text-xs"></i></button>
+                      <button v-if="apt.status==='pending'" @click="updAptSt(apt.id,'confirmed')" class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center hover:bg-emerald-100 transition"><i class="fa-solid fa-check text-xs"></i></button>
+                      <button v-if="apt.status==='confirmed'" @click="updAptSt(apt.id,'completed')" class="w-7 h-7 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center hover:bg-purple-100 transition"><i class="fa-solid fa-flag-checkered text-xs"></i></button>
+                      <button @click="cancelApt(apt.id)" class="w-7 h-7 rounded-xl bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition"><i class="fa-solid fa-times text-xs"></i></button>
+                    </div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-if="totAdminApts===0" class="p-12 text-center text-gray-500 font-medium"><i class="fa-regular fa-receipt text-4xl mb-3 block opacity-30"></i>Aucune commande trouvée</div>
+            <div v-else class="px-5 py-4 border-t border-gray-100 flex justify-between items-center">
+              <span class="text-sm text-gray-600 font-medium">{{totAdminApts}} résultat(s)</span>
+              <div class="flex items-center gap-2">
+                <button @click="prevPg" :disabled="aPg===1" class="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-sm disabled:opacity-40 hover:border-brand-gold transition text-gray-600"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                <span class="text-sm font-bold text-brand-dark px-2">{{aPg}} / {{Math.max(1,totPgs)}}</span>
+                <button @click="nextPg" :disabled="aPg>=totPgs" class="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-sm disabled:opacity-40 hover:border-brand-gold transition text-gray-600"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- CLIENTS TAB -->
+        <div v-else-if="aTab==='clients'">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3"><div><h2 class="text-xl font-bold text-brand-dark">Gestion des Clients</h2><p class="text-sm text-gray-600 font-medium">{{clients.length}} clients</p></div><button @click="exportD('users')" class="bg-brand-dark text-white px-4 py-2.5 rounded-2xl text-sm font-bold hover:bg-gray-800 transition"><i class="fa-solid fa-download mr-1.5"></i>Exporter</button></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div v-for="cl in clients" :key="cl.id" class="bg-white rounded-[1.5rem] p-5 border border-gray-100 shadow-sm card-hover">
+              <div class="flex items-center gap-3 mb-4"><img :src="cl.avatar||uAvatar(cl.name||'U')" :alt="cl.name" class="w-12 h-12 rounded-full object-cover flex-shrink-0"><div class="min-w-0"><h4 class="font-bold text-sm truncate text-brand-dark">{{cl.name}}</h4><div class="text-xs text-gray-600 truncate font-medium">{{cl.email}}</div></div><span class="ml-auto tag-gold px-2 py-0.5 rounded-full text-xs flex-shrink-0">{{cl.loyalty_tier||'Bronze'}}</span></div>
+              <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 rounded-2xl p-3 text-center"><div><div class="font-bold text-lg heading-serif text-brand-dark">{{cl.total_appointments||0}}</div><div class="text-xs text-gray-600 font-semibold">Cmdes</div></div><div><div class="font-bold text-lg heading-serif text-brand-goldDark">{{cl.points||0}}</div><div class="text-xs text-gray-600 font-semibold">Points</div></div><div><div class="font-bold text-sm heading-serif text-brand-dark">{{cl.total_spent||0}}F</div><div class="text-xs text-gray-600 font-semibold">Dépensé</div></div></div>
+              <div class="flex justify-between items-center"><button @click="viewCl(cl)" class="text-brand-goldDark text-xs hover:underline font-bold">Voir profil</button><button @click="msgCl(cl)" class="text-brand-mauveDark text-xs hover:underline font-bold"><i class="fa-solid fa-envelope mr-1"></i>Email</button><button @click="delCl(cl)" class="text-gray-400 hover:text-red-600 text-xs transition"><i class="fa-solid fa-trash"></i></button></div>
+            </div>
+          </div>
+          <div v-if="clients.length===0" class="text-center py-16 text-gray-500 font-medium">Aucun client inscrit</div>
+        </div>
+        <!-- MENU TAB -->
+        <div v-else-if="aTab==='services'">
+          <div class="flex justify-between items-center mb-6"><div><h2 class="text-xl font-bold text-brand-dark">Gestion du Menu</h2><p class="text-sm text-gray-600 font-medium">{{services.length}} plats</p></div><button @click="showAddSvc=true" class="btn-gold px-5 py-2.5 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus mr-1.5"></i>Nouveau plat</button></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div v-for="svc in services" :key="svc.id" class="bg-white rounded-[1.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition">
+              <div class="h-44 relative overflow-hidden bg-gray-100">
+                <template v-if="svc.media_url&&isVid(svc.media_url)"><video :src="svc.media_url" autoplay loop muted playsinline class="w-full h-full object-cover absolute inset-0"></video></template>
+                <template v-else><img :src="svc.image_url||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400'" :alt="svc.name" class="w-full h-full object-cover absolute inset-0"></template>
+                <div class="absolute top-3 right-3 z-10"><span :class="svc.active?'bg-emerald-500':'bg-red-400'" class="text-white text-xs px-2.5 py-1 rounded-full font-bold">{{svc.active?'Disponible':'Indisponible'}}</span></div>
+                <div class="absolute bottom-3 left-3 z-10 bg-white/95 text-brand-dark font-bold px-3 py-1.5 rounded-full text-sm shadow">{{svc.price}} FCFA</div>
+              </div>
+              <div class="p-5"><h4 class="font-bold text-base mb-1 text-brand-dark">{{svc.name}}</h4><p class="text-gray-600 text-xs mb-4 line-clamp-2 font-medium">{{svc.description}}</p><div class="flex justify-between items-center text-xs"><button @click="editSvc(svc)" class="text-brand-goldDark hover:underline font-bold">Modifier</button><button @click="togSvc(svc.id)" :class="svc.active?'text-red-500':'text-emerald-600'" class="hover:underline font-bold">{{svc.active?'Désactiver':'Activer'}}</button><button @click="delSvc(svc.id)" class="text-gray-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button></div></div>
+            </div>
+          </div>
+        </div>
+        <!-- PROMOTIONS TAB -->
+        <div v-else-if="aTab==='promotions'">
+          <div class="flex justify-between items-center mb-6"><div><h2 class="text-xl font-bold text-brand-dark">Codes Promotionnels</h2><p class="text-sm text-gray-600 font-medium">{{promos.length}} codes</p></div><button @click="showAddPromo=true" class="btn-mauve px-5 py-2.5 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus mr-1.5"></i>Nouveau</button></div>
+          <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-100"><tr><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Code</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Description</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Réduction</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Utilisations</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Validité</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Actions</th></tr></thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr v-for="p in promos" :key="p.id" class="hover:bg-gray-50/70 transition-colors">
+                    <td class="px-5 py-4"><span class="font-bold uppercase tracking-widest text-sm text-brand-dark">{{p.code}}</span></td>
+                    <td class="px-5 py-4 text-sm text-gray-700 font-medium">{{p.description}}</td>
+                    <td class="px-5 py-4"><span class="font-bold text-emerald-700 text-sm">{{p.discount}}{{p.discount_type==='percentage'?'%':'F'}}</span></td>
+                    <td class="px-5 py-4 text-sm text-gray-600 font-medium">{{p.used_count||0}} / {{p.max_uses||'∞'}}</td>
+                    <td class="px-5 py-4 text-xs text-gray-600 font-medium">{{fmtD(p.valid_from)}} → {{fmtD(p.valid_until)}}</td>
+                    <td class="px-5 py-4"><div class="flex gap-2"><button @click="editP(p)" class="w-7 h-7 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center hover:bg-blue-100 transition"><i class="fa-solid fa-edit text-xs"></i></button><button @click="copyC(p.code)" class="w-7 h-7 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 transition"><i class="fa-solid fa-copy text-xs"></i></button><button @click="delP(p.id)" class="w-7 h-7 rounded-xl bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition"><i class="fa-solid fa-trash text-xs"></i></button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-if="promos.length===0" class="p-10 text-center text-gray-500 text-sm font-medium">Aucun code promo créé</div>
+          </div>
+        </div>
+        <!-- SETTINGS TAB -->
+        <div v-else-if="aTab==='settings'">
+          <h2 class="text-xl font-bold mb-6 text-brand-dark">Paramètres du Restaurant</h2>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm lg:col-span-2">
+              <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-star text-brand-gold"></i>Menu du Jour (semaine)</h3>
+              <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Définissez le plat du jour pour chaque journée. Ces menus s'affichent sur la page d'accueil.</p>
+              <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div v-for="(label, key) in joursSemaine" :key="key">
+                  <label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block" :class="key===todayDay?'text-brand-goldDark':''">{{label}} {{key===todayDay?"(Aujourd'hui)":""}}</label>
+                  <input type="text" v-model="dailyMenu[key]" placeholder="Ex: Riz sauce graine + poisson" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium" :class="key===todayDay?'border-brand-gold/50 bg-brand-gold/5':''">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Prix du Menu du Jour (FCFA)</label>
+                  <input type="number" v-model.number="dailyMenuPrice" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium">
+                </div>
+              </div>
+              <button @click="saveDM" class="btn-gold py-3 px-8 rounded-2xl font-bold"><i class="fa-solid fa-save mr-2"></i>Enregistrer le menu de la semaine</button>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-clock text-brand-goldDark"></i>Horaires d'ouverture</h3>
+              <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Ces horaires contrôlent les créneaux de commande.</p>
+              <div class="space-y-3">
+                <div v-for="(hrs,day) in bHours" :key="day" class="flex items-center gap-3">
+                  <span class="font-bold text-sm w-20 flex-shrink-0 text-brand-dark">{{day}}</span>
+                  <input type="time" v-model="hrs.open" :disabled="hrs.closed" class="border border-gray-200 rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-brand-gold outline-none text-gray-700 font-medium">
+                  <span class="text-gray-500 text-xs font-medium">–</span>
+                  <input type="time" v-model="hrs.close" :disabled="hrs.closed" class="border border-gray-200 rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-brand-gold outline-none text-gray-700 font-medium">
+                  <label class="flex items-center gap-1.5 cursor-pointer flex-shrink-0"><input type="checkbox" v-model="hrs.closed" class="rounded"><span class="text-xs text-gray-600 font-semibold">Fermé</span></label>
+                </div>
+                <button @click="saveHours" class="w-full btn-gold py-3 rounded-2xl font-bold mt-3">Enregistrer</button>
+              </div>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-shop text-brand-mauveDark"></i>Informations du restaurant</h3>
+              <div class="space-y-3">
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Nom</label><input type="text" v-model="sInfo.name" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Adresse</label><input type="text" v-model="sInfo.address" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Téléphone / WhatsApp</label><input type="tel" v-model="sInfo.phone" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Email</label><input type="email" v-model="sInfo.email" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
+                <button @click="saveSI" class="w-full btn-mauve py-3 rounded-2xl font-bold">Mettre à jour</button>
+              </div>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-award text-brand-goldDark"></i>Fidélité</h3>
+              <div class="space-y-3">
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points par FCFA dépensé</label><input type="number" v-model.number="loyS.points_per_euro" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points pour -500 FCFA</label><input type="number" v-model.number="loyS.points_for_10e" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
+                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points de bienvenue</label><input type="number" v-model.number="loyS.welcome_points" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
+                <button @click="saveLoy" class="w-full btn-gold py-3 rounded-2xl font-bold">Enregistrer</button>
+              </div>
+            </div>
+            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-envelope text-brand-mauveDark"></i>Notifications email</h3>
+              <div class="space-y-4">
+                <div v-for="(label,key) in eLabels" :key="key" class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-brand-dark">{{label}}</span>
+                  <div @click="eSet[key]=!eSet[key]" :class="eSet[key]?'bg-brand-gold':'bg-gray-200'" class="toggle flex-shrink-0"><div class="toggle-knob" :class="eSet[key]?'translate-x-5':''"></div></div>
+                </div>
+                <button @click="saveES" class="w-full btn-mauve py-3 rounded-2xl font-bold mt-2">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </transition>
+</main>
+
+<!-- ==================== MODALS ==================== -->
+<transition name="fade"><div v-if="forgotPwd" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="forgotPwd=false"><div class="luxury-card max-w-sm w-full p-8 rounded-[2rem] animate-scale-in"><div class="flex justify-between items-center mb-5"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Mot de passe oublié</h3><button @click="forgotPwd=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><p class="text-gray-600 text-sm mb-5 font-medium">Entrez votre email pour recevoir un lien de réinitialisation.</p><div class="relative mb-4"><i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input type="email" v-model="forgotEmail" placeholder="Votre email" class="inp"></div><button @click="sendReset" :disabled="loading" class="w-full btn-gold py-3.5 rounded-2xl font-bold"><span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-gold"></div>Envoi...</span><span v-else>Envoyer le lien</span></button></div></div></transition>
+
+<transition name="fade"><div v-if="shareModal" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="shareModal=false"><div class="luxury-card max-w-md w-full p-8 rounded-[2rem] animate-scale-in"><div class="flex justify-between items-center mb-5"><h3 class="heading-serif text-2xl font-bold gradient-mixed">Partagez votre expérience</h3><button @click="shareModal=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><p class="text-gray-600 text-sm mb-6 font-medium leading-relaxed">Envoyez-nous vos photos de repas et nous les ajouterons à notre galerie.</p><div class="space-y-3"><input type="text" placeholder="Votre nom" class="inp-plain"><input type="email" placeholder="Email" class="inp-plain"><input type="text" placeholder="Lien photos (Instagram, Drive...)" class="inp-plain"><label class="flex items-start gap-3 cursor-pointer pt-1"><input type="checkbox" class="mt-0.5 rounded w-4 h-4 flex-shrink-0"><span class="text-xs text-gray-700 font-medium">J'accepte que mes photos soient partagées sur le site de Melly Mello</span></label></div><div class="mt-6 flex gap-3"><button @click="shareModal=false" class="flex-1 py-3 border-2 border-gray-200 rounded-2xl text-sm font-bold hover:border-gray-400 transition text-gray-700">Annuler</button><button @click="shareModal=false;Swal.fire({icon:'success',title:'Merci !',text:'Vos photos ont été envoyées.',confirmButtonColor:'#c9a84c'})" class="flex-1 btn-mauve py-3 rounded-2xl font-bold text-sm">Envoyer</button></div></div></div></transition>
+
+<transition name="fade"><div v-if="showAddSvc" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closeSvcM"><div class="luxury-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in">
+  <div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">{{editSvcId?'Modifier le plat':'Nouveau plat au menu'}}</h3><button @click="closeSvcM" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div>
+  <div class="space-y-4">
+    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Nom du plat *</label><input type="text" v-model="svcF.name" placeholder="Ex: Riz sauce graine au poisson" class="inp-plain"></div>
+    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Description</label><textarea v-model="svcF.description" rows="3" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none transition resize-none text-gray-700 font-medium placeholder-gray-400" placeholder="Ingrédients, spécificités, accompagnements..."></textarea></div>
+    <div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Prix (FCFA) *</label><input type="number" v-model.number="svcF.price" class="inp-plain"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Préparation (min)</label><input type="number" v-model.number="svcF.duration" class="inp-plain"></div></div>
+    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">URL Image du plat</label><input type="url" v-model="svcF.image_url" placeholder="https://..." class="inp-plain mb-3"><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">URL Vidéo (optionnel)</label><input type="url" v-model="svcF.media_url" placeholder="https://..." class="inp-plain"></div>
+    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Tags</label><div class="flex flex-wrap gap-2 mb-2"><span v-for="tag in svcF.tags" :key="tag" class="tag-mauve px-3 py-1 rounded-full text-xs flex items-center gap-1.5">{{tag}}<button @click="rmTag(tag)" class="text-brand-mauveDark hover:text-red-600"><i class="fa-solid fa-times text-xs"></i></button></span></div><div class="flex gap-2"><input type="text" v-model="newTag" @keyup.enter="addTag" placeholder="Ex: végétarien, épicé, spécialité" class="flex-1 p-3 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none transition text-gray-700 font-medium"><button @click="addTag" class="btn-mauve px-4 py-2 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus"></i></button></div></div>
+    <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" v-model="svcF.active" class="rounded w-4 h-4 text-brand-mauve"><span class="text-sm font-bold text-brand-dark">Plat disponible</span></label>
+    <button @click="saveSvc" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editSvcId?'Mettre à jour':'Ajouter au menu'}}</button>
+  </div>
+</div></div></transition>
+
+<transition name="fade"><div v-if="showAddPromo" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closePM"><div class="luxury-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">{{editPId?'Modifier':'Nouveau code promo'}}</h3><button @click="closePM" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="space-y-4"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Code *</label><input type="text" v-model="pF.code" placeholder="Ex: MELLY20" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none uppercase font-bold tracking-widest text-gray-800"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Description</label><input type="text" v-model="pF.description" class="inp-plain"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Type</label><select v-model="pF.discount_type" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none text-gray-700 font-medium"><option value="percentage">Pourcentage (%)</option><option value="fixed">Montant fixe (FCFA)</option></select></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Réduction *</label><input type="number" v-model.number="pF.discount" class="inp-plain"></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Date début</label><input type="date" v-model="pF.valid_from" class="inp-plain"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Date fin</label><input type="date" v-model="pF.valid_until" class="inp-plain"></div></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Utilisations max</label><input type="number" v-model.number="pF.max_uses" class="inp-plain"></div><label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" v-model="pF.active" class="rounded w-4 h-4 text-brand-mauve"><span class="text-sm font-bold text-brand-dark">Promotion active</span></label><button @click="saveP" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editPId?'Mettre à jour':'Créer la promotion'}}</button></div></div></div></transition>
+
+<transition name="fade"><div v-if="showTerms" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showTerms=false"><div class="luxury-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Conditions Générales</h3><button @click="showTerms=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="text-gray-700 text-sm space-y-4 leading-relaxed font-medium"><p>Bienvenue chez Melly Mello. En utilisant nos services, vous acceptez ces conditions.</p><h4 class="font-bold text-base text-gray-900">1. Commandes</h4><ul class="list-disc pl-5 space-y-1"><li>Les commandes peuvent être annulées dans les 30 minutes suivant la validation.</li><li>Le menu du jour est disponible jusqu'à épuisement des stocks.</li></ul><h4 class="font-bold text-base text-gray-900">2. Fidélité</h4><ul class="list-disc pl-5 space-y-1"><li>150 points = 500 FCFA de réduction sur votre prochaine commande.</li><li>Les points expirent après 12 mois d'inactivité.</li></ul><h4 class="font-bold text-base text-gray-900">3. Paiement</h4><ul class="list-disc pl-5 space-y-1"><li>Paiement accepté : Espèces, Flooz, T-Money.</li></ul></div><button @click="showTerms=false" class="mt-6 w-full bg-brand-dark text-white py-3.5 rounded-2xl font-bold hover:bg-gray-800 transition">J'ai compris</button></div></div></transition>
+
+<transition name="fade"><div v-if="showPrivacy" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showPrivacy=false"><div class="luxury-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Politique de Confidentialité</h3><button @click="showPrivacy=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="text-gray-700 text-sm space-y-4 leading-relaxed font-medium"><p>Nous protégeons vos données personnelles.</p><h4 class="font-bold text-base text-gray-900">Données collectées</h4><ul class="list-disc pl-5 space-y-1"><li>Nom, email, téléphone</li><li>Historique des commandes et préférences</li><li>Points de fidélité</li></ul><h4 class="font-bold text-base text-gray-900">Utilisation</h4><ul class="list-disc pl-5 space-y-1"><li>Gestion et suivi de vos commandes</li><li>Communication par email et WhatsApp</li></ul><p class="text-xs text-gray-500 mt-3">Contact : contact@mellymello.tg</p></div><button @click="showPrivacy=false" class="mt-6 w-full bg-brand-dark text-white py-3.5 rounded-2xl font-bold hover:bg-gray-800 transition">J'ai compris</button></div></div></transition>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-brand-dark text-white pt-16 pb-8 rounded-t-[3rem] mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-5"><div class="w-11 h-11 rounded-full bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils text-brand-gold text-lg"></i></div><div><h2 class="heading-display text-2xl">{{sInfo.name||"Melly Mello"}}</h2><span class="text-brand-mauve text-xs tracking-widest uppercase font-light">Restaurant Africain · Lomé</span></div></div>
+        <p class="text-gray-400 text-sm max-w-xs leading-relaxed mb-6 font-medium">L'adresse gourmande de Dabarakondji pour déguster des saveurs africaines authentiques dans une ambiance chaleureuse.</p>
+        <div class="flex gap-3">
+          <a href="https://wa.me/22893999667" target="_blank" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-green-400 hover:border-green-400/40 transition-all"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold/40 transition-all"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold/40 transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-brand-gold mb-5">Horaires</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li v-for="(hrs,day) in bHours" :key="day" class="flex justify-between gap-3">
+            <span class="font-semibold text-gray-300">{{day}}</span>
+            <span :class="hrs.closed?'text-red-400/80 font-semibold':'text-gray-300 font-bold'">{{hrs.closed?'Fermé':hrs.open+' – '+hrs.close}}</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-brand-gold mb-5">Contact</h4>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li class="flex items-start gap-2.5"><i class="fa-solid fa-location-dot text-brand-mauve mt-0.5 flex-shrink-0"></i><span class="font-medium">{{sInfo.address||"Dabarakondji, non loin du Château d'eau, Lomé, Togo"}}</span></li>
+          <li class="flex items-center gap-2.5"><i class="fa-solid fa-phone text-brand-mauve flex-shrink-0"></i><span class="font-medium">{{sInfo.phone||'+228 93 99 96 67'}}</span></li>
+          <li class="flex items-center gap-2.5"><i class="fa-solid fa-envelope text-brand-mauve flex-shrink-0"></i><span class="font-medium">{{sInfo.email||'contact@mellymello.tg'}}</span></li>
+          <li><a href="https://wa.me/22893999667" target="_blank" class="inline-flex items-center gap-2 bg-green-600/20 border border-green-600/30 text-green-400 px-4 py-2 rounded-full text-xs font-bold hover:bg-green-600/30 transition-all mt-2"><i class="fa-brands fa-whatsapp"></i>Commander sur WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500">
+      <span class="font-medium">© {{new Date().getFullYear()}} Melly Mello. Tous droits réservés.</span>
+      <div class="flex gap-5"><button @click="showTerms=true" class="hover:text-gray-300 transition-colors font-semibold">Conditions</button><button @click="showPrivacy=true" class="hover:text-gray-300 transition-colors font-semibold">Confidentialité</button></div>
+    </div>
+  </div>
+</footer>
+</div><!-- end #app -->
+
+<script>
+(function(){
+/* ── Vérification des dépendances ── */
+if(typeof Vue==="undefined"){
+  document.getElementById("app").innerHTML='<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;background:#faf8f4"><div style="text-align:center;padding:40px;max-width:400px"><div style="font-size:48px;margin-bottom:16px">⚠️</div><h2 style="color:#0d0d0d;margin:0 0 12px">Erreur de chargement</h2><p style="color:#666;margin:0 0 20px">Vérifiez votre connexion internet et rechargez la page.</p><button onclick="location.reload()" style="background:#c9a84c;color:white;border:none;padding:12px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:15px">🔄 Recharger</button></div></div>';
+  return;
+}
+if(typeof window.supabase==="undefined"){
+  console.warn("Supabase non chargé — vérifiez votre connexion.");
+}
+const{createApp,ref,computed,reactive,onMounted,watch}=Vue;
+
+let sb=null;
+const initSupabase=async()=>{
+  try{
+    const res=await fetch("/api/config");
+    if(!res.ok)throw new Error("Config fetch failed: "+res.status);
+    const cfg=await res.json();
+    sb=window.supabase.createClient(cfg.supabase_url,cfg.supabase_key);
+    return true;
+  }catch(e){
+    Swal.fire({icon:"error",title:"Erreur de connexion",text:"Impossible de charger la configuration. Veuillez rafraîchir.",confirmButtonColor:"#c9a84c"});
+    return false;
+  }
+};
+
+createApp({setup(){
+const page=ref("home"),isScrolled=ref(false),menuOpen=ref(false),notifOpen=ref(false);
+const loading=ref(false),aptLoading=ref(false),slotLoad=ref(false);
+const aTab=ref("dashboard");
+const forgotPwd=ref(false),shareModal=ref(false),showTerms=ref(false),showPrivacy=ref(false);
+const showAddSvc=ref(false),showAddPromo=ref(false);
+const currentUser=ref(null);
+const showConsent=ref(false),consentTerms=ref(false),consentPrivacy=ref(false);
+const lf=reactive({email:"",password:"",remember:false});
+const sf=reactive({name:"",email:"",phone:"",pwd:"",pwd2:"",agree:false});
+const forgotEmail=ref(""),loginErr=ref("");
+const resetToken=ref(""),resetEmail=ref(""),resetNewPwd=ref(""),resetNewPwd2=ref(""),resetErr=ref(""),resetOk=ref(false);
+
+const services=ref([]),gallery=ref([]),testimonials=ref([]),approvedRevs=ref([]);
+const appointments=ref([]),notifs=ref([]),promos=ref([]),users=ref([]);
+const cats=ref([]),extras=ref([]),myRevs=ref([]);
+const aSt=reactive({clients:0,appts:0,svcs:0});
+const bStep=ref(1);
+const bData=reactive({service:null,date:"",time:"",extras:[],prefs:{movie:"Sur place",music:[],instructions:""}});
+const slots=ref([]),catF=ref(""),tF=ref("all");
+const calDays=ref([]),calMo=ref(""),calY=ref(new Date().getFullYear()),calM=ref(new Date().getMonth());
+const qDates=ref([]);
+const modesReception=[{val:"Sur place",label:"Sur place",icon:"fa-solid fa-chair"},{val:"À emporter",label:"À emporter",icon:"fa-solid fa-bag-shopping"},{val:"Livraison",label:"Livraison",icon:"fa-solid fa-motorcycle"}];
+const promoCode=ref(""),appliedPromo=ref(null),promoMsg=ref(""),promoOk=ref(false);
+const aTabs=[{id:"dashboard",label:"Dashboard",icon:"fa-solid fa-gauge-high"},{id:"appointments",label:"Commandes",icon:"fa-solid fa-receipt"},{id:"clients",label:"Clients",icon:"fa-solid fa-users"},{id:"services",label:"Menu",icon:"fa-solid fa-utensils"},{id:"promotions",label:"Promotions",icon:"fa-solid fa-tags"},{id:"settings",label:"Paramètres",icon:"fa-solid fa-gear"}];
+const aFil=reactive({status:"",date:"",search:""});
+const aPg=ref(1),aPgSz=10;
+const svcF=reactive({name:"",description:"",price:0,duration:30,image_url:"",media_url:"",tags:[],active:true});
+const newTag=ref(""),editSvcId=ref(null);
+const pF=reactive({code:"",description:"",discount_type:"percentage",discount:10,max_discount:0,min_amount:0,valid_from:"",valid_until:"",max_uses:null,active:true});
+const editPId=ref(null);
+const bHours=reactive({"Lundi":{open:"08:00",close:"21:00",closed:false},"Mardi":{open:"08:00",close:"21:00",closed:false},"Mercredi":{open:"08:00",close:"21:00",closed:false},"Jeudi":{open:"08:00",close:"21:00",closed:false},"Vendredi":{open:"08:00",close:"21:00",closed:false},"Samedi":{open:"08:00",close:"22:00",closed:false},"Dimanche":{open:"10:00",close:"20:00",closed:false}});
+const eSet=reactive({booking_confirmation:true,reminder_24h:true,reminder_2h:false,feedback_request:true});
+const eLabels={booking_confirmation:"Confirmation de commande",reminder_24h:"Rappel 24h avant",reminder_2h:"Rappel 2h avant",feedback_request:"Demande d'avis"};
+const loyS=reactive({points_per_euro:1,points_for_10e:150,welcome_points:20});
+const sInfo=reactive({name:"Melly Mello",address:"Dabarakondji, non loin du Château d'eau, Lomé, Togo",phone:"+228 93 99 96 67",email:"contact@mellymello.tg"});
+const stats=reactive({totalClients:0,newClients:0,totalAppts:0,compRate:0,totalRev:0,revGrowth:0,avgRating:4.9,totalRevs:0,todayAppts:0,pendingAppts:0,monthRev:0});
+
+// MENU DU JOUR
+const dailyMenu=reactive({lundi:"",mardi:"",mercredi:"",jeudi:"",vendredi:"",samedi:"",dimanche:""});
+const dailyMenuPrice=ref(1500);
+const joursSemaine={lundi:"Lundi",mardi:"Mardi",mercredi:"Mercredi",jeudi:"Jeudi",vendredi:"Vendredi",samedi:"Samedi",dimanche:"Dimanche"};
+const todayDay=computed(()=>["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"][new Date().getDay()]);
+const todayDayLabel=computed(()=>joursSemaine[todayDay.value]||"");
+const menuDuJour=computed(()=>dailyMenu[todayDay.value]||"");
+
+const isVideoUrl=(url)=>{if(!url)return false;return['.mp4','.webm','.mov','.avi','.mkv','.ogv'].some(e=>url.toLowerCase().includes(e));};
+const loyTiers=[{name:"Bronze",pts:0,icon:"fa-solid fa-medal",idx:0},{name:"Silver",pts:150,icon:"fa-solid fa-star",idx:1},{name:"Gold",pts:300,icon:"fa-solid fa-crown",idx:2},{name:"Premium",pts:1000,icon:"fa-solid fa-gem",idx:3}];
+const fallGal=[
+  {u:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",l:"Plat du Chef"},
+  {u:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",l:"Buffet"},
+  {u:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",l:"Soupe"},
+  {u:"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",l:"Viandes"},
+  {u:"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400",l:"Saveurs"},
+  {u:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",l:"Desserts"},
+];
+const platsDemo=[
+  {name:"Riz sauce graine",desc:"Riz blanc servi avec une onctueuse sauce graine de palme et viande de bœuf mijotée.",price:1500,img:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",tags:["Populaire","Traditionnel"]},
+  {name:"Banane plantain sautée",desc:"Bananes plantains dorées à la poêle, servies avec poisson braisé et attiéké.",price:1200,img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",tags:["Frais","Local"]},
+  {name:"Fufu & sauce arachide",desc:"Fufu de manioc accompagné d'une riche sauce arachide avec poulet fermier.",price:1800,img:"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",tags:["Copieux","Spécialité"]},
+  {name:"Poulet braisé",desc:"Poulet grillé au feu de bois, mariné aux herbes locales, servi avec riz et salade.",price:2500,img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",tags:["Grillé","Premium"]},
+  {name:"Gboma dessi",desc:"Épinards sautés avec viande de mouton et épices togolaises traditionnelles.",price:1500,img:"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400",tags:["Végétal","Traditionnel"]},
+  {name:"Akassa & sauce",desc:"Akassa moelleux servi avec sauce tomate pimentée et poisson fumé.",price:1000,img:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",tags:["Léger","Économique"]},
+];
+
+let _lt=null;
+const setLoad=v=>{if(v){loading.value=true;_lt=setTimeout(()=>{loading.value=false;},12000);}else{loading.value=false;if(_lt)clearTimeout(_lt);}};
+const fmtD=ds=>{if(!ds)return"";const p=ds.substring(0,10).split("-");if(p.length!==3)return ds;const d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});};
+const relTime=ds=>{if(!ds)return"";const diff=Date.now()-new Date(ds).getTime();const min=Math.floor(diff/60000),h=Math.floor(min/60),d=Math.floor(h/24);if(d>0)return`Il y a ${d}j`;if(h>0)return`Il y a ${h}h`;if(min>0)return`Il y a ${min}min`;return"À l'instant";};
+const xlSt=s=>({pending:"En attente",confirmed:"Confirmé",completed:"Terminé",cancelled:"Annulé",no_show:"Absent"}[s]||s);
+const aptCls=s=>({pending:"border-l-4 border-l-orange-300",confirmed:"border-l-4 border-l-emerald-400",completed:"border-l-4 border-l-purple-300",cancelled:"border-l-4 border-l-red-300 opacity-70"}[s]||"");
+const aptBadge=s=>({pending:"pill-pending",confirmed:"pill-confirmed",completed:"pill-completed",cancelled:"pill-cancelled"}[s]||"pill-pending");
+const nIcon=t=>({appointment:"fa-solid fa-receipt",promotion:"fa-solid fa-tag",points:"fa-solid fa-gift",system:"fa-solid fa-info-circle"}[t]||"fa-solid fa-bell");
+const nIcon2=t=>({appointment:"bg-emerald-50 text-emerald-700",promotion:"bg-orange-50 text-orange-700",points:"bg-amber-50 text-amber-700",system:"bg-blue-50 text-blue-700"}[t]||"bg-gray-100 text-gray-700");
+const uAvatar=n=>`https://ui-avatars.com/api/?name=${encodeURIComponent(n||'M')}&background=c9a84c&color=fff&bold=true`;
+const isVid=u=>u&&(u.includes('.mp4')||u.includes('.webm')||u.includes('.mov')||u.includes('.ogg'));
+const animC=(target,key,dur=1200)=>{const steps=40,inc=target/steps;let cur=0;const t=setInterval(()=>{cur=Math.min(cur+inc,target);aSt[key]=Math.round(cur);if(cur>=target)clearInterval(t);},dur/steps);};
+
+// DATA FETCHING
+const fetchSvcs=async()=>{try{const{data}=await sb.from("services").select("*").eq("active",true).order("created_at");services.value=data||[];animC(services.value.length,"svcs");}catch(e){}};
+const fetchCats=async()=>{try{const{data}=await sb.from("categories").select("*").eq("active",true).order("created_at");cats.value=data||[];}catch(e){}};
+const fetchAppts=async(uid=null)=>{try{let q=sb.from("appointments").select("*");const id=uid||currentUser.value?.id;if(id&&currentUser.value?.role!=="admin")q=q.eq("user_id",id);const{data,error}=await q.order("date",{ascending:false});if(error)throw error;appointments.value=data||[];const today=new Date().toISOString().split("T")[0];stats.todayAppts=appointments.value.filter(a=>a.date===today).length;stats.pendingAppts=appointments.value.filter(a=>a.status==="pending").length;stats.totalAppts=appointments.value.length;animC(stats.totalAppts,"appts");}catch(e){}};
+const fetchRevs=async()=>{try{if(!currentUser.value)return;const{data}=await sb.from("reviews").select("*").eq("user_id",currentUser.value.id).order("created_at",{ascending:false});myRevs.value=data||[];}catch(e){}};
+const fetchApprovedRevs=async()=>{try{const{data}=await sb.from("reviews").select("*,users(name)").eq("approved",true).order("created_at",{ascending:false}).limit(9);approvedRevs.value=(data||[]).map(r=>({...r,name:r.users?.name||r.client_name||"Client",service:r.service_name,avatar:uAvatar(r.users?.name||"M")}));}catch(e){try{const{data}=await sb.from("reviews").select("*").eq("approved",true).order("created_at",{ascending:false}).limit(9);approvedRevs.value=data||[];}catch(e2){}}};
+const fetchPromos=async()=>{try{const{data}=await sb.from("promotions").select("*").eq("active",true).order("created_at",{ascending:false});promos.value=data||[];}catch(e){}};
+const fetchUsers=async()=>{try{if(currentUser.value?.role!=="admin")return;const{data}=await sb.from("users").select("*").order("created_at",{ascending:false});users.value=data||[];stats.totalClients=users.value.filter(u=>u.role==="client").length;animC(stats.totalClients,"clients");}catch(e){}};
+const fetchGal=async()=>{try{const{data}=await sb.from("gallery").select("*").eq("approved",true).order("created_at",{ascending:false});gallery.value=data||[];}catch(e){}};
+const fetchTest=async()=>{try{const{data}=await sb.from("testimonials").select("*").eq("approved",true).order("created_at",{ascending:false});testimonials.value=data||[];stats.totalRevs=testimonials.value.length;}catch(e){}};
+const fetchExtras=async()=>{try{const{data}=await sb.from("extras").select("*").eq("active",true);extras.value=data||[];}catch(e){}};
+const fetchNotifs=async()=>{try{if(!currentUser.value)return;const{data}=await sb.from("notifications").select("*").eq("user_id",currentUser.value.id).order("created_at",{ascending:false}).limit(20);notifs.value=data||[];}catch(e){}};
+const fetchHours=async()=>{try{const{data}=await sb.from("business_hours").select("*");if(data)data.forEach(h=>{if(bHours[h.day_name])bHours[h.day_name]={open:h.open_time?.substring(0,5)||"",close:h.close_time?.substring(0,5)||"",closed:h.closed||false};});}catch(e){}};
+const fetchSettings=async()=>{try{const{data}=await sb.from("settings").select("*");if(data){data.forEach(s=>{if(s.key==="loyalty_settings")Object.assign(loyS,s.value);if(s.key==="email_settings")Object.assign(eSet,s.value);if(s.key==="salon_info")Object.assign(sInfo,s.value);if(s.key==="daily_menu")Object.assign(dailyMenu,s.value);if(s.key==="daily_menu_price")dailyMenuPrice.value=s.value;});}}catch(e){}};
+const fetchDailyMenu=async()=>{try{const{data}=await sb.from("settings").select("*").eq("key","daily_menu").maybeSingle();if(data?.value)Object.assign(dailyMenu,data.value);const{data:dp}=await sb.from("settings").select("*").eq("key","daily_menu_price").maybeSingle();if(dp?.value)dailyMenuPrice.value=dp.value;}catch(e){}};
+const pushN=async n=>{try{await sb.from("notifications").insert(n);}catch(e){}};
+const dayN=ds=>{const p=ds.split("-");const d=new Date(+p[0],+p[1]-1,+p[2]);return["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"][d.getDay()];};
+const genSlots=async()=>{if(!bData.date||!bData.service)return;slotLoad.value=true;slots.value=[];try{const dn=dayN(bData.date);const{data:hrs}=await sb.from("business_hours").select("*").eq("day_name",dn).maybeSingle();if(!hrs||hrs.closed){slots.value=[];return;}const{data:ex}=await sb.from("appointments").select("time,duration").eq("date",bData.date).in("status",["pending","confirmed"]);const[oh,om]=(hrs.open_time||"08:00:00").split(":").map(Number);const[ch,cm]=(hrs.close_time||"21:00:00").split(":").map(Number);const op=oh*60+om,cl=ch*60+cm,dur=bData.service.duration||30;const bk=(ex||[]).map(a=>{const[h,m]=a.time.split(":").map(Number);const s=h*60+m;return{start:s,end:s+(a.duration||30)};});const sl=[];for(let t=op;t+dur<=cl;t+=30){const c=bk.some(b=>t<b.end&&(t+dur)>b.start);const h=String(Math.floor(t/60)).padStart(2,"0"),m=String(t%60).padStart(2,"0");sl.push({time:`${h}:${m}`,available:!c});}slots.value=sl;}catch(e){}finally{slotLoad.value=false;}};
+
+// COMPUTED
+const bLabels=["Choisissez votre plat","Sélectionnez la date et l'heure","Options de commande","Confirmez votre commande"];
+const bPct=computed(()=>(bStep.value/4)*100);
+const fSvcs=computed(()=>catF.value?services.value.filter(s=>s.category_id===catF.value):services.value);
+const fSlots=computed(()=>{if(tF.value==="all")return slots.value;return slots.value.filter(sl=>{const h=+sl.time.split(":")[0];if(tF.value==="Matin")return h<12;if(tF.value==="Apres-midi")return h>=12&&h<18;if(tF.value==="Soir")return h>=18;return true;});});
+const finalPrice=computed(()=>{let p=parseFloat(bData.service?.price||0);bData.extras.forEach(e=>p+=parseFloat(e.price||0));if(appliedPromo.value){const disc=appliedPromo.value.discount_type==="percentage"?p*appliedPromo.value.discount/100:appliedPromo.value.discount;p-=appliedPromo.value.max_discount?Math.min(disc,appliedPromo.value.max_discount):disc;}return Math.max(0,Math.round(p));});
+const myApts=computed(()=>{if(!currentUser.value)return[];return appointments.value.filter(a=>a.user_id===currentUser.value.id);});
+const upCount=computed(()=>myApts.value.filter(a=>["confirmed","pending"].includes(a.status)&&new Date(`${a.date}T${a.time||"00:00"}`)>new Date()).length);
+const totSpent=computed(()=>myApts.value.filter(a=>a.status==="completed").reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0));
+const lastApt=computed(()=>myApts.value.filter(a=>a.status==="completed").sort((a,b)=>new Date(b.date)-new Date(a.date))[0]);
+const loyTier=computed(()=>{const p=currentUser.value?.points||0;if(p>=1000)return"Premium";if(p>=300)return"Gold";if(p>=150)return"Silver";return"Bronze";});
+const loyIdx=computed(()=>["Bronze","Silver","Gold","Premium"].indexOf(loyTier.value));
+const nxtTierPts=computed(()=>{const p=currentUser.value?.points||0;if(p<150)return 150-p;if(p<300)return 300-p;if(p<1000)return 1000-p;return 0;});
+const nxtTier=computed(()=>{const p=currentUser.value?.points||0;if(p<150)return"Silver";if(p<300)return"Gold";if(p<1000)return"Premium";return"Max";});
+const nxtReward=computed(()=>({Silver:"-500 FCFA sur prochaine commande",Gold:"-1000 FCFA + Boisson offerte",Premium:"-2000 FCFA + Dessert offert",Max:"Avantages maximaux ✨"})[nxtTier.value]||"");
+const loyPct=computed(()=>{const p=currentUser.value?.points||0;if(p>=1000)return 100;if(p>=300)return((p-300)/700)*100;if(p>=150)return((p-150)/150)*100;return(p/150)*100;});
+const myPromos=computed(()=>promos.value.filter(p=>p.active&&new Date(p.valid_until)>new Date()&&(!p.max_uses||(p.used_count||0)<p.max_uses)));
+const activePromos=computed(()=>promos.value.filter(p=>p.active&&new Date(p.valid_until)>new Date()));
+const fallbackTestimonials=[
+  {id:"fb1",name:"Kofi A.",avatar:uAvatar("Kofi A"),comment:"Les meilleurs plats de Dabarakondji ! La sauce graine est extraordinaire. Je reviens chaque semaine.",service:"Riz sauce graine",created_at:new Date().toISOString(),rating:5},
+  {id:"fb2",name:"Akosua M.",avatar:uAvatar("Akosua M"),comment:"Melly Mello c'est la maison ! Le poulet braisé est divin et l'accueil est toujours chaleureux.",service:"Poulet braisé",created_at:new Date().toISOString(),rating:5},
+  {id:"fb3",name:"Edem K.",avatar:uAvatar("Edem K"),comment:"Le menu du jour est toujours une surprise agréable. Saveurs authentiques et prix raisonnables.",service:"Menu du Jour",created_at:new Date().toISOString(),rating:5},
+];
+const allTestimonials=computed(()=>{const base=testimonials.value.length>0?testimonials.value:fallbackTestimonials;return[...base,...approvedRevs.value].slice(0,9);});
+const filAdminApts=computed(()=>{let l=[...appointments.value];if(aFil.status)l=l.filter(a=>a.status===aFil.status);if(aFil.date)l=l.filter(a=>a.date===aFil.date);if(aFil.search){const s=aFil.search.toLowerCase();l=l.filter(a=>(a.client_name||"").toLowerCase().includes(s)||(a.service_name||"").toLowerCase().includes(s));}const start=(aPg.value-1)*aPgSz;return l.slice(start,start+aPgSz);});
+const totAdminApts=computed(()=>{let l=[...appointments.value];if(aFil.status)l=l.filter(a=>a.status===aFil.status);if(aFil.date)l=l.filter(a=>a.date===aFil.date);if(aFil.search){const s=aFil.search.toLowerCase();l=l.filter(a=>(a.client_name||"").toLowerCase().includes(s)||(a.service_name||"").toLowerCase().includes(s));}return l.length;});
+const totPgs=computed(()=>Math.ceil(totAdminApts.value/aPgSz));
+const clients=computed(()=>users.value.filter(u=>u.role==="client"));
+const revData=computed(()=>{const d=[];for(let i=29;i>=0;i--){const dt=new Date();dt.setDate(dt.getDate()-i);const ds=dt.toISOString().split("T")[0];const rev=appointments.value.filter(a=>a.date===ds&&a.status==="completed").reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0);d.push({date:ds,revenue:rev});}return d;});
+const maxRev=computed(()=>Math.max(...revData.value.map(d=>d.revenue),1));
+const recAppts=computed(()=>[...appointments.value].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5));
+const notifCount=computed(()=>notifs.value.filter(n=>!n.read).length);
+
+// CALENDAR
+const genCal=()=>{const y=calY.value,m=calM.value;const mn=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];calMo.value=`${mn[m]} ${y}`;const toYMD=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;const today=new Date();today.setHours(0,0,0,0);const todYMD=toYMD(today);const first=new Date(y,m,1),last=new Date(y,m+1,0),fdow=(first.getDay()+6)%7;const days=[];for(let i=fdow-1;i>=0;i--){const d=new Date(y,m-1,new Date(y,m,0).getDate()-i);days.push({day:d.getDate(),date:toYMD(d),isCurrentMonth:false,isToday:false,isPast:true,hasSlots:false});}for(let i=1;i<=last.getDate();i++){const d=new Date(y,m,i);const dYMD=toYMD(d);days.push({day:i,date:dYMD,isCurrentMonth:true,isToday:dYMD===todYMD,isPast:new Date(y,m,i)<today,hasSlots:true});}let nd=1;while(days.length<42){const d=new Date(y,m+1,nd++);days.push({day:d.getDate(),date:toYMD(d),isCurrentMonth:false,isToday:false,isPast:false,hasSlots:true});}calDays.value=days;const q=[];for(let i=0;i<5;i++){const d=new Date();d.setDate(d.getDate()+i);q.push({label:["Aujourd'hui","Demain","Dans 2j","Dans 3j","Dans 4j"][i],date:toYMD(d)});}qDates.value=q;};
+const prevMo=()=>{if(calM.value===0){calM.value=11;calY.value--;}else calM.value--;genCal();};
+const nextMo=()=>{if(calM.value===11){calM.value=0;calY.value++;}else calM.value++;genCal();};
+
+// AUTH
+const loadProf=async authId=>{try{const{data,error}=await sb.from("users").select("*").eq("auth_id",authId).maybeSingle();if(error||!data)return null;currentUser.value=data;aptLoading.value=true;await Promise.allSettled([fetchAppts(data.id),fetchNotifs(),fetchRevs()]);aptLoading.value=false;if(data.role==="admin")await fetchUsers();return data;}catch(e){return null;}};
+const doLogin=async()=>{setLoad(true);loginErr.value="";try{const{data,error}=await sb.auth.signInWithPassword({email:lf.email,password:lf.password});if(error)throw error;const prof=await loadProf(data.user.id);if(!prof)throw new Error("Profil introuvable. Contactez le support.");if(lf.remember)localStorage.setItem("remE",lf.email);Swal.fire({icon:"success",title:prof.role==="admin"?"Admin":"Bienvenue !",text:`Bonjour ${prof.name.split(" ")[0]} ! 🍽️`,timer:2000,showConfirmButton:false,confirmButtonColor:"#c9a84c"});page.value=prof.role==="admin"?"admin":"dash";}catch(e){loginErr.value=e.message.includes("Invalid login")||e.message.includes("invalid_credentials")?"Email ou mot de passe incorrect":e.message;}finally{setLoad(false);}};
+const doSignup=async()=>{setLoad(true);try{if(sf.pwd!==sf.pwd2)throw new Error("Les mots de passe ne correspondent pas");if(!sf.agree)throw new Error("Veuillez accepter les conditions");const{data:auth,error:ae}=await sb.auth.signUp({email:sf.email,password:sf.pwd});if(ae)throw ae;const{data:prof,error:pe}=await sb.from("users").insert({auth_id:auth.user.id,name:sf.name,email:sf.email,phone:sf.phone,role:"client",points:20,loyalty_tier:"Bronze",avatar:uAvatar(sf.name),total_appointments:0,total_spent:0}).select().single();if(pe)throw pe;currentUser.value=prof;sendEmail("signup",{name:sf.name,email:sf.email});Object.assign(sf,{name:"",email:"",phone:"",pwd:"",pwd2:"",agree:false});Swal.fire({icon:"success",title:"Compte créé !",text:"20 points de bienvenue ajoutés. 🎉",timer:3000,showConfirmButton:false,confirmButtonColor:"#c9a84c"});page.value="dash";}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const logout=async()=>{const r=await Swal.fire({title:"Se déconnecter ?",icon:"question",showCancelButton:true,confirmButtonColor:"#c9a84c",confirmButtonText:"Oui",cancelButtonText:"Non"});if(r.isConfirmed){await sb.auth.signOut();currentUser.value=null;appointments.value=[];notifs.value=[];myRevs.value=[];page.value="home";}};
+const sendReset=async()=>{if(!forgotEmail.value)return;setLoad(true);try{const res=await fetch("/api/auth/forgot-password",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:forgotEmail.value})});const data=await res.json();if(!res.ok)throw new Error(data.error||"Erreur serveur");Swal.fire({icon:"success",title:"Email envoyé !",text:data.message||"Vérifiez votre boîte mail.",confirmButtonColor:"#c9a84c"});forgotPwd.value=false;forgotEmail.value="";}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const verifyResetToken=async(token)=>{try{const res=await fetch("/api/auth/verify-reset-token?token="+encodeURIComponent(token));const data=await res.json();if(!res.ok||!data.valid){resetErr.value=data.detail||"Lien expiré ou invalide.";return;}resetEmail.value=data.email;resetToken.value=token;}catch(e){resetErr.value="Erreur de vérification.";}};
+const doResetPassword=async()=>{resetErr.value="";if(resetNewPwd.value!==resetNewPwd2.value){resetErr.value="Les mots de passe ne correspondent pas";return;}if(resetNewPwd.value.length<6){resetErr.value="Le mot de passe doit faire au moins 6 caractères";return;}setLoad(true);try{const res=await fetch("/api/auth/reset-password",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:resetToken.value,new_password:resetNewPwd.value})});const data=await res.json();if(!res.ok)throw new Error(data.detail||"Erreur");resetOk.value=true;resetErr.value="";}catch(e){resetErr.value=e.message;}finally{setLoad(false);}};
+const acceptConsent=()=>{showConsent.value=false;localStorage.setItem("melly_consent","1");};
+
+// BOOKING / ORDER
+const startBooking=()=>{if(!currentUser.value){Swal.fire({title:"Connexion requise",html:`<p>Vous devez être connecté(e) pour commander.</p><div style="margin-top:12px;padding:10px 14px;background:linear-gradient(135deg,#fff8e7,#fef3cd);border:1px solid #c9a84c;border-radius:8px;font-size:0.9rem;color:#7a6020;"><span style="font-size:1.1rem;">🎁</span> <strong>Nouveau ?</strong> Inscrivez-vous et obtenez <strong>20 points de fidélité</strong> offerts !</div>`,icon:"info",showCancelButton:true,showDenyButton:true,confirmButtonColor:"#c9a84c",denyButtonColor:"#e07c45",confirmButtonText:"Se connecter",denyButtonText:"S'inscrire",cancelButtonText:"Annuler"}).then(r=>{if(r.isConfirmed)page.value="login";else if(r.isDenied)page.value="signup";});return;}Object.assign(bData,{service:null,date:"",time:"",extras:[],prefs:{movie:"Sur place",music:[],instructions:""}});bStep.value=1;page.value="booking";window.scrollTo({top:0,behavior:"smooth"});};
+const bookSvc=svc=>{if(!currentUser.value){startBooking();return;}Object.assign(bData,{service:svc,date:"",time:"",extras:[],prefs:{movie:"Sur place",music:[],instructions:""}});bStep.value=2;genCal();page.value="booking";window.scrollTo({top:0,behavior:"smooth"});};
+const selectServiceAndBook=svc=>bookSvc(svc);
+const pickSvc=svc=>{bData.service=svc;nextStep();};
+const nextStep=()=>{if(bStep.value<4){bStep.value++;if(bStep.value===2)genCal();window.scrollTo({top:0,behavior:"smooth"});}};
+const closeBook=async()=>{const r=await Swal.fire({title:"Annuler la commande ?",icon:"warning",showCancelButton:true,confirmButtonColor:"#c9a84c",confirmButtonText:"Oui",cancelButtonText:"Continuer"});if(r.isConfirmed){page.value="home";bStep.value=1;}};
+const pickDate=async date=>{const p=date.split("-");const sel=new Date(+p[0],+p[1]-1,+p[2]);const tod=new Date();tod.setHours(0,0,0,0);if(sel<tod){Swal.fire({icon:"warning",title:"Date invalide",text:"Choisissez une date future.",confirmButtonColor:"#c9a84c"});return;}bData.date=date;bData.time="";await genSlots();};
+const pickTime=time=>{const sl=slots.value.find(s=>s.time===time);if(sl?.available)bData.time=time;};
+const togGenre=g=>{const i=bData.prefs.music.indexOf(g);if(i>-1)bData.prefs.music.splice(i,1);else bData.prefs.music.push(g);};
+const applyPromo=async()=>{if(!promoCode.value.trim()){promoMsg.value="Entrez un code";promoOk.value=false;return;}const p=promos.value.find(p=>p.code===promoCode.value.toUpperCase()&&p.active&&new Date(p.valid_until)>new Date()&&(!p.max_uses||(p.used_count||0)<p.max_uses));if(p){appliedPromo.value=p;promoMsg.value=`Code ${p.code} appliqué !`;promoOk.value=true;}else{appliedPromo.value=null;promoMsg.value="Code invalide ou expiré";promoOk.value=false;}};
+const sendEmail=async(type,payload)=>{try{await fetch("/api/index",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type,...payload})});}catch(e){}};
+
+// CONFIRM ORDER + WHATSAPP REDIRECT
+const confirmBook=async()=>{
+  if(!bData.service||!bData.date||!bData.time){Swal.fire({icon:"warning",title:"Informations manquantes",text:"Veuillez compléter tous les champs.",confirmButtonColor:"#c9a84c"});return;}
+  setLoad(true);
+  try{
+    const apt={
+      user_id:currentUser.value.id,
+      client_name:currentUser.value.name,
+      client_email:currentUser.value.email,
+      client_phone:currentUser.value.phone,
+      service_id:bData.service.id,
+      service_name:bData.service.name,
+      date:bData.date,
+      time:bData.time+":00",
+      duration:(bData.service.duration||30)+bData.extras.reduce((s,e)=>s+(e.duration||0),0),
+      price:finalPrice.value,
+      total_price:finalPrice.value,
+      extras:bData.extras.map(e=>e.name),
+      preferences:bData.prefs,
+      status:"pending",
+      promo_code:appliedPromo.value?.code||null
+    };
+    const{data,error}=await sb.from("appointments").insert(apt).select().single();
+    if(error)throw error;
+    await pushN({user_id:currentUser.value.id,title:"Commande envoyée ✨",message:`${apt.service_name} — ${fmtD(apt.date)} à ${bData.time}`,type:"appointment"});
+    sendEmail("booking",{name:currentUser.value.name,email:currentUser.value.email,service:apt.service_name,nice_date:`${fmtD(apt.date)} à ${bData.time}`});
+
+    // ══════════════════════════════════════════════════════════
+    // WHATSAPP REDIRECT — Envoi de la commande sur WhatsApp
+    // ══════════════════════════════════════════════════════════
+    const extrasText=apt.extras&&apt.extras.length>0?`\n🥗 *Accompagnements:* ${apt.extras.join(", ")}`:"";
+    const modeText=bData.prefs.movie?`\n🏠 *Mode:* ${bData.prefs.movie}`:"";
+    const instrText=bData.prefs.instructions?`\n📝 *Instructions:* ${bData.prefs.instructions}`:"";
+    const promoText=appliedPromo.value?`\n🏷️ *Code promo:* ${appliedPromo.value.code}`:"";
+    const waMessage=encodeURIComponent(
+      `🍽️ *NOUVELLE COMMANDE - Melly Mello*\n\n`+
+      `👤 *Client:* ${currentUser.value.name}\n`+
+      `📞 *Tél:* ${currentUser.value.phone||"Non renseigné"}\n\n`+
+      `🍴 *Plat:* ${apt.service_name}`+
+      extrasText+
+      `\n📅 *Date:* ${fmtD(apt.date)}\n`+
+      `⏰ *Heure:* ${bData.time}`+
+      modeText+instrText+promoText+
+      `\n\n💰 *Total:* ${apt.total_price} FCFA\n\n`+
+      `✅ Merci de confirmer ma commande ! 🙏`
+    );
+
+    Swal.fire({
+      icon:"success",
+      title:"Commande envoyée ! 🎉",
+      html:`<div style="text-align:center">
+        <p style="font-weight:600;font-size:1.1em">${apt.service_name}</p>
+        <p style="color:#888">${fmtD(apt.date)} à ${bData.time}</p>
+        <p style="color:#c9a84c;font-size:1.4em;font-weight:bold">${apt.total_price} FCFA</p>
+        <div style="margin-top:12px;padding:10px;background:#f0fdf4;border:1px solid #86efac;border-radius:10px;font-size:0.85em;color:#166534">
+          <i class="fa-brands fa-whatsapp"></i> Vous allez être redirigé(e) sur WhatsApp pour valider votre commande.
+        </div>
+      </div>`,
+      confirmButtonColor:"#25D366",
+      confirmButtonText:"<i class='fa-brands fa-whatsapp mr-2'></i>Ouvrir WhatsApp",
+      showCancelButton:true,
+      cancelButtonText:"Plus tard"
+    }).then(result=>{
+      if(result.isConfirmed||result.dismiss!==Swal.DismissReason.cancel){
+        window.open(`https://wa.me/22893999667?text=${waMessage}`,"_blank");
+      }
+    });
+
+    Object.assign(bData,{service:null,date:"",time:"",extras:[],prefs:{movie:"Sur place",music:[],instructions:""}});
+    appliedPromo.value=null;promoCode.value="";promoMsg.value="";bStep.value=1;
+    await fetchAppts();await fetchNotifs();page.value="dash";
+  }catch(e){
+    Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});
+  }finally{setLoad(false);}
+};
+
+// ADMIN MENU DU JOUR
+const saveDM=async()=>{
+  setLoad(true);
+  try{
+    await sb.from("settings").upsert({key:"daily_menu",value:{...dailyMenu}},{onConflict:"key"});
+    await sb.from("settings").upsert({key:"daily_menu_price",value:dailyMenuPrice.value},{onConflict:"key"});
+    Swal.fire({icon:"success",title:"Menu de la semaine enregistré !",timer:2000,showConfirmButton:false});
+  }catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}
+  finally{setLoad(false);}
+};
+
+// CLIENT / ADMIN ACTIONS
+const refreshDash=async()=>{setLoad(true);aptLoading.value=true;await Promise.allSettled([fetchAppts(),fetchPromos(),fetchNotifs(),fetchRevs()]);aptLoading.value=false;setLoad(false);Swal.fire({icon:"success",title:"Actualisé !",timer:1500,showConfirmButton:false,confirmButtonColor:"#c9a84c"});};
+const editProf=()=>{Swal.fire({title:"Modifier le profil",html:`<input id="n" class="swal2-input" placeholder="Nom" value="${currentUser.value.name}"><input id="p" class="swal2-input" placeholder="Téléphone" value="${currentUser.value.phone||""}">`,showCancelButton:true,confirmButtonColor:"#c9a84c",confirmButtonText:"Enregistrer",cancelButtonText:"Annuler",preConfirm:async()=>{const name=document.getElementById("n").value.trim(),phone=document.getElementById("p").value.trim();if(!name){Swal.showValidationMessage("Nom requis");return false;}const{error}=await sb.from("users").update({name,phone}).eq("id",currentUser.value.id);if(error){Swal.showValidationMessage("Erreur");return false;}return{name,phone};}}).then(r=>{if(r.isConfirmed){currentUser.value.name=r.value.name;currentUser.value.phone=r.value.phone;Swal.fire({icon:"success",title:"Profil mis à jour",timer:2000,showConfirmButton:false,confirmButtonColor:"#c9a84c"});}});};
+const canCancel=apt=>["pending","confirmed"].includes(apt.status)&&new Date(`${apt.date}T${apt.time||"00:00"}`)-new Date()>1800000;
+const cancelApt=id=>{Swal.fire({title:"Annuler cette commande ?",text:"Cette action est irréversible.",icon:"warning",showCancelButton:true,confirmButtonColor:"#EF4444",confirmButtonText:"Oui, annuler",cancelButtonText:"Non"}).then(async r=>{if(r.isConfirmed){const apt=appointments.value.find(a=>a.id===id);const{error}=await sb.from("appointments").update({status:"cancelled"}).eq("id",id);if(error){Swal.fire({icon:"error",title:"Erreur",text:"Impossible d'annuler.",confirmButtonColor:"#c9a84c"});return;}if(apt){sendEmail("cancellation",{name:apt.client_name||currentUser.value?.name||"Client",email:apt.client_email||currentUser.value?.email,service:apt.service_name,nice_date:`${fmtD(apt.date)} à ${(apt.time||"").substring(0,5)}`,cancelled_by:currentUser.value?.role==="admin"?"admin":"client"});}await fetchAppts();Swal.fire({icon:"success",title:"Commande annulée",timer:2000,showConfirmButton:false});}});};
+const viewApt=apt=>{const ex=Array.isArray(apt.extras)?apt.extras.join(", "):"";Swal.fire({title:apt.service_name,html:`<div style="text-align:left;line-height:2;font-size:0.95em"><p><b>Date :</b> ${fmtD(apt.date)}</p><p><b>Heure :</b> ${apt.time}</p><p><b>Mode :</b> ${apt.preferences?.movie||'—'}</p><p><b>Statut :</b> ${xlSt(apt.status)}</p><p><b>Prix :</b> <span style="color:#c9a84c;font-weight:bold">${apt.total_price||apt.price} FCFA</span></p>${ex?`<p><b>Accompagnements :</b> ${ex}</p>`:""}</div>`,confirmButtonColor:"#c9a84c",confirmButtonText:"Fermer"});};
+const doReview=apt=>{let r=5;Swal.fire({title:"Notez votre expérience",html:`<div style="text-align:center;margin:1rem 0">${[1,2,3,4,5].map(i=>`<i class="fa-solid fa-star" data-r="${i}" style="cursor:pointer;font-size:2.2rem;color:#c9a84c;margin:0 3px;transition:all 0.15s"></i>`).join("")}</div><textarea id="cmt" class="swal2-textarea" placeholder="Partagez votre expérience culinaire..." style="min-height:110px"></textarea>`,showCancelButton:true,confirmButtonColor:"#c9a84c",confirmButtonText:"Publier l'avis",cancelButtonText:"Plus tard",didOpen:()=>{document.querySelectorAll("[data-r]").forEach(s=>{s.addEventListener("click",()=>{r=+s.dataset.r;document.querySelectorAll("[data-r]").forEach((st,i)=>{st.style.opacity=i<r?"1":"0.3";st.style.transform=i<r?"scale(1.1)":"scale(1)";});});});},preConfirm:async()=>{const comment=document.getElementById("cmt").value.trim();if(!comment){Swal.showValidationMessage("Merci d'écrire un commentaire");return false;}const{error}=await sb.from("reviews").insert({user_id:currentUser.value.id,appointment_id:apt.id,service_name:apt.service_name,rating:r,comment,client_name:currentUser.value.name,approved:false});if(error){Swal.showValidationMessage("Erreur lors de l'envoi");return false;}const np=(currentUser.value.points||0)+25;await sb.from("users").update({points:np}).eq("id",currentUser.value.id);currentUser.value.points=np;return true;}}).then(async res=>{if(res.isConfirmed){Swal.fire({icon:"success",title:"Merci pour votre avis !",html:"<p>+25 points de fidélité ajoutés.</p>",confirmButtonColor:"#c9a84c",timer:4000,showConfirmButton:false});await fetchRevs();await fetchApprovedRevs();}});};
+const updAptSt=async(id,status)=>{setLoad(true);try{const{error}=await sb.from("appointments").update({status}).eq("id",id);if(error)throw error;if(status==="confirmed"){const apt=appointments.value.find(a=>a.id===id);if(apt){const cl=users.value.find(u=>u.id===apt.user_id);if(cl?.email)sendEmail("admin_confirmation",{name:cl.name||"Client",email:cl.email,service:apt.service_name,nice_date:`${fmtD(apt.date)} à ${apt.time?.substring(0,5)}`});}}await fetchAppts();Swal.fire({icon:"success",title:"Statut mis à jour",timer:2000,showConfirmButton:false});}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const viewCl=cl=>{Swal.fire({title:cl.name,html:`<div style="text-align:left;line-height:2;font-size:0.95em"><p>${cl.email}</p><p>${cl.phone||"N/A"}</p><p><b>Fidélité :</b> ${cl.loyalty_tier||"Bronze"} — ${cl.points||0} pts</p><p><b>Commandes :</b> ${cl.total_appointments||0} — <b>Dépensé :</b> ${cl.total_spent||0} FCFA</p></div>`,confirmButtonColor:"#c9a84c",confirmButtonText:"Fermer"});};
+const delCl=cl=>{Swal.fire({title:`Supprimer ${cl.name} ?`,text:"Action irréversible.",icon:"warning",showCancelButton:true,confirmButtonColor:"#EF4444",confirmButtonText:"Supprimer",cancelButtonText:"Annuler"}).then(async r=>{if(r.isConfirmed){await sb.from("users").delete().eq("id",cl.id);await fetchUsers();Swal.fire({icon:"success",title:"Client supprimé",timer:2000,showConfirmButton:false});}});};
+const msgCl=cl=>{Swal.fire({title:`Email à ${cl.name}`,html:`<input id="subj" class="swal2-input" placeholder="Sujet"><textarea id="msg" class="swal2-textarea" placeholder="Message..."></textarea>`,showCancelButton:true,confirmButtonColor:"#c9a84c",confirmButtonText:"Envoyer",cancelButtonText:"Annuler",preConfirm:async()=>{const subj=document.getElementById("subj").value.trim(),msg=document.getElementById("msg").value.trim();if(!subj||!msg){Swal.showValidationMessage("Remplissez tous les champs");return false;}await sb.from("notifications").insert({user_id:cl.id,title:subj,message:msg,type:"system"});sendEmail("direct_message",{name:cl.name,email:cl.email,subject:subj,message:msg});return true;}}).then(r=>{if(r.isConfirmed)Swal.fire({icon:"success",title:"Message envoyé",timer:2000,showConfirmButton:false});});};
+const editSvc=svc=>{Object.assign(svcF,{...svc,media_url:svc.media_url||"",tags:[...(svc.tags||[])]});editSvcId.value=svc.id;showAddSvc.value=true;};
+const togSvc=async id=>{const svc=services.value.find(s=>s.id===id);if(!svc)return;await sb.from("services").update({active:!svc.active}).eq("id",id);await fetchSvcs();};
+const delSvc=id=>{Swal.fire({title:"Supprimer ce plat ?",icon:"warning",showCancelButton:true,confirmButtonColor:"#EF4444",confirmButtonText:"Supprimer",cancelButtonText:"Annuler"}).then(async r=>{if(r.isConfirmed){await sb.from("services").delete().eq("id",id);await fetchSvcs();}});};
+const addTag=()=>{if(newTag.value.trim()&&!svcF.tags.includes(newTag.value.trim())){svcF.tags.push(newTag.value.trim());newTag.value="";}};
+const rmTag=tag=>{const i=svcF.tags.indexOf(tag);if(i>-1)svcF.tags.splice(i,1);};
+const saveSvc=async()=>{setLoad(true);try{if(!svcF.name.trim())throw new Error("Nom requis");const payload={name:svcF.name,description:svcF.description,price:svcF.price,duration:svcF.duration,image_url:svcF.image_url,media_url:svcF.media_url||null,tags:svcF.tags,active:svcF.active};if(editSvcId.value){const{error}=await sb.from("services").update(payload).eq("id",editSvcId.value);if(error)throw error;}else{const{error}=await sb.from("services").insert(payload);if(error)throw error;}await fetchSvcs();closeSvcM();Swal.fire({icon:"success",title:"Plat enregistré",timer:2000,showConfirmButton:false});}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const closeSvcM=()=>{showAddSvc.value=false;editSvcId.value=null;Object.assign(svcF,{name:"",description:"",price:0,duration:30,image_url:"",media_url:"",tags:[],active:true});newTag.value="";};
+const editP=p=>{Object.assign(pF,p);editPId.value=p.id;showAddPromo.value=true;};
+const delP=id=>{Swal.fire({title:"Supprimer ce code ?",icon:"warning",showCancelButton:true,confirmButtonColor:"#EF4444",confirmButtonText:"Supprimer",cancelButtonText:"Annuler"}).then(async r=>{if(r.isConfirmed){await sb.from("promotions").delete().eq("id",id);await fetchPromos();}});};
+const copyC=code=>{navigator.clipboard.writeText(code).then(()=>Swal.fire({icon:"success",title:"Copié !",timer:1500,showConfirmButton:false}));};
+const saveP=async()=>{setLoad(true);try{if(!pF.code.trim())throw new Error("Code requis");const payload={code:pF.code.toUpperCase(),description:pF.description,discount_type:pF.discount_type,discount:pF.discount,max_discount:pF.max_discount||null,min_amount:pF.min_amount||0,valid_from:pF.valid_from,valid_until:pF.valid_until,max_uses:pF.max_uses||null,active:pF.active};if(editPId.value){const{error}=await sb.from("promotions").update(payload).eq("id",editPId.value);if(error)throw error;}else{const{error}=await sb.from("promotions").insert(payload);if(error)throw error;}await fetchPromos();closePM();Swal.fire({icon:"success",title:"Promotion enregistrée",timer:2000,showConfirmButton:false});}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const closePM=()=>{showAddPromo.value=false;editPId.value=null;Object.assign(pF,{code:"",description:"",discount_type:"percentage",discount:10,max_discount:0,min_amount:0,valid_from:"",valid_until:"",max_uses:null,active:true});};
+const saveHours=async()=>{setLoad(true);try{const rows=Object.entries(bHours).map(([dn,h],i)=>({day_of_week:i,day_name:dn,open_time:h.closed?null:(h.open||"08:00")+":00",close_time:h.closed?null:(h.close||"21:00")+":00",closed:h.closed}));await sb.from("business_hours").delete().neq("id",0);const{error}=await sb.from("business_hours").insert(rows);if(error)throw error;Swal.fire({icon:"success",title:"Horaires enregistrés !",timer:3000,showConfirmButton:false});}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
+const saveES=async()=>{await sb.from("settings").upsert({key:"email_settings",value:eSet},{onConflict:"key"});Swal.fire({icon:"success",title:"Enregistré",timer:1500,showConfirmButton:false});};
+const saveLoy=async()=>{await sb.from("settings").upsert({key:"loyalty_settings",value:loyS},{onConflict:"key"});Swal.fire({icon:"success",title:"Enregistré",timer:1500,showConfirmButton:false});};
+const saveSI=async()=>{await sb.from("settings").upsert({key:"salon_info",value:sInfo},{onConflict:"key"});Swal.fire({icon:"success",title:"Enregistré",timer:1500,showConfirmButton:false});};
+const exportD=async type=>{try{const{data}=await sb.from(type==="appointments"?"appointments":"users").select("*");const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`${type}_${new Date().toISOString().split("T")[0]}.json`;a.click();Swal.fire({icon:"success",title:"Export réussi",timer:2000,showConfirmButton:false});}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}};
+const refreshA=async()=>{setLoad(true);await fetchAppts();setLoad(false);Swal.fire({icon:"success",title:"Actualisé",timer:1500,showConfirmButton:false});};
+const prevPg=()=>{if(aPg.value>1)aPg.value--;};
+const nextPg=()=>{if(aPg.value<totPgs.value)aPg.value++;};
+const markAllRead=async()=>{if(!currentUser.value)return;await sb.from("notifications").update({read:true}).eq("user_id",currentUser.value.id);await fetchNotifs();};
+const clickNotif=async n=>{await sb.from("notifications").update({read:true}).eq("id",n.id);notifOpen.value=false;if(n.type==="appointment")page.value="dash";await fetchNotifs();};
+const goToHome=()=>{page.value="home";menuOpen.value=false;window.scrollTo({top:0,behavior:"smooth"});};
+const playvideo=()=>{Swal.fire({html:'<div style="padding:16px;text-align:center;color:#555"><i class="fa-solid fa-utensils" style="font-size:3rem;color:#c9a84c;display:block;margin-bottom:16px"></i><p style="font-size:1.1rem;font-weight:600">Vidéo de présentation</p><p style="font-size:0.9rem;margin-top:8px">Ajoutez ici l\'URL de votre vidéo de présentation du restaurant.</p></div>',confirmButtonColor:"#c9a84c",confirmButtonText:"Fermer"});};
+const scrollTo=id=>{if(page.value!=="home"){page.value="home";setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:"smooth"}),350);}else document.getElementById(id)?.scrollIntoView({behavior:"smooth"});menuOpen.value=false;};
+const loadMoreServices=()=>{scrollTo("menu-section");};
+
+onMounted(async()=>{
+  window.addEventListener("scroll",()=>{isScrolled.value=window.scrollY>50;},{passive:true});
+  window.addEventListener("keydown",e=>{if(e.key==="Escape"){showPrivacy.value=false;showTerms.value=false;shareModal.value=false;forgotPwd.value=false;showAddSvc.value=false;showAddPromo.value=false;notifOpen.value=false;}});
+  setLoad(true);
+  const sbOk=await initSupabase();
+  if(!sbOk){setLoad(false);return;}
+  const urlParams=new URLSearchParams(window.location.search);
+  const urlPage=urlParams.get("page");
+  const urlToken=urlParams.get("token");
+  if(urlPage==="reset"&&urlToken){
+    page.value="reset";
+    verifyResetToken(urlToken);
+    window.history.replaceState({},"",window.location.pathname);
+  }
+  await Promise.allSettled([fetchSvcs(),fetchCats(),fetchGal(),fetchTest(),fetchExtras(),fetchPromos(),fetchHours(),fetchSettings(),fetchApprovedRevs(),fetchDailyMenu()]);
+  if(!localStorage.getItem("melly_consent"))showConsent.value=true;
+  const{data:{session}}=await sb.auth.getSession();
+  if(session)await loadProf(session.user.id);
+  const rem=localStorage.getItem("remE");
+  if(rem){lf.email=rem;lf.remember=true;}
+  setLoad(false);
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==="SIGNED_IN"&&session&&!currentUser.value)await loadProf(session.user.id);
+    else if(event==="SIGNED_OUT"){currentUser.value=null;appointments.value=[];notifs.value=[];myRevs.value=[];}
+  });
+});
+
+watch([()=>appointments.value.length,()=>users.value.length],()=>{
+  const now=new Date(),m=now.getMonth(),y=now.getFullYear();
+  stats.monthRev=Math.round(appointments.value.filter(a=>{const d=new Date(a.date);return d.getMonth()===m&&d.getFullYear()===y&&a.status==="completed";}).reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0));
+  stats.totalRev=Math.round(appointments.value.filter(a=>a.status==="completed").reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0));
+  stats.compRate=appointments.value.length>0?Math.round((appointments.value.filter(a=>a.status==="completed").length/appointments.value.length)*100):0;
+});
+watch([()=>aFil.status,()=>aFil.date,()=>aFil.search],()=>{aPg.value=1;});
+
+return{
+  page,isScrolled,menuOpen,notifOpen,loading,aptLoading,slotLoad,aTab,
+  forgotPwd,shareModal,showTerms,showPrivacy,showAddSvc,showAddPromo,
+  showConsent,consentTerms,consentPrivacy,
+  currentUser,lf,sf,forgotEmail,loginErr,
+  services,gallery,testimonials,appointments,notifs,promos,users,cats,extras,myRevs,aSt,
+  bStep,bData,slots,catF,tF,calDays,calMo,qDates,modesReception,
+  promoCode,appliedPromo,promoMsg,promoOk,
+  aTabs,aFil,aPg,svcF,newTag,editSvcId,pF,editPId,
+  bHours,eSet,eLabels,loyS,sInfo,stats,loyTiers,fallGal,platsDemo,
+  dailyMenu,dailyMenuPrice,joursSemaine,todayDay,todayDayLabel,menuDuJour,
+  bLabels,bPct,fSvcs,fSlots,finalPrice,
+  myApts,upCount,totSpent,lastApt,loyTier,loyIdx,nxtTierPts,nxtTier,nxtReward,loyPct,myPromos,activePromos,
+  allTestimonials,
+  filAdminApts,totAdminApts,totPgs,clients,revData,maxRev,recAppts,notifCount,
+  goToHome,playvideo,scrollTo,doLogin,doSignup,logout,sendReset,acceptConsent,
+  startBooking,bookSvc,selectServiceAndBook,pickSvc,nextStep,closeBook,genCal,prevMo,nextMo,
+  pickDate,pickTime,togGenre,applyPromo,confirmBook,loadMoreServices,
+  refreshDash,editProf,canCancel,cancelApt,viewApt,doReview,
+  updAptSt,viewCl,delCl,msgCl,
+  editSvc,togSvc,delSvc,addTag,rmTag,saveSvc,closeSvcM,
+  editP,delP,copyC,saveP,closePM,
+  saveHours,saveES,saveLoy,saveSI,saveDM,exportD,refreshA,
+  prevPg,nextPg,markAllRead,clickNotif,
+  nIcon,nIcon2,fmtD,relTime,xlSt,aptCls,aptBadge,
+  uAvatar,isVid,isVideoUrl,
+  resetToken,resetEmail,resetNewPwd,resetNewPwd2,resetErr,resetOk,
+  verifyResetToken,doResetPassword
+};
+}}).mount("#app");
+})();
+</script>
+</body>
+</html>
