@@ -43,8 +43,8 @@ EMAIL_ADDRESS  = os.environ.get("EMAIL_ADDRESS",  "mellymello700@gmail.com")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "hroh xxmr lhkq mtbe")
 ADMIN_EMAIL    = os.environ.get("ADMIN_EMAIL",    "lazaregnahouame@gmail.com")
 
-LOGO_URL      = "https://mellymello-test-2.vercel.app/icon.png"
-FRONTEND_URL  = "https://mellymello-test-2.vercel.app/"
+LOGO_URL      = "https://mellymello-seven.vercel.app/icon.png"
+FRONTEND_URL  = "https://mellymello-seven.vercel.app"
 
 # WhatsApp du restaurant (sans le +, sans espace)
 WHATSAPP_NUMBER = "22893999667"
