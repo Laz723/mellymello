@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#c84c2a">
   <title>Melly Mello · Cuisine Togolaise Authentique · Lomé</title>
-  <meta name="description" content="Restaurant africain à Dabarakondji, Lomé. Cuisine togolaise authentique, menu du jour, livraison &amp; sur place. Commandez via WhatsApp.">
+  <meta name="description" content="Restaurant africain à Dabarakondji, Lomé. Cuisine togolaise authentique, menu du jour, livraison & sur place. Commandez via WhatsApp.">
   <link rel="icon" href="icon.png" type="image/png">
 
   <!-- Preconnect critique pour la perf -->
@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-  <!-- Vue 3 -->
+  <!-- Vue 3 & Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -677,7 +677,7 @@
       <div class="flex items-center gap-3 cursor-pointer group" @click="goToHome">
         <div class="w-11 h-11 rounded-full bg-saffron-500/20 ring-2 ring-saffron-500/30 group-hover:ring-saffron-500 transition-all overflow-hidden">
           <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <i class="fa-solid fa-utensils text-saffron-300 text-lg" style="display:none"></i>
+          <i class="fa-solid fa-utensils text-saffron-300 text-lg flex items-center justify-center w-full h-full" style="display:none"></i>
         </div>
         <div class="leading-none">
           <h1 class="font-display text-2xl tracking-wide">Melly<em class="text-saffron-400 not-italic"> Mello</em></h1>
@@ -1055,25 +1055,27 @@
               </article>
 
               <!-- Démo fallback -->
-              <article v-if="services.length===0" v-for="(plat,i) in platsDemo" :key="'p'+i" @click="startBooking" class="dish-card group" :style="i%3===1?'margin-top:2rem':''">
-                <div class="dish-card-img">
-                  <span class="dish-card-tag">{{plat.tags[0]}}</span>
-                  <span class="dish-card-price">{{plat.price}} F</span>
-                  <img :src="plat.img" :alt="plat.name" loading="lazy" decoding="async">
-                </div>
-                <div class="p-6">
-                  <h4 class="font-display text-2xl text-ink mb-2 leading-tight">{{plat.name}}</h4>
-                  <p class="text-ink-soft text-sm leading-relaxed line-clamp-2 mb-4">{{plat.desc}}</p>
-                  <div class="flex items-center justify-between">
-                    <div class="flex gap-1.5">
-                      <span v-for="tag in plat.tags.slice(0,2)" :key="tag" class="px-2 py-1 bg-saffron-50 text-saffron-700 rounded-full text-[10px] uppercase tracking-wider font-bold">{{tag}}</span>
-                    </div>
-                    <span class="text-terra-500 group-hover:translate-x-1 transition-transform">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </span>
+              <template v-if="services.length===0">
+                <article v-for="(plat,i) in platsDemo" :key="'p'+i" @click="startBooking" class="dish-card group" :style="i%3===1?'margin-top:2rem':''">
+                  <div class="dish-card-img">
+                    <span class="dish-card-tag">{{plat.tags[0]}}</span>
+                    <span class="dish-card-price">{{plat.price}} F</span>
+                    <img :src="plat.img" :alt="plat.name" loading="lazy" decoding="async">
                   </div>
-                </div>
-              </article>
+                  <div class="p-6">
+                    <h4 class="font-display text-2xl text-ink mb-2 leading-tight">{{plat.name}}</h4>
+                    <p class="text-ink-soft text-sm leading-relaxed line-clamp-2 mb-4">{{plat.desc}}</p>
+                    <div class="flex items-center justify-between">
+                      <div class="flex gap-1.5">
+                        <span v-for="tag in plat.tags.slice(0,2)" :key="tag" class="px-2 py-1 bg-saffron-50 text-saffron-700 rounded-full text-[10px] uppercase tracking-wider font-bold">{{tag}}</span>
+                      </div>
+                      <span class="text-terra-500 group-hover:translate-x-1 transition-transform">
+                        <i class="fa-solid fa-arrow-right"></i>
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </template>
             </div>
           </div>
         </section>
@@ -1156,13 +1158,15 @@
               </div>
 
               <!-- Fallback -->
-              <div v-if="gallery.length===0" v-for="img in fallGal" :key="img.u" class="bento-item">
-                <img :src="img.u" :alt="img.l" loading="lazy" decoding="async">
-                <div class="absolute inset-0 bg-gradient-to-t from-espresso-700/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition"></div>
-                <div class="absolute bottom-3 left-3">
-                  <span class="bg-paper/95 text-ink text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full">{{img.l}}</span>
+              <template v-if="gallery.length===0">
+                <div v-for="img in fallGal" :key="img.u" class="bento-item">
+                  <img :src="img.u" :alt="img.l" loading="lazy" decoding="async">
+                  <div class="absolute inset-0 bg-gradient-to-t from-espresso-700/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition"></div>
+                  <div class="absolute bottom-3 left-3">
+                    <span class="bg-paper/95 text-ink text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full">{{img.l}}</span>
+                  </div>
                 </div>
-              </div>
+              </template>
 
               <!-- CTA partager -->
               <div @click="shareModal=true" class="bento-item bg-gradient-to-br from-terra-100 to-saffron-100 flex items-center justify-center text-center p-5 cursor-pointer border-2 border-dashed border-terra-300/40 hover:border-terra-500 transition">
@@ -1215,14 +1219,14 @@
         <div class="w-full max-w-md relative z-10">
           <div class="modal-card p-8 md:p-10 text-center animate-scale-in">
             <div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-saffron-400/20">
-              <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=MM&background=c84c2a&color=fff&bold=true'">
+              <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover bg-white" onerror="this.src='https://ui-avatars.com/api/?name=MM&background=c84c2a&color=fff&bold=true'">
             </div>
             <h2 class="font-display text-3xl mb-1 text-ink">Connexion</h2>
             <p class="text-ink-soft text-sm mb-8">Accès à votre espace personnel</p>
             <form @submit.prevent="doLogin" class="space-y-4 text-left">
               <div class="relative">
                 <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-ink-mute text-sm"></i>
-                <input v-model="lf.email" type="email" placeholder="Email" required class="inp">
+                <input v-model="lf.email" type="email" placeholder="Email (ex: admin@test.com)" required class="inp">
               </div>
               <div class="relative">
                 <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-ink-mute text-sm"></i>
@@ -1319,7 +1323,7 @@
           <div class="modal-card p-8 md:p-10 animate-scale-in">
             <div class="text-center mb-8">
               <div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-5 ring-4 ring-saffron-400/20">
-                <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=MM&background=c84c2a&color=fff&bold=true'">
+                <img src="logo.png" alt="Melly Mello" class="w-full h-full object-cover bg-white" onerror="this.src='https://ui-avatars.com/api/?name=MM&background=c84c2a&color=fff&bold=true'">
               </div>
               <h2 class="font-display text-3xl mb-1 text-ink">Créer un compte</h2>
               <p class="text-ink-soft text-sm">Rejoignez notre table</p>
@@ -1544,16 +1548,19 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="services.length===0" v-for="(plat,i) in platsDemo" :key="'bd'+i" @click="Swal.fire({title:'Connectez-vous',text:'Connexion requise pour commander.',icon:'info',confirmButtonColor:'#c84c2a'}).then(r=>{if(r.isConfirmed)page='login'})" class="bg-paper border-2 border-bone rounded-2xl overflow-hidden cursor-pointer hover:shadow-lift hover:border-terra-300 transition-all group">
-                    <div class="aspect-[4/3] relative overflow-hidden bg-cream-200">
-                      <img :src="plat.img" :alt="plat.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-                      <div class="absolute top-2.5 right-2.5 bg-paper/95 font-bold px-2.5 py-1 rounded-full text-xs">{{plat.price}} F</div>
+                  
+                  <template v-if="services.length===0">
+                    <div v-for="(plat,i) in platsDemo" :key="'bd'+i" @click="Swal.fire({title:'Connectez-vous',text:'Connexion requise pour commander.',icon:'info',confirmButtonColor:'#c84c2a'}).then(r=>{if(r.isConfirmed)page='login'})" class="bg-paper border-2 border-bone rounded-2xl overflow-hidden cursor-pointer hover:shadow-lift hover:border-terra-300 transition-all group">
+                      <div class="aspect-[4/3] relative overflow-hidden bg-cream-200">
+                        <img :src="plat.img" :alt="plat.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+                        <div class="absolute top-2.5 right-2.5 bg-paper/95 font-bold px-2.5 py-1 rounded-full text-xs">{{plat.price}} F</div>
+                      </div>
+                      <div class="p-4">
+                        <h4 class="font-display text-lg text-ink mb-1">{{plat.name}}</h4>
+                        <p class="text-ink-soft text-xs line-clamp-2 font-medium">{{plat.desc}}</p>
+                      </div>
                     </div>
-                    <div class="p-4">
-                      <h4 class="font-display text-lg text-ink mb-1">{{plat.name}}</h4>
-                      <p class="text-ink-soft text-xs line-clamp-2 font-medium">{{plat.desc}}</p>
-                    </div>
-                  </div>
+                  </template>
                 </div>
               </div>
 
@@ -1981,323 +1988,866 @@
           </div>
 
           <!-- PROMOTIONS TAB -->
-        <div v-else-if="aTab==='promotions'">
-          <div class="flex justify-between items-center mb-6"><div><h2 class="text-xl font-bold text-brand-dark">Codes Promotionnels</h2><p class="text-sm text-gray-600 font-medium">{{promos.length}} codes</p></div><button @click="showAddPromo=true" class="btn-mauve px-5 py-2.5 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus mr-1.5"></i>Nouveau</button></div>
-          <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full">
-                <thead class="bg-gray-50 border-b border-gray-100"><tr><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Code</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Description</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Réduction</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Utilisations</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Validité</th><th class="px-5 py-3.5 text-left text-xs font-bold text-gray-600 uppercase">Actions</th></tr></thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr v-for="p in promos" :key="p.id" class="hover:bg-gray-50/70 transition-colors">
-                    <td class="px-5 py-4"><span class="font-bold uppercase tracking-widest text-sm text-brand-dark">{{p.code}}</span></td>
-                    <td class="px-5 py-4 text-sm text-gray-700 font-medium">{{p.description}}</td>
-                    <td class="px-5 py-4"><span class="font-bold text-emerald-700 text-sm">{{p.discount}}{{p.discount_type==='percentage'?'%':'F'}}</span></td>
-                    <td class="px-5 py-4 text-sm text-gray-600 font-medium">{{p.used_count||0}} / {{p.max_uses||'∞'}}</td>
-                    <td class="px-5 py-4 text-xs text-gray-600 font-medium">{{fmtD(p.valid_from)}} → {{fmtD(p.valid_until)}}</td>
-                    <td class="px-5 py-4"><div class="flex gap-2"><button @click="editP(p)" class="w-7 h-7 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center hover:bg-blue-100 transition"><i class="fa-solid fa-edit text-xs"></i></button><button @click="copyC(p.code)" class="w-7 h-7 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 transition"><i class="fa-solid fa-copy text-xs"></i></button><button @click="delP(p.id)" class="w-7 h-7 rounded-xl bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition"><i class="fa-solid fa-trash text-xs"></i></button></div></td>
-                  </tr>
-                </tbody>
-              </table>
+          <div v-else-if="aTab==='promotions'">
+            <div class="flex justify-between items-center mb-6">
+              <div><h2 class="text-xl font-display text-ink">Codes Promotionnels</h2><p class="text-sm text-ink-soft font-medium">{{promos.length}} codes</p></div>
+              <button @click="showAddPromo=true" class="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold"><i class="fa-solid fa-plus mr-1.5"></i>Nouveau</button>
             </div>
-            <div v-if="promos.length===0" class="p-10 text-center text-gray-500 text-sm font-medium">Aucun code promo créé</div>
+            <div class="bg-paper rounded-3xl border border-bone shadow-soft overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-cream-100 border-b border-bone">
+                    <tr>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Code</th>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Description</th>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Réduction</th>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Utilisations</th>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Validité</th>
+                      <th class="px-5 py-3.5 text-left text-[10px] font-bold text-ink-soft uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-bone/60">
+                    <tr v-for="p in promos" :key="p.id" class="hover:bg-cream-100 transition-colors">
+                      <td class="px-5 py-4"><span class="font-bold uppercase tracking-widest text-sm text-ink">{{p.code}}</span></td>
+                      <td class="px-5 py-4 text-sm text-ink-soft font-medium">{{p.description}}</td>
+                      <td class="px-5 py-4"><span class="font-bold text-jade-600 text-sm">{{p.discount}}{{p.discount_type==='percentage'?'%':'F'}}</span></td>
+                      <td class="px-5 py-4 text-sm text-ink-soft font-medium">{{p.used_count||0}} / {{p.max_uses||'∞'}}</td>
+                      <td class="px-5 py-4 text-xs text-ink-soft font-medium">{{fmtD(p.valid_from)}} → {{fmtD(p.valid_until)}}</td>
+                      <td class="px-5 py-4">
+                        <div class="flex gap-2">
+                          <button @click="editP(p)" class="w-7 h-7 rounded-xl bg-saffron-100 text-saffron-700 flex items-center justify-center hover:bg-saffron-200 transition"><i class="fa-solid fa-edit text-xs"></i></button>
+                          <button @click="copyC(p.code)" class="w-7 h-7 rounded-xl bg-cream-200 text-ink-soft flex items-center justify-center hover:bg-cream-300 transition"><i class="fa-solid fa-copy text-xs"></i></button>
+                          <button @click="delP(p.id)" class="w-7 h-7 rounded-xl bg-terra-50 text-terra-600 flex items-center justify-center hover:bg-terra-100 transition"><i class="fa-solid fa-trash text-xs"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div v-if="promos.length===0" class="p-10 text-center text-ink-mute text-sm font-medium">Aucun code promo créé</div>
+            </div>
           </div>
-        </div>
-        <!-- SETTINGS TAB -->
-        <div v-else-if="aTab==='settings'">
-          <h2 class="text-xl font-bold mb-6 text-brand-dark">Paramètres du Restaurant</h2>
-          <div class="grid lg:grid-cols-2 gap-6">
-            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm lg:col-span-2">
-              <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-star text-brand-gold"></i>Menu du Jour (semaine)</h3>
-              <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Définissez le plat du jour pour chaque journée. Ces menus s'affichent sur la page d'accueil.</p>
-              <div class="grid md:grid-cols-2 gap-4 mb-4">
-                <div v-for="(label, key) in joursSemaine" :key="key">
-                  <label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block" :class="key===todayDay?'text-brand-goldDark':''">{{label}} {{key===todayDay?"(Aujourd'hui)":""}}</label>
-                  <input type="text" v-model="dailyMenu[key]" placeholder="Ex: Riz sauce graine + poisson" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium" :class="key===todayDay?'border-brand-gold/50 bg-brand-gold/5':''">
+
+          <!-- SETTINGS TAB -->
+          <div v-else-if="aTab==='settings'">
+            <h2 class="font-display text-2xl text-ink mb-6">Paramètres du Restaurant</h2>
+            <div class="grid lg:grid-cols-2 gap-6">
+              <div class="bg-paper rounded-3xl p-6 border border-bone shadow-soft lg:col-span-2">
+                <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-ink"><i class="fa-solid fa-star text-saffron-500"></i>Menu du Jour (semaine)</h3>
+                <p class="text-xs text-saffron-700 bg-saffron-50 border border-saffron-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Définissez le plat du jour pour chaque journée. Ces menus s'affichent sur la page d'accueil.</p>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                  <div v-for="(label, key) in joursSemaine" :key="key">
+                    <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block" :class="key===todayDay?'text-saffron-600':''">{{label}} {{key===todayDay?"(Aujourd'hui)":""}}</label>
+                    <input type="text" v-model="dailyMenu[key]" placeholder="Ex: Riz sauce graine + poisson" class="w-full border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium bg-cream-100" :class="key===todayDay?'border-saffron-400 bg-saffron-50':''">
+                  </div>
+                  <div>
+                    <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Prix du Menu du Jour (FCFA)</label>
+                    <input type="number" v-model.number="dailyMenuPrice" class="w-full border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium bg-cream-100">
+                  </div>
                 </div>
-                <div>
-                  <label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Prix du Menu du Jour (FCFA)</label>
-                  <input type="number" v-model.number="dailyMenuPrice" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium">
+                <button @click="saveDM" class="btn-gold py-3 px-8 rounded-2xl font-bold"><i class="fa-solid fa-save mr-2"></i>Enregistrer le menu de la semaine</button>
+              </div>
+
+              <div class="bg-paper rounded-3xl p-6 border border-bone shadow-soft">
+                <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-ink"><i class="fa-solid fa-clock text-terra-500"></i>Horaires d'ouverture</h3>
+                <p class="text-xs text-saffron-700 bg-saffron-50 border border-saffron-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Ces horaires contrôlent les créneaux de commande.</p>
+                <div class="space-y-3">
+                  <div v-for="(hrs,day) in bHours" :key="day" class="flex items-center gap-3">
+                    <span class="font-bold text-sm w-20 flex-shrink-0 text-ink">{{day}}</span>
+                    <input type="time" v-model="hrs.open" :disabled="hrs.closed" class="bg-cream-100 border border-bone rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-terra-500 outline-none text-ink font-medium">
+                    <span class="text-ink-mute text-xs font-medium">–</span>
+                    <input type="time" v-model="hrs.close" :disabled="hrs.closed" class="bg-cream-100 border border-bone rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-terra-500 outline-none text-ink font-medium">
+                    <label class="flex items-center gap-1.5 cursor-pointer flex-shrink-0">
+                      <input type="checkbox" v-model="hrs.closed" class="rounded text-terra-500 w-4 h-4">
+                      <span class="text-xs text-ink-soft font-semibold">Fermé</span>
+                    </label>
+                  </div>
+                  <button @click="saveHours" class="w-full btn-gold py-3 rounded-2xl font-bold mt-3">Enregistrer</button>
                 </div>
               </div>
-              <button @click="saveDM" class="btn-gold py-3 px-8 rounded-2xl font-bold"><i class="fa-solid fa-save mr-2"></i>Enregistrer le menu de la semaine</button>
-            </div>
-            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
-              <h3 class="font-bold text-base mb-2 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-clock text-brand-goldDark"></i>Horaires d'ouverture</h3>
-              <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 font-medium"><i class="fa-solid fa-circle-info mr-1.5"></i>Ces horaires contrôlent les créneaux de commande.</p>
-              <div class="space-y-3">
-                <div v-for="(hrs,day) in bHours" :key="day" class="flex items-center gap-3">
-                  <span class="font-bold text-sm w-20 flex-shrink-0 text-brand-dark">{{day}}</span>
-                  <input type="time" v-model="hrs.open" :disabled="hrs.closed" class="border border-gray-200 rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-brand-gold outline-none text-gray-700 font-medium">
-                  <span class="text-gray-500 text-xs font-medium">–</span>
-                  <input type="time" v-model="hrs.close" :disabled="hrs.closed" class="border border-gray-200 rounded-xl px-2 py-1.5 text-xs flex-1 disabled:opacity-40 focus:border-brand-gold outline-none text-gray-700 font-medium">
-                  <label class="flex items-center gap-1.5 cursor-pointer flex-shrink-0"><input type="checkbox" v-model="hrs.closed" class="rounded"><span class="text-xs text-gray-600 font-semibold">Fermé</span></label>
+
+              <div class="bg-paper rounded-3xl p-6 border border-bone shadow-soft">
+                <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-ink"><i class="fa-solid fa-shop text-jade-500"></i>Informations du restaurant</h3>
+                <div class="space-y-3">
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Nom</label><input type="text" v-model="sInfo.name" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Adresse</label><input type="text" v-model="sInfo.address" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Téléphone / WhatsApp</label><input type="tel" v-model="sInfo.phone" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Email</label><input type="email" v-model="sInfo.email" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <button @click="saveSI" class="w-full btn-primary py-3 rounded-2xl font-bold">Mettre à jour</button>
                 </div>
-                <button @click="saveHours" class="w-full btn-gold py-3 rounded-2xl font-bold mt-3">Enregistrer</button>
               </div>
-            </div>
-            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
-              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-shop text-brand-mauveDark"></i>Informations du restaurant</h3>
-              <div class="space-y-3">
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Nom</label><input type="text" v-model="sInfo.name" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Adresse</label><input type="text" v-model="sInfo.address" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Téléphone / WhatsApp</label><input type="tel" v-model="sInfo.phone" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Email</label><input type="email" v-model="sInfo.email" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-mauve outline-none text-gray-800 font-medium"></div>
-                <button @click="saveSI" class="w-full btn-mauve py-3 rounded-2xl font-bold">Mettre à jour</button>
-              </div>
-            </div>
-            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
-              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-award text-brand-goldDark"></i>Fidélité</h3>
-              <div class="space-y-3">
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points par FCFA dépensé</label><input type="number" v-model.number="loyS.points_per_euro" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points pour -500 FCFA</label><input type="number" v-model.number="loyS.points_for_10e" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
-                <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 block">Points de bienvenue</label><input type="number" v-model.number="loyS.welcome_points" class="w-full border border-gray-200 rounded-2xl px-3 py-2.5 text-sm focus:border-brand-gold outline-none text-gray-800 font-medium"></div>
-                <button @click="saveLoy" class="w-full btn-gold py-3 rounded-2xl font-bold">Enregistrer</button>
-              </div>
-            </div>
-            <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm">
-              <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-brand-dark"><i class="fa-solid fa-envelope text-brand-mauveDark"></i>Notifications email</h3>
-              <div class="space-y-4">
-                <div v-for="(label,key) in eLabels" :key="key" class="flex items-center justify-between">
-                  <span class="text-sm font-bold text-brand-dark">{{label}}</span>
-                  <div @click="eSet[key]=!eSet[key]" :class="eSet[key]?'bg-brand-gold':'bg-gray-200'" class="toggle flex-shrink-0"><div class="toggle-knob" :class="eSet[key]?'translate-x-5':''"></div></div>
+
+              <div class="bg-paper rounded-3xl p-6 border border-bone shadow-soft">
+                <h3 class="font-bold text-base mb-5 flex items-center gap-2 text-ink"><i class="fa-solid fa-award text-saffron-500"></i>Fidélité</h3>
+                <div class="space-y-3">
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Points par FCFA dépensé</label><input type="number" v-model.number="loyS.points_per_euro" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Points pour -500 FCFA</label><input type="number" v-model.number="loyS.points_for_10e" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1 block">Points de bienvenue</label><input type="number" v-model.number="loyS.welcome_points" class="w-full bg-cream-100 border border-bone rounded-2xl px-3 py-2.5 text-sm focus:border-terra-500 outline-none text-ink font-medium"></div>
+                  <button @click="saveLoy" class="w-full btn-gold py-3 rounded-2xl font-bold">Enregistrer</button>
                 </div>
-                <button @click="saveES" class="w-full btn-mauve py-3 rounded-2xl font-bold mt-2">Enregistrer</button>
               </div>
+
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
+  </main>
 
+  <!-- ==================== MODALS ==================== -->
+  
+  <!-- Reset Password Modal -->
+  <transition name="fade">
+    <div v-if="forgotPwd" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="forgotPwd=false">
+      <div class="modal-card max-w-sm w-full p-8 rounded-[2rem] animate-scale-in">
+        <div class="flex justify-between items-center mb-5">
+          <h3 class="font-display text-2xl font-bold text-ink">Mot de passe oublié</h3>
+          <button @click="forgotPwd=false" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <p class="text-ink-soft text-sm mb-5 font-medium">Entrez votre email pour recevoir un lien de réinitialisation.</p>
+        <div class="relative mb-4">
+          <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-ink-mute text-sm"></i>
+          <input type="email" v-model="forgotEmail" placeholder="Votre email" class="inp">
+        </div>
+        <button @click="sendReset" :disabled="loading" class="w-full btn-gold py-3.5 rounded-2xl font-bold">
+          <span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-sm"></div>Envoi...</span>
+          <span v-else>Envoyer le lien</span>
+        </button>
+      </div>
+    </div>
   </transition>
-</main>
 
-<!-- ==================== MODALS ==================== -->
-<transition name="fade"><div v-if="forgotPwd" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="forgotPwd=false"><div class="luxury-card max-w-sm w-full p-8 rounded-[2rem] animate-scale-in"><div class="flex justify-between items-center mb-5"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Mot de passe oublié</h3><button @click="forgotPwd=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><p class="text-gray-600 text-sm mb-5 font-medium">Entrez votre email pour recevoir un lien de réinitialisation.</p><div class="relative mb-4"><i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i><input type="email" v-model="forgotEmail" placeholder="Votre email" class="inp"></div><button @click="sendReset" :disabled="loading" class="w-full btn-gold py-3.5 rounded-2xl font-bold"><span v-if="loading" class="flex items-center justify-center gap-2"><div class="spinner-gold"></div>Envoi...</span><span v-else>Envoyer le lien</span></button></div></div></transition>
+  <!-- Share Experience Modal -->
+  <transition name="fade">
+    <div v-if="shareModal" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="shareModal=false">
+      <div class="modal-card max-w-md w-full p-8 rounded-[2rem] animate-scale-in">
+        <div class="flex justify-between items-center mb-5">
+          <h3 class="font-display text-2xl font-bold text-ink">Partagez votre expérience</h3>
+          <button @click="shareModal=false" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <p class="text-ink-soft text-sm mb-6 font-medium leading-relaxed">Envoyez-nous vos photos de repas et nous les ajouterons à notre galerie.</p>
+        
+        <form @submit.prevent="submitShare" class="space-y-3">
+          <input type="text" v-model="shareForm.name" placeholder="Votre nom" required class="inp-plain">
+          <input type="email" v-model="shareForm.email" placeholder="Email" required class="inp-plain">
+          <input type="text" v-model="shareForm.link" placeholder="Lien photos (Instagram, Drive...)" required class="inp-plain">
+          <label class="flex items-start gap-3 cursor-pointer pt-1">
+            <input type="checkbox" v-model="shareForm.agree" required class="mt-0.5 rounded w-4 h-4 flex-shrink-0 text-terra-500">
+            <span class="text-xs text-ink-soft font-medium">J'accepte que mes photos soient partagées sur le site de Melly Mello</span>
+          </label>
+          <div class="mt-6 flex gap-3">
+            <button type="button" @click="shareModal=false" class="flex-1 py-3 border-2 border-bone rounded-2xl text-sm font-bold hover:border-ink-mute transition text-ink-soft">Annuler</button>
+            <button type="submit" class="flex-1 btn-primary py-3 rounded-2xl font-bold text-sm">Envoyer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </transition>
 
-<transition name="fade"><div v-if="shareModal" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="shareModal=false"><div class="luxury-card max-w-md w-full p-8 rounded-[2rem] animate-scale-in"><div class="flex justify-between items-center mb-5"><h3 class="heading-serif text-2xl font-bold gradient-mixed">Partagez votre expérience</h3><button @click="shareModal=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><p class="text-gray-600 text-sm mb-6 font-medium leading-relaxed">Envoyez-nous vos photos de repas et nous les ajouterons à notre galerie.</p><div class="space-y-3"><input type="text" placeholder="Votre nom" class="inp-plain"><input type="email" placeholder="Email" class="inp-plain"><input type="text" placeholder="Lien photos (Instagram, Drive...)" class="inp-plain"><label class="flex items-start gap-3 cursor-pointer pt-1"><input type="checkbox" class="mt-0.5 rounded w-4 h-4 flex-shrink-0"><span class="text-xs text-gray-700 font-medium">J'accepte que mes photos soient partagées sur le site de Melly Mello</span></label></div><div class="mt-6 flex gap-3"><button @click="shareModal=false" class="flex-1 py-3 border-2 border-gray-200 rounded-2xl text-sm font-bold hover:border-gray-400 transition text-gray-700">Annuler</button><button @click="shareModal=false;Swal.fire({icon:'success',title:'Merci !',text:'Vos photos ont été envoyées.',confirmButtonColor:'#c9a84c'})" class="flex-1 btn-mauve py-3 rounded-2xl font-bold text-sm">Envoyer</button></div></div></div></transition>
-
-<transition name="fade"><div v-if="showAddSvc" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closeSvcM"><div class="luxury-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in">
-  <div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">{{editSvcId?'Modifier le plat':'Nouveau plat au menu'}}</h3><button @click="closeSvcM" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div>
-  <div class="space-y-4">
-    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Nom du plat *</label><input type="text" v-model="svcF.name" placeholder="Ex: Riz sauce graine au poisson" class="inp-plain"></div>
-    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Description</label><textarea v-model="svcF.description" rows="3" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none transition resize-none text-gray-700 font-medium placeholder-gray-400" placeholder="Ingrédients, spécificités, accompagnements..."></textarea></div>
-    <div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Prix (FCFA) *</label><input type="number" v-model.number="svcF.price" class="inp-plain"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Préparation (min)</label><input type="number" v-model.number="svcF.duration" class="inp-plain"></div></div>
-    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">URL Image du plat</label><input type="url" v-model="svcF.image_url" placeholder="https://..." class="inp-plain mb-3"><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">URL Vidéo (optionnel)</label><input type="url" v-model="svcF.media_url" placeholder="https://..." class="inp-plain"></div>
-    <div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Tags</label><div class="flex flex-wrap gap-2 mb-2"><span v-for="tag in svcF.tags" :key="tag" class="tag-mauve px-3 py-1 rounded-full text-xs flex items-center gap-1.5">{{tag}}<button @click="rmTag(tag)" class="text-brand-mauveDark hover:text-red-600"><i class="fa-solid fa-times text-xs"></i></button></span></div><div class="flex gap-2"><input type="text" v-model="newTag" @keyup.enter="addTag" placeholder="Ex: végétarien, épicé, spécialité" class="flex-1 p-3 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none transition text-gray-700 font-medium"><button @click="addTag" class="btn-mauve px-4 py-2 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus"></i></button></div></div>
-    <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" v-model="svcF.active" class="rounded w-4 h-4 text-brand-mauve"><span class="text-sm font-bold text-brand-dark">Plat disponible</span></label>
-    <button @click="saveSvc" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editSvcId?'Mettre à jour':'Ajouter au menu'}}</button>
-  </div>
-</div></div></transition>
-
-<transition name="fade"><div v-if="showAddPromo" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closePM"><div class="luxury-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">{{editPId?'Modifier':'Nouveau code promo'}}</h3><button @click="closePM" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="space-y-4"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Code *</label><input type="text" v-model="pF.code" placeholder="Ex: MELLY20" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none uppercase font-bold tracking-widest text-gray-800"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Description</label><input type="text" v-model="pF.description" class="inp-plain"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Type</label><select v-model="pF.discount_type" class="w-full p-3.5 bg-gray-50 border-2 border-transparent rounded-2xl text-sm focus:border-brand-mauve outline-none text-gray-700 font-medium"><option value="percentage">Pourcentage (%)</option><option value="fixed">Montant fixe (FCFA)</option></select></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Réduction *</label><input type="number" v-model.number="pF.discount" class="inp-plain"></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Date début</label><input type="date" v-model="pF.valid_from" class="inp-plain"></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Date fin</label><input type="date" v-model="pF.valid_until" class="inp-plain"></div></div><div><label class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5 block">Utilisations max</label><input type="number" v-model.number="pF.max_uses" class="inp-plain"></div><label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" v-model="pF.active" class="rounded w-4 h-4 text-brand-mauve"><span class="text-sm font-bold text-brand-dark">Promotion active</span></label><button @click="saveP" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editPId?'Mettre à jour':'Créer la promotion'}}</button></div></div></div></transition>
-
-<transition name="fade"><div v-if="showTerms" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showTerms=false"><div class="luxury-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Conditions Générales</h3><button @click="showTerms=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="text-gray-700 text-sm space-y-4 leading-relaxed font-medium"><p>Bienvenue chez Melly Mello. En utilisant nos services, vous acceptez ces conditions.</p><h4 class="font-bold text-base text-gray-900">1. Commandes</h4><ul class="list-disc pl-5 space-y-1"><li>Les commandes peuvent être annulées dans les 30 minutes suivant la validation.</li><li>Le menu du jour est disponible jusqu'à épuisement des stocks.</li></ul><h4 class="font-bold text-base text-gray-900">2. Fidélité</h4><ul class="list-disc pl-5 space-y-1"><li>150 points = 500 FCFA de réduction sur votre prochaine commande.</li><li>Les points expirent après 12 mois d'inactivité.</li></ul><h4 class="font-bold text-base text-gray-900">3. Paiement</h4><ul class="list-disc pl-5 space-y-1"><li>Paiement accepté : Espèces, Flooz, T-Money.</li></ul></div><button @click="showTerms=false" class="mt-6 w-full bg-brand-dark text-white py-3.5 rounded-2xl font-bold hover:bg-gray-800 transition">J'ai compris</button></div></div></transition>
-
-<transition name="fade"><div v-if="showPrivacy" class="fixed inset-0 bg-black/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showPrivacy=false"><div class="luxury-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in"><div class="flex justify-between items-center mb-6"><h3 class="heading-serif text-2xl font-bold text-brand-dark">Politique de Confidentialité</h3><button @click="showPrivacy=false" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button></div><div class="text-gray-700 text-sm space-y-4 leading-relaxed font-medium"><p>Nous protégeons vos données personnelles.</p><h4 class="font-bold text-base text-gray-900">Données collectées</h4><ul class="list-disc pl-5 space-y-1"><li>Nom, email, téléphone</li><li>Historique des commandes et préférences</li><li>Points de fidélité</li></ul><h4 class="font-bold text-base text-gray-900">Utilisation</h4><ul class="list-disc pl-5 space-y-1"><li>Gestion et suivi de vos commandes</li><li>Communication par email et WhatsApp</li></ul><p class="text-xs text-gray-500 mt-3">Contact : contact@mellymello.tg</p></div><button @click="showPrivacy=false" class="mt-6 w-full bg-brand-dark text-white py-3.5 rounded-2xl font-bold hover:bg-gray-800 transition">J'ai compris</button></div></div></transition>
-
-<!-- ==================== FOOTER ==================== -->
-<footer class="bg-brand-dark text-white pt-16 pb-8 rounded-t-[3rem] mt-16">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="grid md:grid-cols-4 gap-10 mb-12">
-      <div class="md:col-span-2">
-        <div class="flex items-center gap-3 mb-5"><div class="w-11 h-11 rounded-full bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils text-brand-gold text-lg"></i></div><div><h2 class="heading-display text-2xl">{{sInfo.name||"Melly Mello"}}</h2><span class="text-brand-mauve text-xs tracking-widest uppercase font-light">Restaurant Africain · Lomé</span></div></div>
-        <p class="text-gray-400 text-sm max-w-xs leading-relaxed mb-6 font-medium">L'adresse gourmande de Dabarakondji pour déguster des saveurs africaines authentiques dans une ambiance chaleureuse.</p>
-        <div class="flex gap-3">
-          <a href="https://wa.me/22893999667" target="_blank" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-green-400 hover:border-green-400/40 transition-all"><i class="fa-brands fa-whatsapp text-sm"></i></a>
-          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold/40 transition-all"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold/40 transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
+  <!-- Add/Edit Service Modal -->
+  <transition name="fade">
+    <div v-if="showAddSvc" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closeSvcM">
+      <div class="modal-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-display text-2xl font-bold text-ink">{{editSvcId?'Modifier le plat':'Nouveau plat au menu'}}</h3>
+          <button @click="closeSvcM" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <div class="space-y-4">
+          <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Nom du plat *</label><input type="text" v-model="svcF.name" placeholder="Ex: Riz sauce graine au poisson" class="inp-plain"></div>
+          <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Description</label><textarea v-model="svcF.description" rows="3" class="w-full p-3.5 bg-cream-100 border-2 border-transparent rounded-2xl text-sm focus:border-terra-500 outline-none transition resize-none text-ink font-medium placeholder-ink-mute" placeholder="Ingrédients, spécificités, accompagnements..."></textarea></div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Prix (FCFA) *</label><input type="number" v-model.number="svcF.price" class="inp-plain"></div>
+            <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Préparation (min)</label><input type="number" v-model.number="svcF.duration" class="inp-plain"></div>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">URL Image du plat</label>
+            <input type="url" v-model="svcF.image_url" placeholder="https://..." class="inp-plain mb-3">
+            <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">URL Vidéo (optionnel)</label>
+            <input type="url" v-model="svcF.media_url" placeholder="https://..." class="inp-plain">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Tags</label>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span v-for="tag in svcF.tags" :key="tag" class="bg-saffron-100 text-saffron-700 px-3 py-1 rounded-full text-xs flex items-center gap-1.5 font-bold">
+                {{tag}}
+                <button @click="rmTag(tag)" class="text-saffron-700 hover:text-terra-600"><i class="fa-solid fa-times text-xs"></i></button>
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" v-model="newTag" @keyup.enter="addTag" placeholder="Ex: végétarien, épicé, spécialité" class="flex-1 p-3 bg-cream-100 border-2 border-transparent rounded-2xl text-sm focus:border-terra-500 outline-none transition text-ink font-medium">
+              <button @click="addTag" class="btn-primary px-4 py-2 rounded-2xl text-sm font-bold"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" v-model="svcF.active" class="rounded w-4 h-4 text-terra-500">
+            <span class="text-sm font-bold text-ink">Plat disponible</span>
+          </label>
+          <button @click="saveSvc" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editSvcId?'Mettre à jour':'Ajouter au menu'}}</button>
         </div>
       </div>
-      <div>
-        <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-brand-gold mb-5">Horaires</h4>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li v-for="(hrs,day) in bHours" :key="day" class="flex justify-between gap-3">
-            <span class="font-semibold text-gray-300">{{day}}</span>
-            <span :class="hrs.closed?'text-red-400/80 font-semibold':'text-gray-300 font-bold'">{{hrs.closed?'Fermé':hrs.open+' – '+hrs.close}}</span>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-brand-gold mb-5">Contact</h4>
-        <ul class="space-y-3 text-sm text-gray-400">
-          <li class="flex items-start gap-2.5"><i class="fa-solid fa-location-dot text-brand-mauve mt-0.5 flex-shrink-0"></i><span class="font-medium">{{sInfo.address||"Dabarakondji, non loin du Château d'eau, Lomé, Togo"}}</span></li>
-          <li class="flex items-center gap-2.5"><i class="fa-solid fa-phone text-brand-mauve flex-shrink-0"></i><span class="font-medium">{{sInfo.phone||'+228 93 99 96 67'}}</span></li>
-          <li class="flex items-center gap-2.5"><i class="fa-solid fa-envelope text-brand-mauve flex-shrink-0"></i><span class="font-medium">{{sInfo.email||'contact@mellymello.tg'}}</span></li>
-          <li><a href="https://wa.me/22893999667" target="_blank" class="inline-flex items-center gap-2 bg-green-600/20 border border-green-600/30 text-green-400 px-4 py-2 rounded-full text-xs font-bold hover:bg-green-600/30 transition-all mt-2"><i class="fa-brands fa-whatsapp"></i>Commander sur WhatsApp</a></li>
-        </ul>
+    </div>
+  </transition>
+
+  <!-- Add/Edit Promo Modal -->
+  <transition name="fade">
+    <div v-if="showAddPromo" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="closePM">
+      <div class="modal-card max-w-xl w-full p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto animate-scale-in">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-display text-2xl font-bold text-ink">{{editPId?'Modifier':'Nouveau code promo'}}</h3>
+          <button @click="closePM" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <div class="space-y-4">
+          <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Code *</label><input type="text" v-model="pF.code" placeholder="Ex: MELLY20" class="w-full p-3.5 bg-cream-100 border-2 border-transparent rounded-2xl text-sm focus:border-terra-500 outline-none uppercase font-bold tracking-widest text-ink"></div>
+          <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Description</label><input type="text" v-model="pF.description" class="inp-plain"></div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Type</label>
+              <select v-model="pF.discount_type" class="w-full p-3.5 bg-cream-100 border-2 border-transparent rounded-2xl text-sm focus:border-terra-500 outline-none text-ink font-medium">
+                <option value="percentage">Pourcentage (%)</option>
+                <option value="fixed">Montant fixe (FCFA)</option>
+              </select>
+            </div>
+            <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Réduction *</label><input type="number" v-model.number="pF.discount" class="inp-plain"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Date début</label><input type="date" v-model="pF.valid_from" class="inp-plain"></div>
+            <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Date fin</label><input type="date" v-model="pF.valid_until" class="inp-plain"></div>
+          </div>
+          <div><label class="text-xs font-bold text-ink-soft uppercase tracking-wider mb-1.5 block">Utilisations max</label><input type="number" v-model.number="pF.max_uses" class="inp-plain"></div>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" v-model="pF.active" class="rounded w-4 h-4 text-terra-500">
+            <span class="text-sm font-bold text-ink">Promotion active</span>
+          </label>
+          <button @click="saveP" class="w-full btn-gold py-4 rounded-2xl font-bold">{{editPId?'Mettre à jour':'Créer la promotion'}}</button>
+        </div>
       </div>
     </div>
-    <div class="border-t border-white/8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500">
-      <span class="font-medium">© {{new Date().getFullYear()}} Melly Mello. Tous droits réservés.</span>
-      <div class="flex gap-5"><button @click="showTerms=true" class="hover:text-gray-300 transition-colors font-semibold">Conditions</button><button @click="showPrivacy=true" class="hover:text-gray-300 transition-colors font-semibold">Confidentialité</button></div>
+  </transition>
+
+  <!-- Terms Modal -->
+  <transition name="fade">
+    <div v-if="showTerms" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showTerms=false">
+      <div class="modal-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-display text-2xl font-bold text-ink">Conditions Générales</h3>
+          <button @click="showTerms=false" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <div class="text-ink-soft text-sm space-y-4 leading-relaxed font-medium">
+          <p>Bienvenue chez Melly Mello. En utilisant nos services, vous acceptez ces conditions.</p>
+          <h4 class="font-bold text-base text-ink">1. Commandes</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Les commandes peuvent être annulées dans les 30 minutes suivant la validation.</li>
+            <li>Le menu du jour est disponible jusqu'à épuisement des stocks.</li>
+          </ul>
+          <h4 class="font-bold text-base text-ink">2. Fidélité</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>150 points = 500 FCFA de réduction sur votre prochaine commande.</li>
+            <li>Les points expirent après 12 mois d'inactivité.</li>
+          </ul>
+          <h4 class="font-bold text-base text-ink">3. Paiement</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Paiement accepté : Espèces, Flooz, T-Money.</li>
+          </ul>
+        </div>
+        <button @click="showTerms=false" class="mt-6 w-full btn-ink py-3.5 rounded-2xl font-bold transition">J'ai compris</button>
+      </div>
     </div>
-  </div>
-</footer>
+  </transition>
+
+  <!-- Privacy Modal -->
+  <transition name="fade">
+    <div v-if="showPrivacy" class="fixed inset-0 bg-espresso-900/65 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" @click.self="showPrivacy=false">
+      <div class="modal-card max-w-2xl w-full p-8 rounded-[2rem] max-h-[85vh] overflow-y-auto animate-scale-in">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-display text-2xl font-bold text-ink">Politique de Confidentialité</h3>
+          <button @click="showPrivacy=false" class="text-ink-mute hover:text-ink w-8 h-8 rounded-full hover:bg-cream-200 flex items-center justify-center"><i class="fa-solid fa-times text-sm"></i></button>
+        </div>
+        <div class="text-ink-soft text-sm space-y-4 leading-relaxed font-medium">
+          <p>Nous protégeons vos données personnelles.</p>
+          <h4 class="font-bold text-base text-ink">Données collectées</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Nom, email, téléphone</li>
+            <li>Historique des commandes et préférences</li>
+            <li>Points de fidélité</li>
+          </ul>
+          <h4 class="font-bold text-base text-ink">Utilisation</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Gestion et suivi de vos commandes</li>
+            <li>Communication par email et WhatsApp</li>
+          </ul>
+          <p class="text-xs text-ink-mute mt-3">Contact : contact@mellymello.tg</p>
+        </div>
+        <button @click="showPrivacy=false" class="mt-6 w-full btn-ink py-3.5 rounded-2xl font-bold transition">J'ai compris</button>
+      </div>
+    </div>
+  </transition>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-espresso-900 text-white pt-16 pb-8 rounded-t-[3rem] mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-11 h-11 rounded-full bg-saffron-400/15 border border-saffron-400/30 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-utensils text-saffron-400 text-lg"></i>
+            </div>
+            <div>
+              <h2 class="font-display text-2xl">{{sInfo.name||"Melly Mello"}}</h2>
+              <span class="text-terra-400 text-xs tracking-widest uppercase font-bold">Restaurant Africain · Lomé</span>
+            </div>
+          </div>
+          <p class="text-cream-300/70 text-sm max-w-xs leading-relaxed mb-6 font-medium">L'adresse gourmande de Dabarakondji pour déguster des saveurs africaines authentiques dans une ambiance chaleureuse.</p>
+          <div class="flex gap-3">
+            <a href="https://wa.me/22893999667" target="_blank" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-cream-300/70 hover:text-jade-400 hover:border-jade-400/40 transition-all"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-cream-300/70 hover:text-saffron-400 hover:border-saffron-400/40 transition-all"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-cream-300/70 hover:text-saffron-400 hover:border-saffron-400/40 transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-saffron-400 mb-5">Horaires</h4>
+          <ul class="space-y-2 text-sm text-cream-300/70">
+            <li v-for="(hrs,day) in bHours" :key="day" class="flex justify-between gap-3">
+              <span class="font-semibold text-cream-200">{{day}}</span>
+              <span :class="hrs.closed?'text-terra-400/80 font-semibold':'text-cream-200 font-bold'">{{hrs.closed?'Fermé':hrs.open+' – '+hrs.close}}</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs tracking-[0.2em] uppercase text-saffron-400 mb-5">Contact</h4>
+          <ul class="space-y-3 text-sm text-cream-300/70">
+            <li class="flex items-start gap-2.5"><i class="fa-solid fa-location-dot text-terra-400 mt-0.5 flex-shrink-0"></i><span class="font-medium">{{sInfo.address||"Dabarakondji, non loin du Château d'eau, Lomé, Togo"}}</span></li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-phone text-terra-400 flex-shrink-0"></i><span class="font-medium">{{sInfo.phone||'+228 93 99 96 67'}}</span></li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-envelope text-terra-400 flex-shrink-0"></i><span class="font-medium">{{sInfo.email||'contact@mellymello.tg'}}</span></li>
+            <li><a href="https://wa.me/22893999667" target="_blank" class="inline-flex items-center gap-2 bg-jade-600/20 border border-jade-600/30 text-jade-400 px-4 py-2 rounded-full text-xs font-bold hover:bg-jade-600/30 transition-all mt-2"><i class="fa-brands fa-whatsapp"></i>Commander sur WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-cream-300/50">
+        <span class="font-medium">© {{new Date().getFullYear()}} Melly Mello. Tous droits réservés.</span>
+        <div class="flex gap-5">
+          <button @click="showTerms=true" class="hover:text-cream-200 transition-colors font-semibold">Conditions</button>
+          <button @click="showPrivacy=true" class="hover:text-cream-200 transition-colors font-semibold">Confidentialité</button>
+        </div>
+      </div>
+    </div>
+  </footer>
 </div><!-- end #app -->
 
 <script>
 (function(){
-/* ── Vérification des dépendances ── */
-if(typeof Vue==="undefined"){
-  document.getElementById("app").innerHTML='<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;background:#faf8f4"><div style="text-align:center;padding:40px;max-width:400px"><div style="font-size:48px;margin-bottom:16px">⚠️</div><h2 style="color:#0d0d0d;margin:0 0 12px">Erreur de chargement</h2><p style="color:#666;margin:0 0 20px">Vérifiez votre connexion internet et rechargez la page.</p><button onclick="location.reload()" style="background:#c9a84c;color:white;border:none;padding:12px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:15px">🔄 Recharger</button></div></div>';
-  return;
-}
-if(typeof window.supabase==="undefined"){
-  console.warn("Supabase non chargé — vérifiez votre connexion.");
-}
-const{createApp,ref,computed,reactive,onMounted,watch}=Vue;
-
-let sb=null;
-const initSupabase=async()=>{
-  try{
-    const res=await fetch("/api/config");
-    if(!res.ok)throw new Error("Config fetch failed: "+res.status);
-    const cfg=await res.json();
-    sb=window.supabase.createClient(cfg.supabase_url,cfg.supabase_key);
-    return true;
-  }catch(e){
-    Swal.fire({icon:"error",title:"Erreur de connexion",text:"Impossible de charger la configuration. Veuillez rafraîchir.",confirmButtonColor:"#c9a84c"});
-    return false;
+  /* ── Vérification des dépendances ── */
+  if (typeof Vue === "undefined") {
+    document.getElementById("app").innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;background:#faf8f4"><div style="text-align:center;padding:40px;max-width:400px"><div style="font-size:48px;margin-bottom:16px">⚠️</div><h2 style="color:#0d0d0d;margin:0 0 12px">Erreur de chargement</h2><p style="color:#666;margin:0 0 20px">Vérifiez votre connexion internet et rechargez la page.</p><button onclick="location.reload()" style="background:#c9a84c;color:white;border:none;padding:12px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:15px">🔄 Recharger</button></div></div>';
+    return;
   }
-};
 
-createApp({setup(){
-const page=ref("home"),isScrolled=ref(false),menuOpen=ref(false),notifOpen=ref(false);
-const loading=ref(false),aptLoading=ref(false),slotLoad=ref(false);
-const aTab=ref("dashboard");
-const forgotPwd=ref(false),shareModal=ref(false),showTerms=ref(false),showPrivacy=ref(false);
-const showAddSvc=ref(false),showAddPromo=ref(false);
-const currentUser=ref(null);
-const showConsent=ref(false),consentTerms=ref(false),consentPrivacy=ref(false);
-const lf=reactive({email:"",password:"",remember:false});
-const sf=reactive({name:"",email:"",phone:"",pwd:"",pwd2:"",agree:false});
-const forgotEmail=ref(""),loginErr=ref("");
-const resetToken=ref(""),resetEmail=ref(""),resetNewPwd=ref(""),resetNewPwd2=ref(""),resetErr=ref(""),resetOk=ref(false);
+  const { createApp, ref, computed, reactive, onMounted, watch } = Vue;
+  let sb = null;
+  let isMockMode = false;
 
-const services=ref([]),gallery=ref([]),testimonials=ref([]),approvedRevs=ref([]);
-const appointments=ref([]),notifs=ref([]),promos=ref([]),users=ref([]);
-const cats=ref([]),extras=ref([]),myRevs=ref([]);
-const aSt=reactive({clients:0,appts:0,svcs:0});
-const bStep=ref(1);
-const bData=reactive({service:null,date:"",time:"",extras:[],prefs:{movie:"Sur place",music:[],instructions:""}});
-const slots=ref([]),catF=ref(""),tF=ref("all");
-const calDays=ref([]),calMo=ref(""),calY=ref(new Date().getFullYear()),calM=ref(new Date().getMonth());
-const qDates=ref([]);
-const modesReception=[{val:"Sur place",label:"Sur place",icon:"fa-solid fa-chair"},{val:"À emporter",label:"À emporter",icon:"fa-solid fa-bag-shopping"},{val:"Livraison",label:"Livraison",icon:"fa-solid fa-motorcycle"}];
-const promoCode=ref(""),appliedPromo=ref(null),promoMsg=ref(""),promoOk=ref(false);
-const aTabs=[{id:"dashboard",label:"Dashboard",icon:"fa-solid fa-gauge-high"},{id:"appointments",label:"Commandes",icon:"fa-solid fa-receipt"},{id:"clients",label:"Clients",icon:"fa-solid fa-users"},{id:"services",label:"Menu",icon:"fa-solid fa-utensils"},{id:"promotions",label:"Promotions",icon:"fa-solid fa-tags"},{id:"settings",label:"Paramètres",icon:"fa-solid fa-gear"}];
-const aFil=reactive({status:"",date:"",search:""});
-const aPg=ref(1),aPgSz=10;
-const svcF=reactive({name:"",description:"",price:0,duration:30,image_url:"",media_url:"",tags:[],active:true});
-const newTag=ref(""),editSvcId=ref(null);
-const pF=reactive({code:"",description:"",discount_type:"percentage",discount:10,max_discount:0,min_amount:0,valid_from:"",valid_until:"",max_uses:null,active:true});
-const editPId=ref(null);
-const bHours=reactive({"Lundi":{open:"08:00",close:"21:00",closed:false},"Mardi":{open:"08:00",close:"21:00",closed:false},"Mercredi":{open:"08:00",close:"21:00",closed:false},"Jeudi":{open:"08:00",close:"21:00",closed:false},"Vendredi":{open:"08:00",close:"21:00",closed:false},"Samedi":{open:"08:00",close:"22:00",closed:false},"Dimanche":{open:"10:00",close:"20:00",closed:false}});
-const eSet=reactive({booking_confirmation:true,reminder_24h:true,reminder_2h:false,feedback_request:true});
-const eLabels={booking_confirmation:"Confirmation de commande",reminder_24h:"Rappel 24h avant",reminder_2h:"Rappel 2h avant",feedback_request:"Demande d'avis"};
-const loyS=reactive({points_per_euro:1,points_for_10e:150,welcome_points:20});
-const sInfo=reactive({name:"Melly Mello",address:"Dabarakondji, non loin du Château d'eau, Lomé, Togo",phone:"+228 93 99 96 67",email:"contact@mellymello.tg"});
-const stats=reactive({totalClients:0,newClients:0,totalAppts:0,compRate:0,totalRev:0,revGrowth:0,avgRating:4.9,totalRevs:0,todayAppts:0,pendingAppts:0,monthRev:0});
+  /* ── Initialisation Backend avec Mode de Secours (Mock) ── */
+  const initSupabase = async () => {
+    if (typeof window.supabase === "undefined") {
+      console.warn("Script Supabase manquant, passage en Mode Démo.");
+      isMockMode = true;
+      return false;
+    }
+    try {
+      const res = await fetch("/api/config");
+      if (!res.ok) throw new Error("Config fetch failed: " + res.status);
+      const cfg = await res.json();
+      sb = window.supabase.createClient(cfg.supabase_url, cfg.supabase_key);
+      return true;
+    } catch (e) {
+      console.warn("Impossible de charger la configuration Supabase. L'application passe en mode de prévisualisation (Mock Mode).", e);
+      isMockMode = true;
+      return false;
+    }
+  };
 
-// MENU DU JOUR
-const dailyMenu=reactive({lundi:"",mardi:"",mercredi:"",jeudi:"",vendredi:"",samedi:"",dimanche:""});
-const dailyMenuPrice=ref(1500);
-const joursSemaine={lundi:"Lundi",mardi:"Mardi",mercredi:"Mercredi",jeudi:"Jeudi",vendredi:"Vendredi",samedi:"Samedi",dimanche:"Dimanche"};
-const todayDay=computed(()=>["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"][new Date().getDay()]);
-const todayDayLabel=computed(()=>joursSemaine[todayDay.value]||"");
-const menuDuJour=computed(()=>dailyMenu[todayDay.value]||"");
+  createApp({
+    setup() {
+      // ─── ETATS GLOBAUX ───
+      const page = ref("home");
+      const isScrolled = ref(false);
+      const scrollProg = ref(0);
+      const menuOpen = ref(false);
+      const notifOpen = ref(false);
+      const loading = ref(false);
+      const aptLoading = ref(false);
+      const slotLoad = ref(false);
+      const aTab = ref("dashboard");
 
-const isVideoUrl=(url)=>{if(!url)return false;return['.mp4','.webm','.mov','.avi','.mkv','.ogv'].some(e=>url.toLowerCase().includes(e));};
-const loyTiers=[{name:"Bronze",pts:0,icon:"fa-solid fa-medal",idx:0},{name:"Silver",pts:150,icon:"fa-solid fa-star",idx:1},{name:"Gold",pts:300,icon:"fa-solid fa-crown",idx:2},{name:"Premium",pts:1000,icon:"fa-solid fa-gem",idx:3}];
-const fallGal=[
-  {u:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",l:"Plat du Chef"},
-  {u:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",l:"Buffet"},
-  {u:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",l:"Soupe"},
-  {u:"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",l:"Viandes"},
-  {u:"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400",l:"Saveurs"},
-  {u:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",l:"Desserts"},
-];
-const platsDemo=[
-  {name:"Riz sauce graine",desc:"Riz blanc servi avec une onctueuse sauce graine de palme et viande de bœuf mijotée.",price:1500,img:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",tags:["Populaire","Traditionnel"]},
-  {name:"Banane plantain sautée",desc:"Bananes plantains dorées à la poêle, servies avec poisson braisé et attiéké.",price:1200,img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",tags:["Frais","Local"]},
-  {name:"Fufu & sauce arachide",desc:"Fufu de manioc accompagné d'une riche sauce arachide avec poulet fermier.",price:1800,img:"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",tags:["Copieux","Spécialité"]},
-  {name:"Poulet braisé",desc:"Poulet grillé au feu de bois, mariné aux herbes locales, servi avec riz et salade.",price:2500,img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",tags:["Grillé","Premium"]},
-  {name:"Gboma dessi",desc:"Épinards sautés avec viande de mouton et épices togolaises traditionnelles.",price:1500,img:"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400",tags:["Végétal","Traditionnel"]},
-  {name:"Akassa & sauce",desc:"Akassa moelleux servi avec sauce tomate pimentée et poisson fumé.",price:1000,img:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",tags:["Léger","Économique"]},
-];
+      // Modals
+      const forgotPwd = ref(false);
+      const shareModal = ref(false);
+      const showTerms = ref(false);
+      const showPrivacy = ref(false);
+      const showAddSvc = ref(false);
+      const showAddPromo = ref(false);
+      const showConsent = ref(false);
+      const consentTerms = ref(false);
+      const consentPrivacy = ref(false);
 
-let _lt=null;
-const setLoad=v=>{if(v){loading.value=true;_lt=setTimeout(()=>{loading.value=false;},12000);}else{loading.value=false;if(_lt)clearTimeout(_lt);}};
-const fmtD=ds=>{if(!ds)return"";const p=ds.substring(0,10).split("-");if(p.length!==3)return ds;const d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});};
-const relTime=ds=>{if(!ds)return"";const diff=Date.now()-new Date(ds).getTime();const min=Math.floor(diff/60000),h=Math.floor(min/60),d=Math.floor(h/24);if(d>0)return`Il y a ${d}j`;if(h>0)return`Il y a ${h}h`;if(min>0)return`Il y a ${min}min`;return"À l'instant";};
-const xlSt=s=>({pending:"En attente",confirmed:"Confirmé",completed:"Terminé",cancelled:"Annulé",no_show:"Absent"}[s]||s);
-const aptCls=s=>({pending:"border-l-4 border-l-orange-300",confirmed:"border-l-4 border-l-emerald-400",completed:"border-l-4 border-l-purple-300",cancelled:"border-l-4 border-l-red-300 opacity-70"}[s]||"");
-const aptBadge=s=>({pending:"pill-pending",confirmed:"pill-confirmed",completed:"pill-completed",cancelled:"pill-cancelled"}[s]||"pill-pending");
-const nIcon=t=>({appointment:"fa-solid fa-receipt",promotion:"fa-solid fa-tag",points:"fa-solid fa-gift",system:"fa-solid fa-info-circle"}[t]||"fa-solid fa-bell");
-const nIcon2=t=>({appointment:"bg-emerald-50 text-emerald-700",promotion:"bg-orange-50 text-orange-700",points:"bg-amber-50 text-amber-700",system:"bg-blue-50 text-blue-700"}[t]||"bg-gray-100 text-gray-700");
-const uAvatar=n=>`https://ui-avatars.com/api/?name=${encodeURIComponent(n||'M')}&background=c9a84c&color=fff&bold=true`;
-const isVid=u=>u&&(u.includes('.mp4')||u.includes('.webm')||u.includes('.mov')||u.includes('.ogg'));
-const animC=(target,key,dur=1200)=>{const steps=40,inc=target/steps;let cur=0;const t=setInterval(()=>{cur=Math.min(cur+inc,target);aSt[key]=Math.round(cur);if(cur>=target)clearInterval(t);},dur/steps);};
+      // Utilisateur & Formulaires
+      const currentUser = ref(null);
+      const lf = reactive({ email: "", password: "", remember: false });
+      const sf = reactive({ name: "", email: "", phone: "", pwd: "", pwd2: "", agree: false });
+      const forgotEmail = ref("");
+      const loginErr = ref("");
+      const resetToken = ref("");
+      const resetEmail = ref("");
+      const resetNewPwd = ref("");
+      const resetNewPwd2 = ref("");
+      const resetErr = ref("");
+      const resetOk = ref(false);
+      
+      const shareForm = reactive({ name: "", email: "", link: "", agree: false });
 
-// DATA FETCHING
-const fetchSvcs=async()=>{try{const{data}=await sb.from("services").select("*").eq("active",true).order("created_at");services.value=data||[];animC(services.value.length,"svcs");}catch(e){}};
-const fetchCats=async()=>{try{const{data}=await sb.from("categories").select("*").eq("active",true).order("created_at");cats.value=data||[];}catch(e){}};
-const fetchAppts=async(uid=null)=>{try{let q=sb.from("appointments").select("*");const id=uid||currentUser.value?.id;if(id&&currentUser.value?.role!=="admin")q=q.eq("user_id",id);const{data,error}=await q.order("date",{ascending:false});if(error)throw error;appointments.value=data||[];const today=new Date().toISOString().split("T")[0];stats.todayAppts=appointments.value.filter(a=>a.date===today).length;stats.pendingAppts=appointments.value.filter(a=>a.status==="pending").length;stats.totalAppts=appointments.value.length;animC(stats.totalAppts,"appts");}catch(e){}};
-const fetchRevs=async()=>{try{if(!currentUser.value)return;const{data}=await sb.from("reviews").select("*").eq("user_id",currentUser.value.id).order("created_at",{ascending:false});myRevs.value=data||[];}catch(e){}};
-const fetchApprovedRevs=async()=>{try{const{data}=await sb.from("reviews").select("*,users(name)").eq("approved",true).order("created_at",{ascending:false}).limit(9);approvedRevs.value=(data||[]).map(r=>({...r,name:r.users?.name||r.client_name||"Client",service:r.service_name,avatar:uAvatar(r.users?.name||"M")}));}catch(e){try{const{data}=await sb.from("reviews").select("*").eq("approved",true).order("created_at",{ascending:false}).limit(9);approvedRevs.value=data||[];}catch(e2){}}};
-const fetchPromos=async()=>{try{const{data}=await sb.from("promotions").select("*").eq("active",true).order("created_at",{ascending:false});promos.value=data||[];}catch(e){}};
-const fetchUsers=async()=>{try{if(currentUser.value?.role!=="admin")return;const{data}=await sb.from("users").select("*").order("created_at",{ascending:false});users.value=data||[];stats.totalClients=users.value.filter(u=>u.role==="client").length;animC(stats.totalClients,"clients");}catch(e){}};
-const fetchGal=async()=>{try{const{data}=await sb.from("gallery").select("*").eq("approved",true).order("created_at",{ascending:false});gallery.value=data||[];}catch(e){}};
-const fetchTest=async()=>{try{const{data}=await sb.from("testimonials").select("*").eq("approved",true).order("created_at",{ascending:false});testimonials.value=data||[];stats.totalRevs=testimonials.value.length;}catch(e){}};
-const fetchExtras=async()=>{try{const{data}=await sb.from("extras").select("*").eq("active",true);extras.value=data||[];}catch(e){}};
-const fetchNotifs=async()=>{try{if(!currentUser.value)return;const{data}=await sb.from("notifications").select("*").eq("user_id",currentUser.value.id).order("created_at",{ascending:false}).limit(20);notifs.value=data||[];}catch(e){}};
-const fetchHours=async()=>{try{const{data}=await sb.from("business_hours").select("*");if(data)data.forEach(h=>{if(bHours[h.day_name])bHours[h.day_name]={open:h.open_time?.substring(0,5)||"",close:h.close_time?.substring(0,5)||"",closed:h.closed||false};});}catch(e){}};
-const fetchSettings=async()=>{try{const{data}=await sb.from("settings").select("*");if(data){data.forEach(s=>{if(s.key==="loyalty_settings")Object.assign(loyS,s.value);if(s.key==="email_settings")Object.assign(eSet,s.value);if(s.key==="salon_info")Object.assign(sInfo,s.value);if(s.key==="daily_menu")Object.assign(dailyMenu,s.value);if(s.key==="daily_menu_price")dailyMenuPrice.value=s.value;});}}catch(e){}};
-const fetchDailyMenu=async()=>{try{const{data}=await sb.from("settings").select("*").eq("key","daily_menu").maybeSingle();if(data?.value)Object.assign(dailyMenu,data.value);const{data:dp}=await sb.from("settings").select("*").eq("key","daily_menu_price").maybeSingle();if(dp?.value)dailyMenuPrice.value=dp.value;}catch(e){}};
-const pushN=async n=>{try{await sb.from("notifications").insert(n);}catch(e){}};
-const dayN=ds=>{const p=ds.split("-");const d=new Date(+p[0],+p[1]-1,+p[2]);return["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"][d.getDay()];};
-const genSlots=async()=>{if(!bData.date||!bData.service)return;slotLoad.value=true;slots.value=[];try{const dn=dayN(bData.date);const{data:hrs}=await sb.from("business_hours").select("*").eq("day_name",dn).maybeSingle();if(!hrs||hrs.closed){slots.value=[];return;}const{data:ex}=await sb.from("appointments").select("time,duration").eq("date",bData.date).in("status",["pending","confirmed"]);const[oh,om]=(hrs.open_time||"08:00:00").split(":").map(Number);const[ch,cm]=(hrs.close_time||"21:00:00").split(":").map(Number);const op=oh*60+om,cl=ch*60+cm,dur=bData.service.duration||30;const bk=(ex||[]).map(a=>{const[h,m]=a.time.split(":").map(Number);const s=h*60+m;return{start:s,end:s+(a.duration||30)};});const sl=[];for(let t=op;t+dur<=cl;t+=30){const c=bk.some(b=>t<b.end&&(t+dur)>b.start);const h=String(Math.floor(t/60)).padStart(2,"0"),m=String(t%60).padStart(2,"0");sl.push({time:`${h}:${m}`,available:!c});}slots.value=sl;}catch(e){}finally{slotLoad.value=false;}};
+      // ─── DONNÉES ───
+      const services = ref([]);
+      const gallery = ref([]);
+      const testimonials = ref([]);
+      const approvedRevs = ref([]);
+      const appointments = ref([]);
+      const notifs = ref([]);
+      const promos = ref([]);
+      const users = ref([]);
+      const cats = ref([]);
+      const extras = ref([]);
+      const myRevs = ref([]);
+      const aSt = reactive({ clients: 0, appts: 0, svcs: 0 });
 
-// COMPUTED
-const bLabels=["Choisissez votre plat","Sélectionnez la date et l'heure","Options de commande","Confirmez votre commande"];
-const bPct=computed(()=>(bStep.value/4)*100);
-const fSvcs=computed(()=>catF.value?services.value.filter(s=>s.category_id===catF.value):services.value);
-const fSlots=computed(()=>{if(tF.value==="all")return slots.value;return slots.value.filter(sl=>{const h=+sl.time.split(":")[0];if(tF.value==="Matin")return h<12;if(tF.value==="Apres-midi")return h>=12&&h<18;if(tF.value==="Soir")return h>=18;return true;});});
-const finalPrice=computed(()=>{let p=parseFloat(bData.service?.price||0);bData.extras.forEach(e=>p+=parseFloat(e.price||0));if(appliedPromo.value){const disc=appliedPromo.value.discount_type==="percentage"?p*appliedPromo.value.discount/100:appliedPromo.value.discount;p-=appliedPromo.value.max_discount?Math.min(disc,appliedPromo.value.max_discount):disc;}return Math.max(0,Math.round(p));});
-const myApts=computed(()=>{if(!currentUser.value)return[];return appointments.value.filter(a=>a.user_id===currentUser.value.id);});
-const upCount=computed(()=>myApts.value.filter(a=>["confirmed","pending"].includes(a.status)&&new Date(`${a.date}T${a.time||"00:00"}`)>new Date()).length);
-const totSpent=computed(()=>myApts.value.filter(a=>a.status==="completed").reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0));
-const lastApt=computed(()=>myApts.value.filter(a=>a.status==="completed").sort((a,b)=>new Date(b.date)-new Date(a.date))[0]);
-const loyTier=computed(()=>{const p=currentUser.value?.points||0;if(p>=1000)return"Premium";if(p>=300)return"Gold";if(p>=150)return"Silver";return"Bronze";});
-const loyIdx=computed(()=>["Bronze","Silver","Gold","Premium"].indexOf(loyTier.value));
-const nxtTierPts=computed(()=>{const p=currentUser.value?.points||0;if(p<150)return 150-p;if(p<300)return 300-p;if(p<1000)return 1000-p;return 0;});
-const nxtTier=computed(()=>{const p=currentUser.value?.points||0;if(p<150)return"Silver";if(p<300)return"Gold";if(p<1000)return"Premium";return"Max";});
-const nxtReward=computed(()=>({Silver:"-500 FCFA sur prochaine commande",Gold:"-1000 FCFA + Boisson offerte",Premium:"-2000 FCFA + Dessert offert",Max:"Avantages maximaux ✨"})[nxtTier.value]||"");
-const loyPct=computed(()=>{const p=currentUser.value?.points||0;if(p>=1000)return 100;if(p>=300)return((p-300)/700)*100;if(p>=150)return((p-150)/150)*100;return(p/150)*100;});
-const myPromos=computed(()=>promos.value.filter(p=>p.active&&new Date(p.valid_until)>new Date()&&(!p.max_uses||(p.used_count||0)<p.max_uses)));
-const activePromos=computed(()=>promos.value.filter(p=>p.active&&new Date(p.valid_until)>new Date()));
-const fallbackTestimonials=[
-  {id:"fb1",name:"Kofi A.",avatar:uAvatar("Kofi A"),comment:"Les meilleurs plats de Dabarakondji ! La sauce graine est extraordinaire. Je reviens chaque semaine.",service:"Riz sauce graine",created_at:new Date().toISOString(),rating:5},
-  {id:"fb2",name:"Akosua M.",avatar:uAvatar("Akosua M"),comment:"Melly Mello c'est la maison ! Le poulet braisé est divin et l'accueil est toujours chaleureux.",service:"Poulet braisé",created_at:new Date().toISOString(),rating:5},
-  {id:"fb3",name:"Edem K.",avatar:uAvatar("Edem K"),comment:"Le menu du jour est toujours une surprise agréable. Saveurs authentiques et prix raisonnables.",service:"Menu du Jour",created_at:new Date().toISOString(),rating:5},
-];
-const allTestimonials=computed(()=>{const base=testimonials.value.length>0?testimonials.value:fallbackTestimonials;return[...base,...approvedRevs.value].slice(0,9);});
-const filAdminApts=computed(()=>{let l=[...appointments.value];if(aFil.status)l=l.filter(a=>a.status===aFil.status);if(aFil.date)l=l.filter(a=>a.date===aFil.date);if(aFil.search){const s=aFil.search.toLowerCase();l=l.filter(a=>(a.client_name||"").toLowerCase().includes(s)||(a.service_name||"").toLowerCase().includes(s));}const start=(aPg.value-1)*aPgSz;return l.slice(start,start+aPgSz);});
-const totAdminApts=computed(()=>{let l=[...appointments.value];if(aFil.status)l=l.filter(a=>a.status===aFil.status);if(aFil.date)l=l.filter(a=>a.date===aFil.date);if(aFil.search){const s=aFil.search.toLowerCase();l=l.filter(a=>(a.client_name||"").toLowerCase().includes(s)||(a.service_name||"").toLowerCase().includes(s));}return l.length;});
-const totPgs=computed(()=>Math.ceil(totAdminApts.value/aPgSz));
-const clients=computed(()=>users.value.filter(u=>u.role==="client"));
-const revData=computed(()=>{const d=[];for(let i=29;i>=0;i--){const dt=new Date();dt.setDate(dt.getDate()-i);const ds=dt.toISOString().split("T")[0];const rev=appointments.value.filter(a=>a.date===ds&&a.status==="completed").reduce((s,a)=>s+parseFloat(a.total_price||a.price||0),0);d.push({date:ds,revenue:rev});}return d;});
-const maxRev=computed(()=>Math.max(...revData.value.map(d=>d.revenue),1));
-const recAppts=computed(()=>[...appointments.value].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5));
-const notifCount=computed(()=>notifs.value.filter(n=>!n.read).length);
+      // Processus de Commande (Booking)
+      const bStep = ref(1);
+      const bData = reactive({ 
+        service: null, date: "", time: "", extras: [], 
+        prefs: { movie: "Sur place", music: [], instructions: "" } 
+      });
+      const slots = ref([]);
+      const catF = ref("");
+      const tF = ref("all");
+      const calDays = ref([]);
+      const calMo = ref("");
+      const calY = ref(new Date().getFullYear());
+      const calM = ref(new Date().getMonth());
+      const qDates = ref([]);
+      const modesReception = [
+        { val: "Sur place", label: "Sur place", icon: "fa-solid fa-chair" },
+        { val: "À emporter", label: "À emporter", icon: "fa-solid fa-bag-shopping" },
+        { val: "Livraison", label: "Livraison", icon: "fa-solid fa-motorcycle" }
+      ];
+      const promoCode = ref("");
+      const appliedPromo = ref(null);
+      const promoMsg = ref("");
+      const promoOk = ref(false);
 
-// CALENDAR
-const genCal=()=>{const y=calY.value,m=calM.value;const mn=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];calMo.value=`${mn[m]} ${y}`;const toYMD=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;const today=new Date();today.setHours(0,0,0,0);const todYMD=toYMD(today);const first=new Date(y,m,1),last=new Date(y,m+1,0),fdow=(first.getDay()+6)%7;const days=[];for(let i=fdow-1;i>=0;i--){const d=new Date(y,m-1,new Date(y,m,0).getDate()-i);days.push({day:d.getDate(),date:toYMD(d),isCurrentMonth:false,isToday:false,isPast:true,hasSlots:false});}for(let i=1;i<=last.getDate();i++){const d=new Date(y,m,i);const dYMD=toYMD(d);days.push({day:i,date:dYMD,isCurrentMonth:true,isToday:dYMD===todYMD,isPast:new Date(y,m,i)<today,hasSlots:true});}let nd=1;while(days.length<42){const d=new Date(y,m+1,nd++);days.push({day:d.getDate(),date:toYMD(d),isCurrentMonth:false,isToday:false,isPast:false,hasSlots:true});}calDays.value=days;const q=[];for(let i=0;i<5;i++){const d=new Date();d.setDate(d.getDate()+i);q.push({label:["Aujourd'hui","Demain","Dans 2j","Dans 3j","Dans 4j"][i],date:toYMD(d)});}qDates.value=q;};
-const prevMo=()=>{if(calM.value===0){calM.value=11;calY.value--;}else calM.value--;genCal();};
-const nextMo=()=>{if(calM.value===11){calM.value=0;calY.value++;}else calM.value++;genCal();};
+      // Admin Dashboard
+      const aTabs = [
+        { id: "dashboard", label: "Dashboard", icon: "fa-solid fa-gauge-high" },
+        { id: "appointments", label: "Commandes", icon: "fa-solid fa-receipt" },
+        { id: "clients", label: "Clients", icon: "fa-solid fa-users" },
+        { id: "services", label: "Menu", icon: "fa-solid fa-utensils" },
+        { id: "promotions", label: "Promotions", icon: "fa-solid fa-tags" },
+        { id: "settings", label: "Paramètres", icon: "fa-solid fa-gear" }
+      ];
+      const aFil = reactive({ status: "", date: "", search: "" });
+      const aPg = ref(1);
+      const aPgSz = 10;
+      const svcF = reactive({ name: "", description: "", price: 0, duration: 30, image_url: "", media_url: "", tags: [], active: true });
+      const newTag = ref("");
+      const editSvcId = ref(null);
+      const pF = reactive({ code: "", description: "", discount_type: "percentage", discount: 10, max_discount: 0, min_amount: 0, valid_from: "", valid_until: "", max_uses: null, active: true });
+      const editPId = ref(null);
 
-// AUTH
+      // Configuration Restaurant
+      const bHours = reactive({
+        "Lundi": { open: "08:00", close: "21:00", closed: false },
+        "Mardi": { open: "08:00", close: "21:00", closed: false },
+        "Mercredi": { open: "08:00", close: "21:00", closed: false },
+        "Jeudi": { open: "08:00", close: "21:00", closed: false },
+        "Vendredi": { open: "08:00", close: "21:00", closed: false },
+        "Samedi": { open: "08:00", close: "22:00", closed: false },
+        "Dimanche": { open: "10:00", close: "20:00", closed: false }
+      });
+      const eSet = reactive({ booking_confirmation: true, reminder_24h: true, reminder_2h: false, feedback_request: true });
+      const eLabels = { booking_confirmation: "Confirmation de commande", reminder_24h: "Rappel 24h avant", reminder_2h: "Rappel 2h avant", feedback_request: "Demande d'avis" };
+      const loyS = reactive({ points_per_euro: 1, points_for_10e: 150, welcome_points: 20 });
+      const sInfo = reactive({ name: "Melly Mello", address: "Dabarakondji, non loin du Château d'eau, Lomé, Togo", phone: "+228 93 99 96 67", email: "contact@mellymello.tg" });
+      const stats = reactive({ totalClients: 0, newClients: 0, totalAppts: 0, compRate: 0, totalRev: 0, revGrowth: 0, avgRating: 4.9, totalRevs: 0, todayAppts: 0, pendingAppts: 0, monthRev: 0 });
+
+      // Menu du jour
+      const dailyMenu = reactive({ lundi: "Akoumé au poisson", mardi: "Fufu sauce claire", mercredi: "Riz sauce graine", jeudi: "Poulet braisé avec alloco", vendredi: "Gboma dessi", samedi: "Atiéké poisson", dimanche: "Akassa sauce tomate" });
+      const dailyMenuPrice = ref(1500);
+      const joursSemaine = { lundi: "Lundi", mardi: "Mardi", mercredi: "Mercredi", jeudi: "Jeudi", vendredi: "Vendredi", samedi: "Samedi", dimanche: "Dimanche" };
+      const todayDay = computed(() => ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][new Date().getDay()]);
+      const todayDayLabel = computed(() => joursSemaine[todayDay.value] || "");
+      const menuDuJour = computed(() => dailyMenu[todayDay.value] || "");
+
+      // ─── UTILITIES ───
+      const isVideoUrl = (url) => { if (!url) return false; return ['.mp4', '.webm', '.mov', '.avi', '.mkv', '.ogv'].some(e => url.toLowerCase().includes(e)); };
+      const loyTiers = [
+        { name: "Bronze", pts: 0, icon: "fa-solid fa-medal", idx: 0 },
+        { name: "Silver", pts: 150, icon: "fa-solid fa-star", idx: 1 },
+        { name: "Gold", pts: 300, icon: "fa-solid fa-crown", idx: 2 },
+        { name: "Premium", pts: 1000, icon: "fa-solid fa-gem", idx: 3 }
+      ];
+      
+      const fallGal = [
+        { u: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400", l: "Plat du Chef" },
+        { u: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", l: "Buffet" },
+        { u: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400", l: "Soupe" },
+        { u: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400", l: "Viandes" },
+        { u: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400", l: "Saveurs" },
+        { u: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400", l: "Desserts" }
+      ];
+      
+      const platsDemo = [
+        { id: 'pd1', name: "Riz sauce graine", desc: "Riz blanc servi avec une onctueuse sauce graine de palme et viande de bœuf mijotée.", price: 1500, img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400", tags: ["Populaire", "Traditionnel"], duration: 25 },
+        { id: 'pd2', name: "Banane plantain sautée", desc: "Bananes plantains dorées à la poêle, servies avec poisson braisé et attiéké.", price: 1200, img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", tags: ["Frais", "Local"], duration: 15 },
+        { id: 'pd3', name: "Fufu & sauce arachide", desc: "Fufu de manioc accompagné d'une riche sauce arachide avec poulet fermier.", price: 1800, img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400", tags: ["Copieux", "Spécialité"], duration: 30 },
+        { id: 'pd4', name: "Poulet braisé", desc: "Poulet grillé au feu de bois, mariné aux herbes locales, servi avec riz et salade.", price: 2500, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400", tags: ["Grillé", "Premium"], duration: 40 },
+        { id: 'pd5', name: "Gboma dessi", desc: "Épinards sautés avec viande de mouton et épices togolaises traditionnelles.", price: 1500, img: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400", tags: ["Végétal", "Traditionnel"], duration: 20 },
+        { id: 'pd6', name: "Akassa & sauce", desc: "Akassa moelleux servi avec sauce tomate pimentée et poisson fumé.", price: 1000, img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400", tags: ["Léger", "Économique"], duration: 10 }
+      ];
+
+      let _lt = null;
+      const setLoad = (v) => {
+        if (v) {
+          loading.value = true;
+          _lt = setTimeout(() => { loading.value = false; }, 12000);
+        } else {
+          loading.value = false;
+          if (_lt) clearTimeout(_lt);
+        }
+      };
+
+      const fmtD = (ds) => {
+        if (!ds) return "";
+        const p = ds.substring(0, 10).split("-");
+        if (p.length !== 3) return ds;
+        const d = new Date(+p[0], +p[1] - 1, +p[2]);
+        return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      };
+
+      const relTime = (ds) => {
+        if (!ds) return "";
+        const diff = Date.now() - new Date(ds).getTime();
+        const min = Math.floor(diff / 60000), h = Math.floor(min / 60), d = Math.floor(h / 24);
+        if (d > 0) return `Il y a ${d}j`;
+        if (h > 0) return `Il y a ${h}h`;
+        if (min > 0) return `Il y a ${min}min`;
+        return "À l'instant";
+      };
+
+      const xlSt = s => ({ pending: "En attente", confirmed: "Confirmé", completed: "Terminé", cancelled: "Annulé", no_show: "Absent" }[s] || s);
+      const aptCls = s => ({ pending: "border-l-4 border-l-orange-300", confirmed: "border-l-4 border-l-emerald-400", completed: "border-l-4 border-l-purple-300", cancelled: "border-l-4 border-l-red-300 opacity-70" }[s] || "");
+      const aptBadge = s => ({ pending: "pill-pending", confirmed: "pill-confirmed", completed: "pill-completed", cancelled: "pill-cancelled" }[s] || "pill-pending");
+      const nIcon = t => ({ appointment: "fa-solid fa-receipt", promotion: "fa-solid fa-tag", points: "fa-solid fa-gift", system: "fa-solid fa-info-circle" }[t] || "fa-solid fa-bell");
+      const nIcon2 = t => ({ appointment: "bg-emerald-50 text-emerald-700", promotion: "bg-orange-50 text-orange-700", points: "bg-amber-50 text-amber-700", system: "bg-blue-50 text-blue-700" }[t] || "bg-gray-100 text-gray-700");
+      const uAvatar = n => `https://ui-avatars.com/api/?name=${encodeURIComponent(n || 'M')}&background=c9a84c&color=fff&bold=true`;
+      const isVid = u => u && (u.includes('.mp4') || u.includes('.webm') || u.includes('.mov') || u.includes('.ogg'));
+      const animC = (target, key, dur = 1200) => {
+        const steps = 40, inc = target / steps;
+        let cur = 0;
+        const t = setInterval(() => {
+          cur = Math.min(cur + inc, target);
+          aSt[key] = Math.round(cur);
+          if (cur >= target) clearInterval(t);
+        }, dur / steps);
+      };
+
+      // ─── DATA FETCHING & MOCKING ───
+      const fetchSvcs = async () => {
+        if(isMockMode) {
+          services.value = platsDemo.map(p => ({ ...p, id: p.id, image_url: p.img, description: p.desc, active: true }));
+          animC(services.value.length, "svcs");
+          return;
+        }
+        try {
+          const { data } = await sb.from("services").select("*").eq("active", true).order("created_at");
+          services.value = data || [];
+          animC(services.value.length, "svcs");
+        } catch (e) { console.error(e); }
+      };
+
+      const fetchCats = async () => {
+        if (isMockMode) { cats.value = [{ id: "1", name: "Traditionnel" }, { id: "2", name: "Spécialité" }]; return; }
+        try { const { data } = await sb.from("categories").select("*").eq("active", true).order("created_at"); cats.value = data || []; } catch (e) {}
+      };
+
+      const fetchAppts = async (uid = null) => {
+        if (isMockMode) return;
+        try {
+          let q = sb.from("appointments").select("*");
+          const id = uid || currentUser.value?.id;
+          if (id && currentUser.value?.role !== "admin") q = q.eq("user_id", id);
+          const { data, error } = await q.order("date", { ascending: false });
+          if (error) throw error;
+          appointments.value = data || [];
+          const today = new Date().toISOString().split("T")[0];
+          stats.todayAppts = appointments.value.filter(a => a.date === today).length;
+          stats.pendingAppts = appointments.value.filter(a => a.status === "pending").length;
+          stats.totalAppts = appointments.value.length;
+          animC(stats.totalAppts, "appts");
+        } catch (e) {}
+      };
+
+      const fetchRevs = async () => {
+        if (isMockMode || !currentUser.value) return;
+        try { const { data } = await sb.from("reviews").select("*").eq("user_id", currentUser.value.id).order("created_at", { ascending: false }); myRevs.value = data || []; } catch (e) {}
+      };
+
+      const fetchApprovedRevs = async () => {
+        if (isMockMode) return;
+        try {
+          const { data } = await sb.from("reviews").select("*,users(name)").eq("approved", true).order("created_at", { ascending: false }).limit(9);
+          approvedRevs.value = (data || []).map(r => ({ ...r, name: r.users?.name || r.client_name || "Client", service: r.service_name, avatar: uAvatar(r.users?.name || "M") }));
+        } catch (e) {
+          try {
+            const { data } = await sb.from("reviews").select("*").eq("approved", true).order("created_at", { ascending: false }).limit(9);
+            approvedRevs.value = data || [];
+          } catch (e2) {}
+        }
+      };
+
+      const fetchPromos = async () => {
+        if (isMockMode) { promos.value = [{ id:"1", code:"MELLY10", description:"Réduction découverte", discount:10, discount_type:"percentage", valid_until:"2029-12-31", active:true }]; return; }
+        try { const { data } = await sb.from("promotions").select("*").eq("active", true).order("created_at", { ascending: false }); promos.value = data || []; } catch (e) {}
+      };
+
+      const fetchUsers = async () => {
+        if (isMockMode || currentUser.value?.role !== "admin") return;
+        try {
+          const { data } = await sb.from("users").select("*").order("created_at", { ascending: false });
+          users.value = data || [];
+          stats.totalClients = users.value.filter(u => u.role === "client").length;
+          animC(stats.totalClients, "clients");
+        } catch (e) {}
+      };
+
+      const fetchGal = async () => {
+        if (isMockMode) return;
+        try { const { data } = await sb.from("gallery").select("*").eq("approved", true).order("created_at", { ascending: false }); gallery.value = data || []; } catch (e) {}
+      };
+
+      const fetchTest = async () => {
+        if (isMockMode) return;
+        try {
+          const { data } = await sb.from("testimonials").select("*").eq("approved", true).order("created_at", { ascending: false });
+          testimonials.value = data || [];
+          stats.totalRevs = testimonials.value.length;
+        } catch (e) {}
+      };
+
+      const fetchExtras = async () => {
+        if (isMockMode) { extras.value = [{ id:'e1', name:"Alloco", description:"Bananes frites", price:500 }, { id:'e2', name:"Piment maison", description:"Fort", price:200 }]; return; }
+        try { const { data } = await sb.from("extras").select("*").eq("active", true); extras.value = data || []; } catch (e) {}
+      };
+
+      const fetchNotifs = async () => {
+        if (isMockMode || !currentUser.value) return;
+        try { const { data } = await sb.from("notifications").select("*").eq("user_id", currentUser.value.id).order("created_at", { ascending: false }).limit(20); notifs.value = data || []; } catch (e) {}
+      };
+
+      const fetchHours = async () => {
+        if (isMockMode) return;
+        try {
+          const { data } = await sb.from("business_hours").select("*");
+          if (data) data.forEach(h => { if (bHours[h.day_name]) bHours[h.day_name] = { open: h.open_time?.substring(0, 5) || "", close: h.close_time?.substring(0, 5) || "", closed: h.closed || false }; });
+        } catch (e) {}
+      };
+
+      const fetchSettings = async () => {
+        if (isMockMode) return;
+        try {
+          const { data } = await sb.from("settings").select("*");
+          if (data) {
+            data.forEach(s => {
+              if (s.key === "loyalty_settings") Object.assign(loyS, s.value);
+              if (s.key === "email_settings") Object.assign(eSet, s.value);
+              if (s.key === "salon_info") Object.assign(sInfo, s.value);
+              if (s.key === "daily_menu") Object.assign(dailyMenu, s.value);
+              if (s.key === "daily_menu_price") dailyMenuPrice.value = s.value;
+            });
+          }
+        } catch (e) {}
+      };
+
+      const fetchDailyMenu = async () => {
+        if (isMockMode) return;
+        try {
+          const { data } = await sb.from("settings").select("*").eq("key", "daily_menu").maybeSingle();
+          if (data?.value) Object.assign(dailyMenu, data.value);
+          const { data: dp } = await sb.from("settings").select("*").eq("key", "daily_menu_price").maybeSingle();
+          if (dp?.value) dailyMenuPrice.value = dp.value;
+        } catch (e) {}
+      };
+
+      const pushN = async n => {
+        if(isMockMode) return;
+        try { await sb.from("notifications").insert(n); } catch (e) {}
+      };
+
+      const dayN = ds => {
+        const p = ds.split("-");
+        const d = new Date(+p[0], +p[1] - 1, +p[2]);
+        return ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d.getDay()];
+      };
+
+      const genSlots = async () => {
+        if (!bData.date || !bData.service) return;
+        slotLoad.value = true;
+        slots.value = [];
+        
+        if(isMockMode) {
+          // Fake slots for mock mode
+          setTimeout(() => {
+            const sl = [];
+            for(let i=8; i<21; i++) { sl.push({ time:`${i<10?'0'+i:i}:00`, available: true }); sl.push({ time:`${i<10?'0'+i:i}:30`, available: Math.random()>0.3 }); }
+            slots.value = sl;
+            slotLoad.value = false;
+          }, 500);
+          return;
+        }
+
+        try {
+          const dn = dayN(bData.date);
+          const { data: hrs } = await sb.from("business_hours").select("*").eq("day_name", dn).maybeSingle();
+          if (!hrs || hrs.closed) { slots.value = []; return; }
+          const { data: ex } = await sb.from("appointments").select("time,duration").eq("date", bData.date).in("status", ["pending", "confirmed"]);
+          const [oh, om] = (hrs.open_time || "08:00:00").split(":").map(Number);
+          const [ch, cm] = (hrs.close_time || "21:00:00").split(":").map(Number);
+          const op = oh * 60 + om, cl = ch * 60 + cm, dur = bData.service.duration || 30;
+          const bk = (ex || []).map(a => { const [h, m] = a.time.split(":").map(Number); const s = h * 60 + m; return { start: s, end: s + (a.duration || 30) }; });
+          const sl = [];
+          for (let t = op; t + dur <= cl; t += 30) {
+            const c = bk.some(b => t < b.end && (t + dur) > b.start);
+            const h = String(Math.floor(t / 60)).padStart(2, "0"), m = String(t % 60).padStart(2, "0");
+            sl.push({ time: `${h}:${m}`, available: !c });
+          }
+          slots.value = sl;
+        } catch (e) {} 
+        finally { slotLoad.value = false; }
+      };
+
+      // ─── COMPUTED ───
+      const bLabels = ["Choisissez votre plat", "Sélectionnez la date et l'heure", "Options de commande", "Confirmez votre commande"];
+      const bPct = computed(() => (bStep.value / 4) * 100);
+      const fSvcs = computed(() => catF.value ? services.value.filter(s => s.category_id === catF.value) : services.value);
+      const fSlots = computed(() => {
+        if (tF.value === "all") return slots.value;
+        return slots.value.filter(sl => {
+          const h = +sl.time.split(":")[0];
+          if (tF.value === "Matin") return h < 12;
+          if (tF.value === "Apres-midi") return h >= 12 && h < 18;
+          if (tF.value === "Soir") return h >= 18;
+          return true;
+        });
+      });
+      const finalPrice = computed(() => {
+        let p = parseFloat(bData.service?.price || 0);
+        bData.extras.forEach(e => p += parseFloat(e.price || 0));
+        if (appliedPromo.value) {
+          const disc = appliedPromo.value.discount_type === "percentage" ? p * appliedPromo.value.discount / 100 : appliedPromo.value.discount;
+          p -= appliedPromo.value.max_discount ? Math.min(disc, appliedPromo.value.max_discount) : disc;
+        }
+        return Math.max(0, Math.round(p));
+      });
+      
+      const myApts = computed(() => { if (!currentUser.value) return []; return appointments.value.filter(a => a.user_id === currentUser.value.id); });
+      const upCount = computed(() => myApts.value.filter(a => ["confirmed", "pending"].includes(a.status) && new Date(`${a.date}T${a.time || "00:00"}`) > new Date()).length);
+      const totSpent = computed(() => myApts.value.filter(a => a.status === "completed").reduce((s, a) => s + parseFloat(a.total_price || a.price || 0), 0));
+      const lastApt = computed(() => myApts.value.filter(a => a.status === "completed").sort((a, b) => new Date(b.date) - new Date(a.date))[0]);
+      const loyTier = computed(() => { const p = currentUser.value?.points || 0; if (p >= 1000) return "Premium"; if (p >= 300) return "Gold"; if (p >= 150) return "Silver"; return "Bronze"; });
+      const loyIdx = computed(() => ["Bronze", "Silver", "Gold", "Premium"].indexOf(loyTier.value));
+      const nxtTierPts = computed(() => { const p = currentUser.value?.points || 0; if (p < 150) return 150 - p; if (p < 300) return 300 - p; if (p < 1000) return 1000 - p; return 0; });
+      const nxtTier = computed(() => { const p = currentUser.value?.points || 0; if (p < 150) return "Silver"; if (p < 300) return "Gold"; if (p < 1000) return "Premium"; return "Max"; });
+      const nxtReward = computed(() => ({ Silver: "-500 FCFA sur prochaine commande", Gold: "-1000 FCFA + Boisson offerte", Premium: "-2000 FCFA + Dessert offert", Max: "Avantages maximaux ✨" })[nxtTier.value] || "");
+      const loyPct = computed(() => { const p = currentUser.value?.points || 0; if (p >= 1000) return 100; if (p >= 300) return ((p - 300) / 700) * 100; if (p >= 150) return ((p - 150) / 150) * 100; return (p / 150) * 100; });
+      
+      const myPromos = computed(() => promos.value.filter(p => p.active && new Date(p.valid_until) > new Date() && (!p.max_uses || (p.used_count || 0) < p.max_uses)));
+      const activePromos = computed(() => promos.value.filter(p => p.active && new Date(p.valid_until) > new Date()));
+      
+      const fallbackTestimonials = [
+        { id: "fb1", name: "Kofi A.", avatar: uAvatar("Kofi A"), comment: "Les meilleurs plats de Dabarakondji ! La sauce graine est extraordinaire. Je reviens chaque semaine.", service: "Riz sauce graine", created_at: new Date().toISOString(), rating: 5 },
+        { id: "fb2", name: "Akosua M.", avatar: uAvatar("Akosua M"), comment: "Melly Mello c'est la maison ! Le poulet braisé est divin et l'accueil est toujours chaleureux.", service: "Poulet braisé", created_at: new Date().toISOString(), rating: 5 },
+        { id: "fb3", name: "Edem K.", avatar: uAvatar("Edem K"), comment: "Le menu du jour est toujours une surprise agréable. Saveurs authentiques et prix raisonnables.", service: "Menu du Jour", created_at: new Date().toISOString(), rating: 5 },
+      ];
+      const allTestimonials = computed(() => { const base = testimonials.value.length > 0 ? testimonials.value : fallbackTestimonials; return [...base, ...approvedRevs.value].slice(0, 9); });
+      
+      const filAdminApts = computed(() => {
+        let l = [...appointments.value];
+        if (aFil.status) l = l.filter(a => a.status === aFil.status);
+        if (aFil.date) l = l.filter(a => a.date === aFil.date);
+        if (aFil.search) { const s = aFil.search.toLowerCase(); l = l.filter(a => (a.client_name || "").toLowerCase().includes(s) || (a.service_name || "").toLowerCase().includes(s)); }
+        const start = (aPg.value - 1) * aPgSz;
+        return l.slice(start, start + aPgSz);
+      });
+      const totAdminApts = computed(() => {
+        let l = [...appointments.value];
+        if (aFil.status) l = l.filter(a => a.status === aFil.status);
+        if (aFil.date) l = l.filter(a => a.date === aFil.date);
+        if (aFil.search) { const s = aFil.search.toLowerCase(); l = l.filter(a => (a.client_name || "").toLowerCase().includes(s) || (a.service_name || "").toLowerCase().includes(s)); }
+        return l.length;
+      });
+      const totPgs = computed(() => Math.ceil(totAdminApts.value / aPgSz));
+      const clients = computed(() => users.value.filter(u => u.role === "client"));
+      
+      const revData = computed(() => {
+        const d = [];
+        for (let i = 29; i >= 0; i--) {
+          const dt = new Date();
+          dt.setDate(dt.getDate() - i);
+          const ds = dt.toISOString().split("T")[0];
+          const rev = appointments.value.filter(a => a.date === ds && a.status === "completed").reduce((s, a) => s + parseFloat(a.total_price || a.price || 0), 0);
+          d.push({ date: ds, revenue: rev });
+        }
+        return d;
+      });
+      const maxRev = computed(() => Math.max(...revData.value.map(d => d.revenue), 1));
+      const recAppts = computed(() => [...appointments.value].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5));
+      const notifCount = computed(() => notifs.value.filter(n => !n.read).length);
+
+      // ─── CALENDAR ───
+      const genCal = () => {
+        const y = calY.value, m = calM.value;
+        const mn = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        calMo.value = `${mn[m]} ${y}`;
+        const toYMD = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todYMD = toYMD(today);
+        const first = new Date(y, m, 1), last = new Date(y, m + 1, 0), fdow = (first.getDay() + 6) % 7;
+        const days = [];
+        
+        for (let i = fdow - 1; i >= 0; i--) {
+          const d = new Date(y, m - 1, new Date(y, m, 0).getDate() - i);
+          days.push({ day: d.getDate(), date: toYMD(d), isCurrentMonth: false, isToday: false, isPast: true, hasSlots: false });
+        }
+        for (let i = 1; i <= last.getDate(); i++) {
+          const d = new Date(y, m, i);
+          const dYMD = toYMD(d);
+          days.push({ day: i, date: dYMD, isCurrentMonth: true, isToday: dYMD === todYMD, isPast: new Date(y, m, i) < today, hasSlots: true });
+        }
+        let nd = 1;
+        while (days.length < 42) {
+          const d = new Date(y, m + 1, nd++);
+          days.push({ day: d.getDate(), date: toYMD(d), isCurrentMonth: false, isToday: false, isPast: false, hasSlots: true });
+        }
+        calDays.value = days;
+        
+        const q = [];
+        for (let i = 0; i < 5; i++) {
+          const d = new Date(); d.setDate(d.getDate() + i);
+          q.push({ label: ["Aujourd'hui", "Demain", "Dans 2j", "Dans 3j", "Dans 4j"][i], date: toYMD(d) });
+        }
+        qDates.value = q;
+      };
+      
+      const prevMo = () => { if (calM.value === 0) { calM.value = 11; calY.value--; } else calM.value--; genCal(); };
+      const nextMo = () => { if (calM.value === 11) { calM.value = 0; calY.value++; } else calM.value++; genCal(); };
+
+      // AUTH
 const loadProf=async authId=>{try{const{data,error}=await sb.from("users").select("*").eq("auth_id",authId).maybeSingle();if(error||!data)return null;currentUser.value=data;aptLoading.value=true;await Promise.allSettled([fetchAppts(data.id),fetchNotifs(),fetchRevs()]);aptLoading.value=false;if(data.role==="admin")await fetchUsers();return data;}catch(e){return null;}};
 const doLogin=async()=>{setLoad(true);loginErr.value="";try{const{data,error}=await sb.auth.signInWithPassword({email:lf.email,password:lf.password});if(error)throw error;const prof=await loadProf(data.user.id);if(!prof)throw new Error("Profil introuvable. Contactez le support.");if(lf.remember)localStorage.setItem("remE",lf.email);Swal.fire({icon:"success",title:prof.role==="admin"?"Admin":"Bienvenue !",text:`Bonjour ${prof.name.split(" ")[0]} ! 🍽️`,timer:2000,showConfirmButton:false,confirmButtonColor:"#c9a84c"});page.value=prof.role==="admin"?"admin":"dash";}catch(e){loginErr.value=e.message.includes("Invalid login")||e.message.includes("invalid_credentials")?"Email ou mot de passe incorrect":e.message;}finally{setLoad(false);}};
 const doSignup=async()=>{setLoad(true);try{if(sf.pwd!==sf.pwd2)throw new Error("Les mots de passe ne correspondent pas");if(!sf.agree)throw new Error("Veuillez accepter les conditions");const{data:auth,error:ae}=await sb.auth.signUp({email:sf.email,password:sf.pwd});if(ae)throw ae;const{data:prof,error:pe}=await sb.from("users").insert({auth_id:auth.user.id,name:sf.name,email:sf.email,phone:sf.phone,role:"client",points:20,loyalty_tier:"Bronze",avatar:uAvatar(sf.name),total_appointments:0,total_spent:0}).select().single();if(pe)throw pe;currentUser.value=prof;sendEmail("signup",{name:sf.name,email:sf.email});Object.assign(sf,{name:"",email:"",phone:"",pwd:"",pwd2:"",agree:false});Swal.fire({icon:"success",title:"Compte créé !",text:"20 points de bienvenue ajoutés. 🎉",timer:3000,showConfirmButton:false,confirmButtonColor:"#c9a84c"});page.value="dash";}catch(e){Swal.fire({icon:"error",title:"Erreur",text:e.message,confirmButtonColor:"#c9a84c"});}finally{setLoad(false);}};
